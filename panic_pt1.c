@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   panic_pt1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:27:17 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:53:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*ft_freearray(char **array)
 	return (NULL);
 }
 
-void	free_data(t_mini *shell)
+void	free_data(t_mini *shell, char *message)
 {
 	free_env(shell->env);
 	if (shell->oldpwd)
@@ -53,4 +53,6 @@ void	free_data(t_mini *shell)
 		free(shell->pwd);
 	if (shell->cmds)
 		ft_lstclear_pars(&shell->cmds, free);
+	if (message != NULL)
+		printf("%s", message);
 }

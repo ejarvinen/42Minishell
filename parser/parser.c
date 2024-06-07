@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 12:39:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:50:48 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	parser(char *rl, t_mini *shell)
 	int		index;
 	
 	tokens = checker(rl);
-	free(rl);
 	if (!tokens)
 		return (1);
 	identifier(&tokens);
@@ -57,7 +56,6 @@ int	parser(char *rl, t_mini *shell)
 		printf("---------------\n");
 		node = node->next;
 	}
-	ft_lstclear_pars(&shell->cmds, free);
 	return (0);
 }
 

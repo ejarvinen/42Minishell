@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_cleanup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/06 10:49:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:43:47 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../minishell.h"
 
 static void	strcpy_singles(char *to, char *from, int fstquote, int sqnquote)
 {

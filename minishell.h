@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:25:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:54:03 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_env	*add_env(char **envp);
 
 void	free_env(t_env *env);
 void	*ft_freearray(char **array);
-void	free_data(t_mini *shell);
+void	free_data(t_mini *shell, char *message);
 
 /*				FOR SIGNALs						*/
 
