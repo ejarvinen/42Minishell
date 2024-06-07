@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 11:42:57 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:39:05 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	check_builtin(t_mini *shell, char **str)
 
 int main(int argc, char **argv, char **envp)
 {
-    char	*rl;
+	char	*rl;
 	t_mini	shell;
 
 	(void)argv;
@@ -65,18 +65,16 @@ int main(int argc, char **argv, char **envp)
 		exit (1);
 	}
 	set_data(&shell, envp);
-	char **str;
 	while (1)
 	{
 		set_signal(0);
-    	rl = readline("\x1b[95mMINISHELL💖~$ ");
+    		rl = readline("\x1b[95mMINISHELL💖~$ ");
 		if (!rl)
 			break ;
 		if (rl[0] == '\0')
 			continue ;
-		str = ft_split(rl, ' ');
-		check_builtin(&shell, str);
-		ft_freearray(str);
+		if (parser(rl, &shell) == 0)
+			check_builtin(&shell, shell.cmds->command);
 		add_history(rl);
 		free(rl);
 	}

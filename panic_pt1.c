@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   panic_pt1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 11:42:45 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:27:17 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,6 @@ void	free_data(t_mini *shell)
 		free(shell->oldpwd);
 	if (shell->pwd)
 		free(shell->pwd);
+	if (shell->cmds)
+		ft_lstclear_pars(&shell->cmds, free);
 }

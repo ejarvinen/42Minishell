@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 11:43:21 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:25:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -29,26 +30,35 @@ typedef struct s_cmds
 {
     char            **command;
     char            *path;
+    char			*infile_name;
+    char			*outfile_name;
+    char			*heredoc;
     int                c_pid;
     int                fd_infile;
     int                fd_outfile;
     int                id;
     int                commands;
+    int				builtin;
     int                valid;
     int                exit_status;
     struct s_cmds    *next;
 }            t_cmds;
 
-typedef struct s_pars
+typedef struct s_toks
 {
-	char			**ptr;
-	int				quote_type;
-    int             delimiter;
-	int				quotecount;
-    int             delimcount;
-	int				wordcount;
-	size_t			str_len;
-}			t_pars;
+	char			*content;
+	int			file;
+	int			command;
+	int			argument;
+	int			pipe;
+	int			in_redir;
+	int			out_redir;
+	int			append;
+	int			heredoc;
+	int			heredoc_delimiter;  // means the '<<'
+	int			id;
+	struct s_toks	*next;
+}					t_toks;
 
 typedef struct s_env
 {
@@ -63,6 +73,7 @@ typedef struct s_env
 typedef struct s_mini
 {
 	t_env	*env;
+	t_cmds	*cmds;
 	int		shlvl;
 	int		EXIT_CODE;
 	char	*pwd;
@@ -73,10 +84,36 @@ typedef struct s_mini
 
 /*				PARSING							*/
 
-char	**parser(char const *str);
-char	**null(void);
-void	initialize_parsing_specs(t_pars *specs, char const *str);
-int		find_delimiter(char const *str);
+char		*ft_strtok(char *str);
+void		token_touchup(t_toks **tokens, t_env **envs);
+void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
+t_toks	*checker(char *input);
+void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);
+void		ft_lstclear_toks(t_toks **lst, void (*del)(void *));
+t_toks	*ft_lstnew_toks(void *content);
+int		ft_lstsize_toks(t_toks *lst);
+t_toks	*ft_lstlast_toks(t_toks *lst);
+void		identify_delims(t_toks **tokens);
+void		identify_heredoc(t_toks **tokens);
+void		recognize_file(t_toks **tokens);
+void		identifier(t_toks **tokens);
+void		identify_commands(t_toks **tokens);
+void		identify_args(t_toks **tokens);
+t_cmds	*ft_lstnew_pars(int index);
+int		ft_lstsize_pars(t_cmds *lst);
+t_cmds	*ft_lstlast_pars(t_cmds *lst);
+void		ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
+void		ft_lstclear_pars(t_cmds **lst, void (*del)(void*));
+void	free_array(char **array);
+int	in_quotes(char *token, size_t index);
+void	eliminate_pipes(t_toks **tokens);
+void	add_indexes(t_toks **tokens);
+void	add_token_info(t_toks *new_node);
+int	parser(char *rl, t_mini *shell);
+int	struct_sum(t_toks *token);
+t_cmds	*build_command_list(t_toks **tokens);
+void	add_builtin_info(t_cmds **cmds);
+void	add_cmds_info(t_cmds **cmds);
 
 /*				FOR CREATING ENV				*/
 

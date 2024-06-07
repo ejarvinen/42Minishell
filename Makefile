@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/06 11:08:18 by sataskin         ###   ########.fr        #
+#    Updated: 2024/06/07 13:34:16 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,20 @@ SRCS = main.c \
 		builtin/cd.c \
 		set_data.c \
 		builtin/builtin_error.c \
-		builtin/builtin_utils.c
+		builtin/builtin_utils.c \
+		parser/tokenizer.c \
+		parser/build_token_list.c \
+		parser/build_command_list.c \
+		parser/open_dollars.c \
+		parser/token_cleanup.c \
+		parser/t_toks_utils.c \
+		parser/match_delim.c \
+		parser/identify_delims.c \
+		parser/identify_file.c \
+		parser/parser_struct_utils.c \
+		parser/eliminate_pipes.c \
+		parser/add_cmd_info.c \
+		parser/parser.c
 
 OBJECTS = $(SRCS:.c=.o)
 
