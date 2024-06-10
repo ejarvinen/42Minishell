@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:54:03 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:03:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
 void		ft_lstclear_pars(t_cmds **lst, void (*del)(void*));
 void	free_array(char **array);
 int	in_quotes(char *token, size_t index);
-void	eliminate_pipes(t_toks **tokens);
+void	no_blanks_cleanup(t_toks **tokens);
 void	add_indexes(t_toks **tokens);
 void	add_token_info(t_toks *new_node);
 int	parser(char *rl, t_mini *shell);
@@ -114,6 +114,7 @@ int	struct_sum(t_toks *token);
 t_cmds	*build_command_list(t_toks **tokens);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
+char	**ft_splitstr(char const *s, char *c);
 
 /*				FOR CREATING ENV				*/
 

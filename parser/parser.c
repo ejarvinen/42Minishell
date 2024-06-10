@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 13:50:48 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:43:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	parser(char *rl, t_mini *shell)
 		return (1);
 	identifier(&tokens);
 	token_touchup(&tokens, &shell->env);
-	//eliminate_pipes(&tokens);
+	no_blanks_cleanup(&tokens);
 	shell->cmds = build_command_list(&tokens);
 	ft_lstclear_toks(&tokens, free);
 	if (!shell->cmds)

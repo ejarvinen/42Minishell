@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/07 13:49:22 by sataskin         ###   ########.fr        #
+#    Updated: 2024/06/10 11:02:36 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,10 @@ SRCS = main.c \
 		parser/identify_delims.c \
 		parser/identify_file.c \
 		parser/parser_struct_utils.c \
-		parser/eliminate_pipes.c \
+		parser/no_blanks_cleanup.c \
 		parser/add_cmd_info.c \
-		parser/parser.c
+		parser/parser.c \
+		parser/ft_splitstr.c
 
 OBJECTS = $(SRCS:.c=.o)
 
