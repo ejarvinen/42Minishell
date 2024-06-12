@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 11:27:07 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:31:59 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,23 @@ static void	cd_path(char *path, t_mini *shell)
 		reset_data(shell);
 	}
 	else
-		perror("minishell: cd");
+		perror("minishell: cd: ");
 }
 
 void	ft_cd(t_mini *shell, char *path)
 {
 	char	*test;
-
-	test = getcwd(NULL, 0);
-	if (test != NULL)
-	{ 
-		if (path == NULL)
+	if (path == NULL)
 			go_home(shell, shell->env);
-		else
-			cd_path(path, shell);
-		free(test);
-	}
 	else
+	{
+		test = getcwd(NULL, 0);
+		if (test != NULL)
+		{ 
+			cd_path(path, shell);
+			free(test);
+		}
+		else
 		cd_error(shell, test, path);
+	}
 }

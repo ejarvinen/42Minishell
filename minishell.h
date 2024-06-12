@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/10 11:03:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:23:37 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,5 +178,13 @@ void	cd_error(t_mini *shell, char *test, char *path);
 /*				BUILTIN	UTILS					*/
 
 t_env	*retrieve_key(t_env *env, char *str);
+
+/*				FOR EXIT						*/
+
+void	real_exit(t_mini *shell, char *str, int i);
+void	print_toomany(t_mini *shell);
+void	print_letter(t_mini *shell, char *str);
+int		check_num(char *str);
+void	now_exit(t_mini *shell, char **str);
 
 #endif

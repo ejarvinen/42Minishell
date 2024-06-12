@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/10 11:02:36 by emansoor         ###   ########.fr        #
+#    Updated: 2024/06/11 12:55:46 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS = main.c \
 		parser/no_blanks_cleanup.c \
 		parser/add_cmd_info.c \
 		parser/parser.c \
-		parser/ft_splitstr.c
+		parser/ft_splitstr.c \
+		builtin/exit.c
 
 OBJECTS = $(SRCS:.c=.o)
 
@@ -52,13 +53,13 @@ RL_PATH := ~/.brew/opt/readline/lib
 all: $(NAME)
 
 %.o:%.c
-	@cc -Wall -Wextra -Werror -g -fsanitize=address -c $< -o $(<:.c=.o)
-#	@cc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
+#	@cc -Wall -Wextra -Werror -g -fsanitize=address -c $< -o $(<:.c=.o)
+	@cc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
 
 $(NAME): $(OBJECTS)
 	@make -C ./libft
-	@cc -Wall -Wextra -Werror -g3 -fsanitize=address $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
-#	@cc -Wall -Wextra -Werror $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
+#	@cc -Wall -Wextra -Werror -g3 -fsanitize=address $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
+	@cc -Wall -Wextra -Werror $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
 	@echo shell sisters MINISHELL done
 
 clean:

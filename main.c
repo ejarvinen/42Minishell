@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:53:01 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:19:58 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ static void	check_builtin(t_mini *shell, char **str)
 	else if (ft_strcmp(str[0], "echo") == 0)
 		printf("not made echo yet\n");
 	else if (ft_strcmp(str[0], "exit") == 0)
-	{
-		ft_freearray(str);
-		free_env(shell->env);
-		exit (0);
-	}
+		now_exit(shell, str);
 	else if (ft_strcmp(str[0], "test") == 0)
 	{
 		char **str = ltoa(shell->env);
