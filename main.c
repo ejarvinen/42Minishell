@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/11 10:19:58 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:49:02 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		if (parser(rl, &shell) == 0)
 			check_builtin(&shell, shell.cmds->command);
+		ft_lstclear_pars(&shell.cmds, free);
 		add_history(rl);
 		free(rl);
 	}

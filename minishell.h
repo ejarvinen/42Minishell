@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/11 10:23:37 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:42:17 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_env	*add_env(char **envp);
 /*				FOR PANIC						*/
 
 void	free_env(t_env *env);
-void	*ft_freearray(char **array);
+void	ft_freearray(char **array);
 void	free_data(t_mini *shell, char *message);
 
 /*				FOR SIGNALs						*/
