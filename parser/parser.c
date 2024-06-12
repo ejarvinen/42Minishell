@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:50:10 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:23:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	parser(char *rl, t_mini *shell)
 {
 	t_toks	*tokens;
 	
-	(void)shell;
 	tokens = checker(rl);
 	if (!tokens)
 		return (1);
