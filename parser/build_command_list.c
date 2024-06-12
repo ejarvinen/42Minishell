@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 15:01:46 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:21:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	create_list(t_cmds **cmds, int lst_size)
 		new_node = ft_lstnew_pars(index);
 		if (!new_node)
 		{
-			ft_lstclear_pars(cmds, free);
+			ft_lstclear_pars(cmds);
 			return ;
 		}
 		ft_lstadd_back_pars(cmds, new_node);
@@ -139,7 +139,7 @@ static void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 			add_cmd_info(cmd, tokens, token, array_len);
 			if (cmd->command == NULL)
 			{
-				ft_lstclear_pars(cmds, free);
+				ft_lstclear_pars(cmds);
 				return ;
 			}
 			cmd = cmd->next;
@@ -172,7 +172,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			cmd->infile_name = ft_strdup(token->content);
 			if (!cmd->infile_name)
 			{
-				ft_lstclear_pars(cmds, free);
+				ft_lstclear_pars(cmds);
 				return ;
 			}
 		}
@@ -182,7 +182,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			cmd->outfile_name = ft_strdup(token->content);
 			if (!cmd->outfile_name)
 			{
-				ft_lstclear_pars(cmds, free);
+				ft_lstclear_pars(cmds);
 				return ;
 			}
 		}
@@ -192,7 +192,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			cmd->outfile_name = ft_strdup(token->content);
 			if (!cmd->outfile_name)
 			{
-				ft_lstclear_pars(cmds, free);
+				ft_lstclear_pars(cmds);
 				return ;
 			}
 		}
@@ -202,52 +202,13 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			cmd->heredoc = ft_strdup(token->content);
 			if (!cmd->heredoc)
 			{
-				ft_lstclear_pars(cmds, free);
+				ft_lstclear_pars(cmds);
 				return ;
 			}
 		}
 		token = token->next;
 	}
 }
-
-/*
-static void	fill_missing_chartypes(t_cmds **cmds)
-{
-	t_cmds	*cmd;
-
-	cmd = *cmds;
-	while (cmd)
-	{
-		if (cmd->infile_name == NULL)
-		{
-			cmd->infile_name = ft_strdup("0");
-			if (!cmd->infile_name)
-			{
-				ft_lstclear_pars(cmds, free);
-				return ;
-			}
-		}
-		if (cmd->outfile_name == NULL)
-		{
-			cmd->outfile_name = ft_strdup("0");
-			if (!cmd->outfile_name)
-			{
-				ft_lstclear_pars(cmds, free);
-				return ;
-			}
-		}
-		if (cmd->heredoc == NULL)
-		{
-			cmd->heredoc = ft_strdup("0");
-			if (!cmd->heredoc)
-			{
-				ft_lstclear_pars(cmds, free);
-				return ;
-			}
-		}
-		cmd = cmd->next;
-	}
-}*/
 
 t_cmds	*build_command_list(t_toks **tokens)
 {
@@ -267,9 +228,6 @@ t_cmds	*build_command_list(t_toks **tokens)
 	fill_redir_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
-	/*fill_missing_chartypes(&cmds);
-	if (!cmds)
-		return (NULL);*/
 	return (cmds);
 }
 

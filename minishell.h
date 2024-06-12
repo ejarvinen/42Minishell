@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 15:15:16 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:20:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_cmds	*ft_lstnew_pars(int index);
 int		ft_lstsize_pars(t_cmds *lst);
 t_cmds	*ft_lstlast_pars(t_cmds *lst);
 void		ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
-void		ft_lstclear_pars(t_cmds **lst, void (*del)(void*));
+void		ft_lstclear_pars(t_cmds **lst);
 void	free_array(char **array);
 int	in_quotes(char *token, size_t index);
 void	no_blanks_cleanup(t_toks **tokens);

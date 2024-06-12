@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/10 11:28:59 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:39:49 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	remove_doubles(t_toks **token, t_env **envs, int *index)
 	free(freeable);
 }
 
-static void	token_fucker(t_toks **item, t_env **envs)
+static int	token_fucker(t_toks **item, t_env **envs)
 {
 	int	index;
 	t_toks	*token;
@@ -95,23 +95,30 @@ static void	token_fucker(t_toks **item, t_env **envs)
 	token = *item;
 	while (index < (int)ft_strlen(token->content))
 	{
-		if (index < 0)
-			return ;
 		if (token->content[index] == 36)
+		{
 			expand_dollar(&token, envs, &index, 0);
+			if (index < 0)
+				return (1);
+		}
 		else if (token->content[index] == 39)
 		{
 			remove_singles(&token, &index);
+			if (index < 0)
+				return (1);
 			index++;
 		}
 		else if (token->content[index] == 34)
 		{
 			remove_doubles(&token, envs, &index);
+			if (index < 0)
+				return (1);
 			index++;
 		}
 		else
 			index++;
 	}
+	return (0);
 }
 
 void	token_touchup(t_toks **tokens, t_env **envs)
@@ -121,7 +128,11 @@ void	token_touchup(t_toks **tokens, t_env **envs)
 	token = *tokens;
 	while (token)
 	{
-		token_fucker(&token, envs);
+		if (token_fucker(&token, envs) > 0)
+		{
+			ft_lstclear_toks(tokens);
+			return ;
+		}
 		token = token->next;
 	}
 }

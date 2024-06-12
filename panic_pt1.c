@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 13:31:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:22:15 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_data(t_mini *shell, char *message)
 	if (shell->cmds)
 	{
 		close_files(&shell->cmds);
-		ft_lstclear_pars(&shell->cmds, free);
+		ft_lstclear_pars(&shell->cmds);
 	}
 	if (message != NULL)
 		printf("%s", message);
