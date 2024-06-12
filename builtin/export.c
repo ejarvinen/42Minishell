@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 14:01:42 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:29:38 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,31 @@ void print_export(t_env *env)
 // 	}
 // }
 
-void	export(t_env **env, char **str)
+void	export(t_env **env, char **str, int fd)
 {
 	int	i;
 	t_env *temp;
-
-	if (str[1] == NULL)
+	
+	if (fd > -1)
 	{
-		update_index(env);
-		print_export(*env);
-	}
-	temp = *env;
-	i = 1;
-	if (str[i] != NULL)
-	{
-		while (str[i])
+		if (str[1] == NULL)
 		{
-			if (validity(str[i], "export") == 0)
-				find_key(env, str[i]);
-			i++;
+			update_index(env);
+			if (fd == 0)
+				print_export(*env);
+			else
+				print_to_file(*env, fd);
+		}
+		temp = *env;
+		i = 1;
+		if (str[i] != NULL)
+		{
+			while (str[i])
+			{
+				if (validity(str[i], "export") == 0)
+					find_key(env, str[i]);
+				i++;
+			}
 		}
 	}
 }

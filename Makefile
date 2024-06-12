@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/12 13:16:25 by emansoor         ###   ########.fr        #
+#    Updated: 2024/06/12 14:38:55 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS = main.c \
 		parser/ft_splitstr.c \
 		builtin/exit.c \
 		execute/open_files.c \
-		execute/prep_for_exec.c
+		execute/prep_for_exec.c \
+		builtin/export_file.c
 
 OBJECTS = $(SRCS:.c=.o)
 

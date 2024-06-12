@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 13:31:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:09:13 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	check_builtin(t_mini *shell, char **str)
 	if (str[0] == NULL)
 		return ;
 	if (ft_strcmp(str[0], "export") == 0)
-		export(&shell->env, str);
+		export(&shell->env, str, shell->cmds->fd_outfile);
 	else if (ft_strcmp(str[0], "unset") == 0)
 		ft_unset(&shell->env, str);
 	else if (ft_strcmp(str[0], "env") == 0)
@@ -71,8 +71,8 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		if (parser(rl, &shell) == 0)
 		{
-			check_builtin(&shell, shell.cmds->command);
 			prep_for_exec(&shell);
+			check_builtin(&shell, shell.cmds->command);
 			print_cmd_info(&shell.cmds);
 		}
 		close_files(&shell.cmds);

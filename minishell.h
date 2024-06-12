@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 14:42:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:15:16 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,14 @@ void	rl_redisplay(void);
 /*				FOR EXPORT						*/
 
 void	print_export(t_env *env);
-void	export(t_env **env, char **str);
+void	export(t_env **env, char **str, int fd);
 int		lstsize(t_env *lst);
 t_env	*find_next(t_env *env);
 void	change_index(t_env **env);
 void	update_index(t_env **env);
 void	edit_env(t_env *node, char *str);
 void	new_env(t_env **env, char *str);
+void 	print_to_file(t_env *env, int fd);
 
 /*				FOR UNSET						*/
 
