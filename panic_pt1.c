@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:53:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:41:08 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ void	free_env(t_env *env)
 	}
 }
 
-void	*ft_freearray(char **array)
+void	ft_freearray(char **array)
 {
-	int i = 0;
-	
+	int i;
+
+	i = 0;
 	while (array[i] != NULL)
 	{
 		free(array[i]);
 		i++;
 	}
 	free(array);
-	return (NULL);
 }
 
 void	free_data(t_mini *shell, char *message)
