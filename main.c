@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 15:22:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:34:20 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	check_builtin(t_mini *shell, char **str)
 int main(int argc, char **argv, char **envp)
 {
 	char	*rl;
-	t_mini	shell;
+	static t_mini	shell;
 
 	(void)argv;
 	if (argc != 1)
