@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 11:49:02 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:31:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,22 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_signal(0);
-    	rl = readline("\x1b[95mMINISHELL💖~$ ");
+   	 	rl = readline("\x1b[95mMINISHELL💖~$ ");
 		if (!rl)
 			break ;
 		if (rl[0] == '\0')
 			continue ;
 		if (parser(rl, &shell) == 0)
+		{
 			check_builtin(&shell, shell.cmds->command);
+			prep_for_exec(&shell);
+			print_cmd_info(&shell.cmds);
+		}
+		close_files(&shell.cmds);
 		ft_lstclear_pars(&shell.cmds, free);
 		add_history(rl);
 		free(rl);
 	}
 	free_data(&shell, "exit\n");
-    return (0);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 11:42:17 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:23:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
 
+/*				INPUT VALIDATION				*/
+
+void	prep_for_exec(t_mini *shell);
+void	open_files(t_cmds **cmds);
+void	close_files(t_cmds **cmds);
+
 /*				FOR CREATING ENV				*/
 
 void	ft_lstadd_back_mini(t_env **lst, t_env *new);
@@ -186,5 +192,9 @@ void	print_toomany(t_mini *shell);
 void	print_letter(t_mini *shell, char *str);
 int		check_num(char *str);
 void	now_exit(t_mini *shell, char **str);
+
+/*				FOR TESTING					*/
+
+void	print_cmd_info(t_cmds **cmds);
 
 #endif

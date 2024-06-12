@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/11 12:55:46 by sataskin         ###   ########.fr        #
+#    Updated: 2024/06/12 13:16:25 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = main.c \
 		ltoa.c \
 		builtin/cd.c \
 		set_data.c \
+		print_cmd_info.c \
 		builtin/builtin_error.c \
 		builtin/builtin_utils.c \
 		parser/tokenizer.c \
@@ -42,7 +43,9 @@ SRCS = main.c \
 		parser/add_cmd_info.c \
 		parser/parser.c \
 		parser/ft_splitstr.c \
-		builtin/exit.c
+		builtin/exit.c \
+		execute/open_files.c \
+		execute/prep_for_exec.c
 
 OBJECTS = $(SRCS:.c=.o)
 

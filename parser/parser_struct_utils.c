@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 12:05:44 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:56:45 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,36 +51,6 @@ t_cmds	*ft_lstnew_pars(int index)
 	perror("minishell");
 	return (NULL);
 }
-
-/*
-creates a new node with given input
-
-t_cmds	*ft_lstnew_mini(char **cmd, char **paths, int index)
-{
-	t_cmds	*new_node;
-
-	new_node = malloc(sizeof(t_cmds));
-	if (new_node)
-	{
-		new_node->command = cmd;
-		if (index == -1 || index == -3)
-			new_node->path = ft_strdup("0");
-		else if (index == -2)
-			new_node->path = ft_strdup(cmd[0]);
-		else
-			new_node->path = full_path(paths[index], cmd[0]);
-		if (!new_node->path)
-		{
-			free(new_node);
-			return (NULL);
-		}
-		new_node->valid = index;
-		new_node->next = NULL;
-		return (new_node);
-	}
-	perror("pipex");
-	return (NULL);
-}*/
 
 /*
 returns the number of nodes in lst
