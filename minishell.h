@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 13:23:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:42:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		token_touchup(t_toks **tokens, t_env **envs);
 void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
 t_toks	*checker(char *input);
 void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);
-void		ft_lstclear_toks(t_toks **lst, void (*del)(void *));
+void		ft_lstclear_toks(t_toks **lst);
 t_toks	*ft_lstnew_toks(void *content);
 int		ft_lstsize_toks(t_toks *lst);
 t_toks	*ft_lstlast_toks(t_toks *lst);

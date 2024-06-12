@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/06 11:12:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:43:22 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_toks	*checker(char *input)
 			if (add_new_token(token, &tokens) > 0)
 			{
 				if (tokens != NULL)
-					ft_lstclear_toks(&tokens, free);
+					ft_lstclear_toks(&tokens);
 				return (NULL);
 			}
 		}
@@ -133,7 +133,7 @@ t_toks	*checker(char *input)
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
 			if (tokens != NULL)
-				ft_lstclear_toks(&tokens, free);
+				ft_lstclear_toks(&tokens);
 			return (NULL);
 		}
 		token = ft_strtok(NULL);

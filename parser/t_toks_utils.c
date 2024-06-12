@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:49:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/06 08:16:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:37:08 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ void	ft_lstadd_back_toks(t_toks **lst, t_toks *new)
 	}
 }
 
-void	ft_lstclear_toks(t_toks **lst, void (*del)(void *))
+void	ft_lstclear_toks(t_toks **lst)
 {
 	t_toks	*clr;
 
-	if (!*lst || !del)
+	if (!*lst)
 		return ;
 	while (*lst)
 	{
 		clr = (*lst)->next;
-		del((*lst)->content);
+		free((*lst)->content);
 		free(*lst);
 		*lst = clr;
 	}

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 12:08:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:01:46 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 	}
 }
 
+/*
 static void	fill_missing_chartypes(t_cmds **cmds)
 {
 	t_cmds	*cmd;
@@ -246,7 +247,7 @@ static void	fill_missing_chartypes(t_cmds **cmds)
 		}
 		cmd = cmd->next;
 	}
-}
+}*/
 
 t_cmds	*build_command_list(t_toks **tokens)
 {
@@ -266,9 +267,9 @@ t_cmds	*build_command_list(t_toks **tokens)
 	fill_redir_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
-	fill_missing_chartypes(&cmds);
+	/*fill_missing_chartypes(&cmds);
 	if (!cmds)
-		return (NULL);
+		return (NULL);*/
 	return (cmds);
 }
 

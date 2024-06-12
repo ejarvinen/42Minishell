@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/10 11:26:55 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:44:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ static void	build_list(t_toks **addition, char *content, char **new_tokens, char
 		{
 			if (add_delim_node(addition, delim, NULL, 0) > 0)
 			{
-				ft_lstclear_toks(addition, free);
+				ft_lstclear_toks(addition);
 				return ;
 			}
 		}
 		new_node = ft_lstnew_toks(new_tokens[item]);
 		if (!new_node)
 		{
-			ft_lstclear_toks(addition, free);
+			ft_lstclear_toks(addition);
 			return ;
 		}
 		add_token_info(new_node);
@@ -82,7 +82,7 @@ static void	build_list(t_toks **addition, char *content, char **new_tokens, char
 		item++;
 		if (new_tokens[item] != NULL && add_delim_node(addition, delim, NULL, 1) > 0)
 		{
-			ft_lstclear_toks(addition, free);
+			ft_lstclear_toks(addition);
 			return ;
 		}
 	}
@@ -100,14 +100,14 @@ static void	build_list_delimstr(t_toks **addition, char *content, char **new_tok
 		{
 			if (add_delim_node(addition, 0, delim, 0) > 0)
 			{
-				ft_lstclear_toks(addition, free);
+				ft_lstclear_toks(addition);
 				return ;
 			}
 		}
 		new_node = ft_lstnew_toks(new_tokens[item]);
 		if (!new_node)
 		{
-			ft_lstclear_toks(addition, free);
+			ft_lstclear_toks(addition);
 			return ;
 		}
 		add_token_info(new_node);
@@ -115,7 +115,7 @@ static void	build_list_delimstr(t_toks **addition, char *content, char **new_tok
 		item++;
 		if (new_tokens[item] != NULL && add_delim_node(addition, 0, delim, 1) > 0)
 		{
-			ft_lstclear_toks(addition, free);
+			ft_lstclear_toks(addition);
 			return ;
 		}
 	}
@@ -185,27 +185,6 @@ static void	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *div
 	else
 		*tokens = addition;
 }
-/*
-static void	split_by_substr(t_toks **tokens, t_toks *token, char *delim)
-{
-	char	**new_tokens;
-	t_toks	*addition;
-	t_toks	*head;
-	int	lst_size;
-
-	new_tokens = ft_splitstr(token->content, delim);
-	if (!new_tokens)
-		return ;
-	addition = NULL;
-	head = *tokens;
-	lst_size = ft_lstsize_toks(head);
-	build_list_delimstr(&addition, token->content, new_tokens, delim);
-	free_array(new_tokens);
-	if (lst_size > 1)
-		add_to_tokens(tokens, token, &addition);
-	else
-		*tokens = addition;
-}*/
 
 static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 {

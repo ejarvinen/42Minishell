@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:57:13 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:12:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ and saves its fd into last command in cmds
 */
 static void	open_outfiles(t_cmds *cmd)
 {
-	if (ft_strlen(cmd->infile_name) == 0)
-		cmd->fd_infile = 1;
+	if (cmd->outfile_name == NULL)
+		cmd->fd_outfile = 1;
 	else
 	{
 		cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
@@ -36,7 +36,7 @@ checks if infile exists
 */
 static void	open_infile(t_cmds *cmd)
 {
-	if (ft_strlen(cmd->infile_name) == 0)
+	if (cmd->infile_name == NULL)
 		cmd->fd_infile = 0;
 	else
 	{
@@ -56,9 +56,9 @@ void	close_files(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
-		if (cmd->fd_infile != -1)
+		if (cmd->fd_infile > 1)
 			close(cmd->fd_infile);
-		if (cmd->fd_outfile != -1)
+		if (cmd->fd_outfile > 1)
 			close(cmd->fd_outfile);
 		cmd = cmd->next;
 	}

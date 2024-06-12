@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 11:56:45 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:05:08 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,12 @@ void	ft_lstclear_pars(t_cmds **lst, void (*del)(void*))
 		if (node->command)
 			free_array(node->command);
 		//(*del)(node->path);
-		(*del)(node->infile_name);
-		(*del)(node->outfile_name);
-		(*del)(node->heredoc);
+		if (node->infile_name)
+			(*del)(node->infile_name);
+		if (node->outfile_name)
+			(*del)(node->outfile_name);
+		if (node->heredoc)
+			(*del)(node->heredoc);
 		free(node);
 		node = *lst;
 	}

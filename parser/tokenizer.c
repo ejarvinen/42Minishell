@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/06 10:47:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:23:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ tokenizes string str, returns the next token in str when called with NULL
 char	*ft_strtok(char *str)
 {
 	static char	*leftovers;
-	static size_t	len;
 	char	*new;
 	int	index;
 
@@ -98,7 +97,6 @@ char	*ft_strtok(char *str)
 		leftovers = leftovers + index + 2;
 		return (new);
 	}
-	len = ft_strlen(str);
 	index = find_token(str);
 	if (str[index + 1] == '\0')
 		return (str);
