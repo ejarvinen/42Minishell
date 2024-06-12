@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 13:29:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:10:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ and saves its fd into last command in cmds
 */
 static void	open_outfiles(t_cmds *cmd)
 {
-	cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (cmd->fd_outfile < 0)
+	if (cmd->infile_name == NULL)
+		cmd->fd_infile = 1;
+	else
 	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(cmd->outfile_name);
+		cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if (cmd->fd_outfile < 0)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			perror(cmd->outfile_name);
+		}
 	}
 }
 
@@ -31,11 +36,16 @@ checks if infile exists
 */
 static void	open_infile(t_cmds *cmd)
 {
-	cmd->fd_infile = open(cmd->infile_name, O_RDONLY, 0666);
-	if (cmd->fd_infile < 0)
+	if (cmd->infile_name == NULL)
+		cmd->fd_infile = 0;
+	else
 	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(cmd->infile_name);
+		cmd->fd_infile = open(cmd->infile_name, O_RDONLY, 0666);
+		if (cmd->fd_infile < 0)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			perror(cmd->infile_name);
+		}
 	}
 }
 
