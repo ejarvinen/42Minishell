@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 15:20:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/13 10:41:15 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void	pwd(t_mini *shell);
 
 /*				FOR ENV							*/
 
-int		ft_env(t_env *env);
+int		ft_env(t_mini *shell);
 char	**ltoa(t_env *env);
 
 /*				FOR CD							*/

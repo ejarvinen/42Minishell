@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 15:34:20 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/13 10:52:18 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	check_builtin(t_mini *shell, char **str)
 	else if (ft_strcmp(str[0], "unset") == 0)
 		ft_unset(&shell->env, str);
 	else if (ft_strcmp(str[0], "env") == 0)
-		error = ft_env(shell->env);
+		error = ft_env(shell);
 	else if (ft_strcmp(str[0], "pwd") == 0)
 		pwd(shell);
 	else if (ft_strcmp(str[0], "cd") == 0)
@@ -77,6 +77,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		close_files(&shell.cmds);
 		ft_lstclear_pars(&shell.cmds);
+		printf("rl = %s\n", rl);
 		add_history(rl);
 		free(rl);
 	}
