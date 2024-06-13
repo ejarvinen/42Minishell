@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/13 10:52:18 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:05:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int main(int argc, char **argv, char **envp)
 		}
 		close_files(&shell.cmds);
 		ft_lstclear_pars(&shell.cmds);
-		printf("rl = %s\n", rl);
 		add_history(rl);
 		free(rl);
 	}
