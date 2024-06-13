@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:43:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/13 07:38:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,11 @@ adds a new token to list of tokens
 static int	add_new_token(char *token, t_toks **tokens)
 {
 	t_toks	*new_token;
-	char	*content;
 
-	content = ft_strdup(token);
-	if (!content)
-	{
-		perror("minishell");
-		return (1);
-	}
-	new_token = ft_lstnew_toks(content);
+	new_token = ft_lstnew_toks(token);
 	if (!new_token)
 	{
 		perror("minishell");
-		free(content);
 		return (1);
 	}
 	add_token_info(new_token);
