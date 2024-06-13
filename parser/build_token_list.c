@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/13 07:38:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:01:10 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,21 @@ void	add_indexes(t_toks **tokens)
 t_toks	*checker(char *input)
 {
 	char	*token;
+	char	*rl;
 	t_toks	*tokens;
 	
 	tokens = NULL;
-	token = ft_strtok(input);
+	rl = ft_strdup(input);
+	if (!rl)
+		return (NULL);
+	token = ft_strtok(rl);
 	while (token)
 	{
 		if (quote_check(token) > 0)
 		{
 			if (add_new_token(token, &tokens) > 0)
 			{
+				free(rl);
 				if (tokens != NULL)
 					ft_lstclear_toks(&tokens);
 				return (NULL);
@@ -124,12 +129,14 @@ t_toks	*checker(char *input)
 		else
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
+			free(rl);
 			if (tokens != NULL)
 				ft_lstclear_toks(&tokens);
 			return (NULL);
 		}
 		token = ft_strtok(NULL);
 	}
+	free(rl);
 	add_indexes(&tokens);
 	return (tokens);
 }
