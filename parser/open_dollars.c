@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_dollars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 13:43:32 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:23:24 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	identify_expandable(char *token)
 	int	index;
 
 	index = 0;
-	while (token[index] != '\0' && token[index] != 34 && token[index] != 39 && token[index] != 32)
+	while (token[index] != '\0' && token[index] != 34 && token[index] != 39 && token[index] != 32 && (ft_isalnum(token[index]) == 1 || token[index] == '_'))
 		index++;
 	return (index);
 }
@@ -60,7 +60,7 @@ static void	copy_contents(char *new_token, char *token, t_env *key, int tindex)
 		index++;
 		key_index++;
 	}
-	tindex += (int)ft_strlen(key->key) + 2;
+	tindex += (int)ft_strlen(key->key) + 1;
 	while (token[tindex] != '\0')
 	{
 		new_token[index] = token[tindex];
@@ -123,23 +123,22 @@ static char	*expand(char *token, t_env **envs, int start, int len)
 void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
 {
 	int		varlen;
-	int		new_len;
 	char	*freeable;
 	t_toks	*item;
 	
 	item = *token;
 	varlen = identify_expandable(item->content + *index + 1);
 	if (varlen == 0 && in_doubles == 1)
+	{
+		(*index)++;
 		return ;
+	}
 	freeable = item->content;
 	item->content = expand(item->content, envs, *index + 1, varlen);
-	if (item->content == NULL)
+	if (!item->content)
 	{
 		*index = -1;
 		return ;
 	}
-	new_len = (int)ft_strlen(item->content) - (int)ft_strlen(freeable);
-	if (new_len > 0)
-		*index += new_len;
 	free(freeable);
 }

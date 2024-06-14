@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 15:21:43 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:44:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	add_cmd_info(t_cmds *cmd, t_toks **tokens, t_toks *token, int arrlen
 {
 	int	index;
 	
-	cmd->command = (char **)malloc(sizeof(char *) * 2 + sizeof(char *) * arrlen);
+	cmd->command = (char **)malloc(sizeof(char *) * (arrlen + 2));
 	if (!cmd->command)
 		return ;
 	cmd->command[0] = ft_strdup(token->content);
@@ -112,7 +112,7 @@ static void	add_cmd_info(t_cmds *cmd, t_toks **tokens, t_toks *token, int arrlen
 		while (index <= arrlen)
 		{
 			cmd->command[index] = ft_strdup(get_arg(tokens, token, index));
-			if (!cmd->command[0])
+			if (!cmd->command[index])
 			{
 				free_array(cmd->command);
 				return ;
@@ -148,27 +148,64 @@ static void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 	}
 }
 
+static int	syntax_check(t_toks *token, t_cmds **cmds)
+{
+	if (token == NULL)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_lstclear_pars(cmds);
+		return (1);
+	}
+	return (0);
+}
+
+/*static int	move_to_next_cmd(t_toks *token, t_cmds *cmd, t_cmds **cmds)
+{
+	if (token->id > 0 && token->pipe == 1 && struct_sum(token) == 1)
+	{
+		cmd = cmd->next;
+		token = token->next;
+		if (token == NULL)
+		{
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			ft_lstclear_pars(cmds);
+			return (1);
+		}
+		else if (cmd == NULL)
+			return (1);
+	}
+	return (0);
+}*/
+
 static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 {
 	t_toks	*token;
 	t_cmds	*cmd;
-	int	cmd_index;
 
 	token = *tokens;
 	cmd = *cmds;
-	cmd_index = 0;
 	while (token && cmd)
 	{
+		//if (move_to_next_cmd(token, cmd, cmds) > 0)
+		//	return ;
 		if (token->id > 0 && token->pipe == 1 && struct_sum(token) == 1)
 		{
 			cmd = cmd->next;
 			token = token->next;
-			if (token == NULL || cmd == NULL)
+			if (token == NULL)
+			{
+				ft_putstr_fd("minishell: syntax error\n", 2);
+				ft_lstclear_pars(cmds);
+				return ;
+			}
+			else if (cmd == NULL)
 				return ;
 		}
 		if (token->in_redir == 1 && struct_sum(token) == 1)
 		{
-			token = token->next; // needs a check if it's null?
+			token = token->next;
+			if (syntax_check(token, cmds) > 0)
+				return ;
 			cmd->infile_name = ft_strdup(token->content);
 			if (!cmd->infile_name)
 			{
@@ -179,6 +216,8 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 		if (token->out_redir == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
+			if (syntax_check(token, cmds) > 0)
+				return ;
 			cmd->outfile_name = ft_strdup(token->content);
 			if (!cmd->outfile_name)
 			{
@@ -189,6 +228,8 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 		if (token->append == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
+			if (syntax_check(token, cmds) > 0)
+				return ;
 			cmd->outfile_name = ft_strdup(token->content);
 			if (!cmd->outfile_name)
 			{
@@ -199,6 +240,8 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 		if (token->heredoc_delimiter == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
+			if (syntax_check(token, cmds) > 0)
+				return ;
 			cmd->heredoc = ft_strdup(token->content);
 			if (!cmd->heredoc)
 			{
@@ -218,16 +261,20 @@ t_cmds	*build_command_list(t_toks **tokens)
 	commands = count_cmds(tokens);
 	if (!commands)
 		return (NULL);
+	//printf("I counted commands\n");
 	cmds = NULL;
 	create_list(&cmds, commands);
 	if (!cmds)
 		return (NULL);
+	//printf("I created a linked list\n");
 	fill_cmd_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
+	//printf("I filled in command info\n");
 	fill_redir_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
+	//printf("I added redirection info\n");
 	return (cmds);
 }
 

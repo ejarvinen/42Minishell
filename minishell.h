@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/13 10:41:15 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/14 09:51:21 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_mini
 /*				PARSING							*/
 
 char		*ft_strtok(char *str);
-void		token_touchup(t_toks **tokens, t_env **envs);
+void		token_cleanup(t_toks **tokens, t_env **envs);
 void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
 t_toks	*checker(char *input);
 void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);

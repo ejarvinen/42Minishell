@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:44:29 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:53:41 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	add_delim_node(t_toks **addition, char delim, char *divid, int locati
 	return (0);
 }
 
-static void	build_list(t_toks **addition, char *content, char **new_tokens, char delim)
+static void	build_list(t_toks **addition, char *content, char **new_tokens, char delim) // there's something funky here
 {
 	t_toks	*new_node;
 	int	item;
@@ -88,7 +88,7 @@ static void	build_list(t_toks **addition, char *content, char **new_tokens, char
 	}
 }
 
-static void	build_list_delimstr(t_toks **addition, char *content, char **new_tokens, char *delim)
+static void	build_list_delimstr(t_toks **addition, char *content, char **new_tokens, char *delim) // this one creates issues
 {
 	t_toks	*new_node;
 	int	item;
@@ -159,7 +159,7 @@ static void	add_to_tokens(t_toks **tokens, t_toks *token, t_toks **addition)
 	}
 }
 
-static void	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid)
+static int	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid)
 {
 	char	**new_tokens;
 	t_toks	*addition;
@@ -171,7 +171,7 @@ static void	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *div
 	else
 		new_tokens = ft_splitstr(token->content, divid);
 	if (!new_tokens)
-		return ;
+		return (1);
 	addition = NULL;
 	head = *tokens;
 	lst_size = ft_lstsize_toks(head);
@@ -179,38 +179,46 @@ static void	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *div
 		build_list(&addition, token->content, new_tokens, delim);
 	else
 		build_list_delimstr(&addition, token->content, new_tokens, divid);
+	if (!addition)
+		return (1);
 	free_array(new_tokens);
 	if (lst_size > 1)
 		add_to_tokens(tokens, token, &addition);
 	else
 		*tokens = addition;
+	return (0);
 }
 
 static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 {
 	if (token->pipe == 1)
 	{
-		split_by_delim(tokens, token, '|', NULL);
+		if (split_by_delim(tokens, token, '|', NULL) > 0)
+			return (0);
 		return (1);
 	}
 	else if (token->in_redir == 1)
 	{
-		split_by_delim(tokens, token, '<', NULL);
+		if (split_by_delim(tokens, token, '<', NULL) > 0)
+			return (0);
 		return (1);
 	}
 	else if (token->out_redir == 1)
 	{
-		split_by_delim(tokens, token, '>', NULL);
+		if (split_by_delim(tokens, token, '>', NULL) > 0)
+			return (0);
 		return (1);
 	}
 	else if (token->append == 1)
 	{
-		split_by_delim(tokens, token, 0, ">>");
+		if (split_by_delim(tokens, token, 0, ">>") > 0)
+			return (0);
 		return (1);
 	}
 	else if (token->heredoc_delimiter == 1)
 	{
-		split_by_delim(tokens, token, 0, "<<");
+		if (split_by_delim(tokens, token, 0, "<<") > 0)
+			return (0);
 		return (1);
 	}
 	return (0);
@@ -219,13 +227,20 @@ static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 void	no_blanks_cleanup(t_toks **tokens)
 {
 	t_toks	*token;
+	int	status;
 
 	token = *tokens;
 	while (token)
 	{
 		if (struct_sum(token) != 1)
 		{
-			if (check_for_multiple_flags(tokens, token) > 0)
+			status = check_for_multiple_flags(tokens, token);
+			if (status < 1)
+			{
+				ft_lstclear_toks(tokens);
+				return ;
+			}
+			else
 			{
 				free(token->content);
 				free(token);

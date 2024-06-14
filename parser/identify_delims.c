@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 06:38:09 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/06 14:16:16 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:36:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,38 @@ int	in_quotes(char *token, size_t index)
 		return (1);
 	return (0);
 }
+static void	sure_pipe(t_toks *token)
+{
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->append = 0;
+}
 
 /*
 counts how many pipe | symbols can be found in token
 */
-static int	pipe_found(char *token)
+static int	pipe_found(t_toks *token)
 {
 	size_t	index;
 	int	pipes;
 	
-	if (ft_strncmp(token, "|", 1) == 0 && ft_strlen(token) == 1)
+	if (ft_strncmp(token->content, "|", 1) == 0 && ft_strlen(token->content) == 1)
+	{
+		sure_pipe(token);
 		return (1);
+	}
 	index = 0;
 	pipes = 0;
-	while (index < ft_strlen(token))
+	while (index < ft_strlen(token->content))
 	{
-		if (token[index] == '|')
+		if (token->content[index] == '|')
 		{
-			if (in_quotes(token, index) == 0)
+			if (in_quotes(token->content, index) == 0)
 				pipes++;
 		}
 		index++;
@@ -128,29 +142,59 @@ static int	find_redir(char *token, size_t *index, int type)
 	return (0);
 }
 
+static void	sure_inredir(t_toks *token)
+{
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->out_redir = 0;
+	token->append = 0;
+	token->pipe = 0;
+}
+
+static void	sure_outredir(t_toks *token)
+{
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->append = 0;
+	token->pipe = 0;
+}
+
 /*
 counts how many times < or > is found in token
 */
-static int	redir_found(char *token, int type)
+static int	redir_found(t_toks *token, int type)
 {
 	size_t	index;
 	int	redirs;
 
 	if (type == '<')
 	{
-		if (ft_strncmp(token, "<", 1) == 0 && ft_strlen(token) == 1)
+		if (ft_strncmp(token->content, "<", 1) == 0 && ft_strlen(token->content) == 1)
+		{
+			sure_inredir(token);
 			return (1);
+		}
 	}
 	else if (type == '>')
 	{
-		if (ft_strncmp(token, ">", 1) == 0 && ft_strlen(token) == 1)
+		if (ft_strncmp(token->content, ">", 1) == 0 && ft_strlen(token->content) == 1)
+		{
+			sure_outredir(token);
 			return (1);
+		}
 	}
 	index = 0;
 	redirs = 0;
-	while (index < ft_strlen(token))
+	while (index < ft_strlen(token->content))
 	{
-		redirs += find_redir(token, &index, type);
+		redirs += find_redir(token->content, &index, type);
 		index++;
 	}
 	return (redirs);
@@ -180,29 +224,59 @@ static int	find_doubredir(char *token, size_t *index, int type)
 	return (0);
 }
 
+static void	sure_append(t_toks *token)
+{
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->pipe = 0;
+}
+
+static void	sure_hredir(t_toks *token)
+{
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->pipe = 0;
+	token->append = 0;
+}
+
 /*
 counts how many << and >> operators can be found in a token
 */
-static int	doubredir_found(char *token, int type)
+static int	doubredir_found(t_toks *token, int type)
 {
 	size_t	index;
 	int	doubles;
 
 	if (type == '>')
 	{
-		if (ft_strncmp(token, ">>", 2) == 0 && ft_strlen(token) == 2)
+		if (ft_strncmp(token->content, ">>", 2) == 0 && ft_strlen(token->content) == 2)
+		{
+			sure_append(token);
 			return (1);
+		}
 	}
 	else if (type == '<')
 	{
-		if (ft_strncmp(token, "<<", 2) == 0 && ft_strlen(token) == 2)
+		if (ft_strncmp(token->content, "<<", 2) == 0 && ft_strlen(token->content) == 2)
+		{
+			sure_hredir(token);
 			return (1);
+		}
 	}
 	index = 0;
 	doubles = 0;
-	while (index < ft_strlen(token) - 2)
+	while (index < ft_strlen(token->content) - 2)
 	{
-		doubles += find_doubredir(token, &index, type);
+		doubles += find_doubredir(token->content, &index, type);
 		index++;
 	}
 	return (doubles);
@@ -218,13 +292,13 @@ void	identify_delims(t_toks **tokens)
 	token = *tokens;
 	while (token)
 	{
-		token->pipe = pipe_found(token->content);
-		token->in_redir = redir_found(token->content, '<');
-		token->out_redir = redir_found(token->content, '>');
+		token->pipe = pipe_found(token);
+		token->in_redir = redir_found(token, '<');
+		token->out_redir = redir_found(token, '>');
 		if (ft_strlen(token->content) > 1)
 		{
-			token->append = doubredir_found(token->content, '>');
-			token->heredoc_delimiter = doubredir_found(token->content, '<');
+			token->append = doubredir_found(token, '>');
+			token->heredoc_delimiter = doubredir_found(token, '<');
 		}
 		else
 		{

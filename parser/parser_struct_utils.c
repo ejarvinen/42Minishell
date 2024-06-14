@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 15:20:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:41:39 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmds	*ft_lstnew_pars(int index)
 {
 	t_cmds	*new_node;
 
-	new_node = malloc(sizeof(t_cmds));
+	new_node = (t_cmds *)malloc(sizeof(t_cmds));
 	if (new_node)
 	{
 		new_node->command = NULL;
@@ -117,7 +117,7 @@ void	ft_lstclear_pars(t_cmds **lst)
 		*lst = (*lst)->next;
 		if (node->command)
 			free_array(node->command);
-		//(*del)(node->path);
+		//free(node->path);
 		if (node->infile_name)
 			free(node->infile_name);
 		if (node->outfile_name)
