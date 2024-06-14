@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/13 14:44:25 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:14:44 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+returns the number of commands in a given list of tokens
+*/
 static int	count_cmds(t_toks **tokens)
 {
 	int	cmds;
@@ -28,6 +31,9 @@ static int	count_cmds(t_toks **tokens)
 	return (cmds);
 }
 
+/*
+creates a linked list of size lst_size and adds indexes to all nodes
+*/
 static void	create_list(t_cmds **cmds, int lst_size)
 {
 	t_cmds	*new_node;
@@ -48,6 +54,9 @@ static void	create_list(t_cmds **cmds, int lst_size)
 	}
 }
 
+/*
+counts arguments in the given pipeline specified by cmd_id
+*/
 static int	args_count(t_toks **tokens, int cmd_id)
 {
 	t_toks	*token;
@@ -69,6 +78,9 @@ static int	args_count(t_toks **tokens, int cmd_id)
 	return (args);
 }
 
+/*
+returns command argument specified by given index
+*/
 static char	*get_arg(t_toks **tokens, t_toks *token, int index)
 {
 	t_toks	*tok;
@@ -123,6 +135,10 @@ static void	add_cmd_info(t_cmds *cmd, t_toks **tokens, t_toks *token, int arrlen
 	cmd->command[index] = NULL;
 }
 
+/*
+creates a 2D char array containing command and it's possible arguments
+in the current pipeline and adds it to the command list
+*/
 static void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 {
 	t_toks	*token;
@@ -148,6 +164,9 @@ static void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 	}
 }
 
+/*
+returns syntax error message for delimeters missing file info / heredoc
+*/
 static int	syntax_check(t_toks *token, t_cmds **cmds)
 {
 	if (token == NULL)
@@ -253,6 +272,9 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 	}
 }
 
+/*
+returns a list of commands and their redirection info in a linked list
+*/
 t_cmds	*build_command_list(t_toks **tokens)
 {
 	int	commands;
@@ -261,20 +283,16 @@ t_cmds	*build_command_list(t_toks **tokens)
 	commands = count_cmds(tokens);
 	if (!commands)
 		return (NULL);
-	//printf("I counted commands\n");
 	cmds = NULL;
 	create_list(&cmds, commands);
 	if (!cmds)
 		return (NULL);
-	//printf("I created a linked list\n");
 	fill_cmd_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
-	//printf("I filled in command info\n");
 	fill_redir_info(&cmds, tokens);
 	if (!cmds)
 		return (NULL);
-	//printf("I added redirection info\n");
 	return (cmds);
 }
 

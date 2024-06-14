@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 14:53:41 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:08:11 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+returns the sum of all flags in token
+*/
 int	struct_sum(t_toks *token)
 {
 	int	sum;
@@ -20,6 +23,9 @@ int	struct_sum(t_toks *token)
 	return (sum);
 }
 
+/*
+adds a new node to the beginning of a list
+*/
 static void	ft_lstadd_front_toks(t_toks **lst, t_toks *new)
 {
 	if (*lst)
@@ -31,6 +37,9 @@ static void	ft_lstadd_front_toks(t_toks **lst, t_toks *new)
 		*lst = new;
 }
 
+/*
+adds a node containing the specified delimiter/divider to specified location in list
+*/
 static int	add_delim_node(t_toks **addition, char delim, char *divid, int location)
 {
 	t_toks	*delim_node;
@@ -55,7 +64,18 @@ static int	add_delim_node(t_toks **addition, char delim, char *divid, int locati
 	return (0);
 }
 
-static void	build_list(t_toks **addition, char *content, char **new_tokens, char delim) // there's something funky here
+/*
+performs ft_lstclear for list of tokens
+*/
+static void	clean_up_resources(t_toks **addition)
+{
+	ft_lstclear_toks(addition);
+}
+
+/*
+builds a linked list of the splitted token containing a single length delimiter
+*/
+static void	build_list(t_toks **addition, char *content, char **new_tokens, char delim)
 {
 	t_toks	*new_node;
 	int	item;
@@ -66,29 +86,23 @@ static void	build_list(t_toks **addition, char *content, char **new_tokens, char
 		if (item == 0 && content[0] == delim)
 		{
 			if (add_delim_node(addition, delim, NULL, 0) > 0)
-			{
-				ft_lstclear_toks(addition);
-				return ;
-			}
+				return (clean_up_resources(addition));
 		}
 		new_node = ft_lstnew_toks(new_tokens[item]);
 		if (!new_node)
-		{
-			ft_lstclear_toks(addition);
-			return ;
-		}
+			return (clean_up_resources(addition));
 		add_token_info(new_node);
 		ft_lstadd_back_toks(addition, new_node);
 		item++;
 		if (new_tokens[item] != NULL && add_delim_node(addition, delim, NULL, 1) > 0)
-		{
-			ft_lstclear_toks(addition);
-			return ;
-		}
+			return (clean_up_resources(addition));
 	}
 }
 
-static void	build_list_delimstr(t_toks **addition, char *content, char **new_tokens, char *delim) // this one creates issues
+/*
+builds a linked list of the splitted token for tokens containing delimiter longer than one char
+*/
+static void	build_list_delimstr(t_toks **addition, char *content, char **new_tokens, char *delim)
 {
 	t_toks	*new_node;
 	int	item;
@@ -99,29 +113,46 @@ static void	build_list_delimstr(t_toks **addition, char *content, char **new_tok
 		if (item == 0 && ft_strncmp(content, delim, 2) == 0)
 		{
 			if (add_delim_node(addition, 0, delim, 0) > 0)
-			{
-				ft_lstclear_toks(addition);
-				return ;
-			}
+				return (clean_up_resources(addition));
 		}
 		new_node = ft_lstnew_toks(new_tokens[item]);
 		if (!new_node)
-		{
-			ft_lstclear_toks(addition);
-			return ;
-		}
+			return (clean_up_resources(addition));
 		add_token_info(new_node);
 		ft_lstadd_back_toks(addition, new_node);
 		item++;
 		if (new_tokens[item] != NULL && add_delim_node(addition, 0, delim, 1) > 0)
-		{
-			ft_lstclear_toks(addition);
-			return ;
-		}
+			return (clean_up_resources(addition));
 	}
 }
 
-static void	add_to_tokens(t_toks **tokens, t_toks *token, t_toks **addition)
+/*
+adds a new list to the beginning of the existing list
+*/
+static void	add_to_beginning(t_toks **tokens, t_toks **addition)
+{
+	t_toks	*tok;
+	t_toks	*add;
+	t_toks	*temp;
+	t_toks	*next;
+
+	tok = *tokens;
+	add = *addition;
+	next = NULL;
+	temp = tok;
+	if (temp->next != NULL)
+		next = temp->next;
+	while (add->next)
+		add = add->next;
+	add->next = next;
+	tok = *addition;
+	*tokens = tok;
+}
+
+/*
+adds a new list to the existing one when token_id > 0
+*/
+static void	add_to_list(t_toks **tokens, t_toks *token, t_toks **addition)
 {
 	t_toks	*tok;
 	t_toks	*add;
@@ -132,33 +163,47 @@ static void	add_to_tokens(t_toks **tokens, t_toks *token, t_toks **addition)
 	tok = *tokens;
 	add = *addition;
 	next = NULL;
-	if (token->id == 0)
+	while (tok->id != token->id - 1)
+		tok = tok->next;
+	temp = tok->next;
+	if (temp->next != NULL)
+		next = temp->next;
+	tok->next = add;
+	if (next != NULL)
 	{
-		temp = tok;
-		if (temp->next != NULL)
-			next = temp->next;
-		while (add->next)
-			add = add->next;
-		add->next = next;
-		tok = *addition;
-		*tokens = tok;
-	}
-	else
-	{
-		while (tok->id != token->id - 1)
-			tok = tok->next;
-		temp = tok->next;
-		if (temp->next != NULL)
-			next = temp->next;
-		tok->next = add;
-		if (next != NULL)
-		{
-			last = ft_lstlast_toks(add);
-			last->next = next;
-		}
+		last = ft_lstlast_toks(add);
+		last->next = next;
 	}
 }
 
+/*
+adds a new list of tokens to the existing one according to token position original list
+*/
+static void	add_to_tokens(t_toks **tokens, t_toks *token, t_toks **addition)
+{
+	if (token->id == 0)
+		add_to_beginning(tokens, addition);
+	else
+		add_to_list(tokens, token, addition);
+}
+
+/*
+splits the token string according to the delimeter type
+*/
+static char	**get_new_tokens(char *token, char delim, char *divid)
+{
+	char	**new_tokens;
+
+	if (divid == NULL)
+		new_tokens = ft_split(token, delim);
+	else
+		new_tokens = ft_splitstr(token, divid);
+	return (new_tokens);
+}
+
+/*
+splits the multiflagged token by delimeter; returns 1 for errors, zero for success
+*/
 static int	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid)
 {
 	char	**new_tokens;
@@ -166,10 +211,7 @@ static int	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divi
 	t_toks	*head;
 	int	lst_size;
 
-	if (divid == NULL)
-		new_tokens = ft_split(token->content, delim);
-	else
-		new_tokens = ft_splitstr(token->content, divid);
+	new_tokens = get_new_tokens(token->content, delim, divid);
 	if (!new_tokens)
 		return (1);
 	addition = NULL;

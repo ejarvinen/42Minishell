@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/13 11:01:10 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:53:15 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ static int	quote_check(char *token)
 		return (1);
 }
 
+/*
+adds indexes to list of tokens
+*/
 void	add_indexes(t_toks **tokens)
 {
 	t_toks	*token;
@@ -103,6 +106,31 @@ void	add_indexes(t_toks **tokens)
 	}
 }
 
+/*
+frees all resources used for readline tokenizing
+*/
+static t_toks	*free_checker_resources(char *rl, t_toks **tokens)
+{
+	free(rl);
+	if (tokens != NULL)
+		ft_lstclear_toks(tokens);
+	return (NULL);
+}
+
+/*
+prints syntax error message when token contains uneven amount of certain quote type
+*/
+static t_toks	*print_syntax_error_toks(char *rl, t_toks **tokens)
+{
+	ft_putstr_fd("minishell: syntax error\n", 2);
+	return (free_checker_resources(rl, tokens));
+}
+
+/*
+tokenizes readline input, performs a quote check for each token and builds
+returns a list of tokens if all tokens pass validity check; returns NULL for
+any faulty token
+*/
 t_toks	*checker(char *input)
 {
 	char	*token;
@@ -119,26 +147,30 @@ t_toks	*checker(char *input)
 		if (quote_check(token) > 0)
 		{
 			if (add_new_token(token, &tokens) > 0)
-			{
-				free(rl);
-				if (tokens != NULL)
-					ft_lstclear_toks(&tokens);
-				return (NULL);
-			}
+				return (free_checker_resources(rl, &tokens));
 		}
 		else
-		{
-			ft_putstr_fd("minishell: syntax error\n", 2);
-			free(rl);
-			if (tokens != NULL)
-				ft_lstclear_toks(&tokens);
-			return (NULL);
-		}
+			return (print_syntax_error_toks(rl, &tokens));
 		token = ft_strtok(NULL);
 	}
 	free(rl);
 	add_indexes(&tokens);
 	return (tokens);
 }
+
+/*{
+				free(rl);
+				if (tokens != NULL)
+					ft_lstclear_toks(&tokens);
+				return (NULL);
+			}*/
+
+/*{
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			free(rl);
+			if (tokens != NULL)
+				ft_lstclear_toks(&tokens);
+			return (NULL);
+		}*/
 
 //exit(258); exit code for command not found or maybe it was syntax error, who the fuck knows at this point....

@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 13:23:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:34:00 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+copies string from to string to while skipping given indexes
+*/
 static void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote)
 {
 	int	index;
@@ -35,6 +38,9 @@ static void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquo
 	to[index] = '\0';
 }
 
+/*
+removes single quotes in token
+*/
 static void	remove_singles(t_toks **token, int *index)
 {
 	t_toks	*item;
@@ -59,12 +65,14 @@ static void	remove_singles(t_toks **token, int *index)
 		*index = 0;
 }
 
-static void	remove_doubles(t_toks **token, t_env **envs, int *index)
+/*
+returns index for the matching double quote, expands dollar signs where possible
+*/
+static int	end_quote_index(t_toks **token, t_env **envs, int *index)
 {
 	t_toks	*item;
-	char	*freeable;
 	int	end_quote;
-
+	
 	item = *token;
 	end_quote = *index + 1;
 	while (item->content[end_quote] != 34 && item->content[end_quote] != '\0')
@@ -73,15 +81,26 @@ static void	remove_doubles(t_toks **token, t_env **envs, int *index)
 		{
 			expand_dollar(token, envs, &end_quote, 1);
 			if (end_quote < 0)
-			{
-				*index = -1;
-				return ;
-			}
+				return (-1);
 			item = *token;
 		}
 		else
 			end_quote++;
 	}
+	return (end_quote);
+}
+
+/*
+removes double quotes in token
+*/
+static void	remove_doubles(t_toks **token, t_env **envs, int *index)
+{
+	t_toks	*item;
+	char	*freeable;
+	int	end_quote;
+
+	end_quote = end_quote_index(token, envs, index);
+	item = *token;
 	freeable = item->content;
 	item->content = (char *)malloc(sizeof(char) * (ft_strlen(freeable) - 1));
 	if (!item->content)
@@ -96,6 +115,31 @@ static void	remove_doubles(t_toks **token, t_env **envs, int *index)
 		*index = 0;
 }
 
+/*
+checks for a quote type and removes them accordingly
+*/
+static int	remove_quotes(t_toks **token, t_env **envs, int *index, int quote_type)
+{
+	if (quote_type == 39)
+	{
+		remove_singles(token, index);
+		if (index < 0)
+			return (1);
+		return (0);
+	}
+	else if (quote_type == 34)
+	{
+		remove_doubles(token, envs, index);
+		if (index < 0)
+			return (1);
+		return (0);
+	}
+	return (1);
+}
+
+/*
+looks for quotes and dollar signs in token
+*/
 static int	token_checker(t_toks **tokens, t_env **envs)
 {
 	int	index;
@@ -111,17 +155,9 @@ static int	token_checker(t_toks **tokens, t_env **envs)
 			if (index < 0)
 				return (1);
 		}
-		else if (token->content[index] == 39)
+		else if (token->content[index] == 39 || token->content[index] == 34)
 		{
-			remove_singles(&token, &index);
-			if (index < 0)
-				return (1);
-			index++;
-		}
-		else if (token->content[index] == 34)
-		{
-			remove_doubles(&token, envs, &index);
-			if (index < 0)
+			if (remove_quotes(&token, envs, &index, token->content[index]) > 1)
 				return (1);
 			index++;
 		}
@@ -131,6 +167,9 @@ static int	token_checker(t_toks **tokens, t_env **envs)
 	return (0);
 }
 
+/*
+gets rid of quotes and expands dollar signs where possible
+*/
 void	token_cleanup(t_toks **tokens, t_env **envs)
 {
 	t_toks	*token;

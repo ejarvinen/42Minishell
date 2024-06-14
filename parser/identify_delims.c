@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 06:38:09 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 14:36:27 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:13:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int	in_quotes(char *token, size_t index)
 		return (1);
 	return (0);
 }
+/*
+sets everything else in token to zero except for pipe
+*/
 static void	sure_pipe(t_toks *token)
 {
 	token->argument = 0;
@@ -142,6 +145,9 @@ static int	find_redir(char *token, size_t *index, int type)
 	return (0);
 }
 
+/*
+sets everything else to zero in token except for in_redir flag
+*/
 static void	sure_inredir(t_toks *token)
 {
 	token->argument = 0;
@@ -154,6 +160,9 @@ static void	sure_inredir(t_toks *token)
 	token->pipe = 0;
 }
 
+/*
+sets everything else to zero in token except for out_redir flag
+*/
 static void	sure_outredir(t_toks *token)
 {
 	token->argument = 0;
@@ -164,40 +173,6 @@ static void	sure_outredir(t_toks *token)
 	token->in_redir = 0;
 	token->append = 0;
 	token->pipe = 0;
-}
-
-/*
-counts how many times < or > is found in token
-*/
-static int	redir_found(t_toks *token, int type)
-{
-	size_t	index;
-	int	redirs;
-
-	if (type == '<')
-	{
-		if (ft_strncmp(token->content, "<", 1) == 0 && ft_strlen(token->content) == 1)
-		{
-			sure_inredir(token);
-			return (1);
-		}
-	}
-	else if (type == '>')
-	{
-		if (ft_strncmp(token->content, ">", 1) == 0 && ft_strlen(token->content) == 1)
-		{
-			sure_outredir(token);
-			return (1);
-		}
-	}
-	index = 0;
-	redirs = 0;
-	while (index < ft_strlen(token->content))
-	{
-		redirs += find_redir(token->content, &index, type);
-		index++;
-	}
-	return (redirs);
 }
 
 /*
@@ -224,6 +199,62 @@ static int	find_doubredir(char *token, size_t *index, int type)
 	return (0);
 }
 
+/*
+returns the number of type of redirector in token when token contains several delimiters
+*/
+static int	search_mixedflag_token(char *token, int type, int doubles)
+{
+	int	redirs;
+	size_t	index;
+
+	redirs = 0;
+	index = 0;
+	if (doubles > 0)
+	{
+		while (index < ft_strlen(token) - 2)
+		{
+			redirs += find_doubredir(token, &index, type);
+			index++;
+		}
+	}
+	else
+	{
+		while (index < ft_strlen(token))
+		{
+			redirs += find_redir(token, &index, type);
+			index++;
+		}
+	}
+	return (redirs);
+}
+
+/*
+counts how many times < or > is found in token
+*/
+static int	redir_found(t_toks *token, int type)
+{
+	if (type == '<')
+	{
+		if (ft_strncmp(token->content, "<", 1) == 0 && ft_strlen(token->content) == 1)
+		{
+			sure_inredir(token);
+			return (1);
+		}
+	}
+	else if (type == '>')
+	{
+		if (ft_strncmp(token->content, ">", 1) == 0 && ft_strlen(token->content) == 1)
+		{
+			sure_outredir(token);
+			return (1);
+		}
+	}
+	return (search_mixedflag_token(token->content, type, 0));
+}
+
+/*
+sets everything to zero in token except for append flag
+*/
 static void	sure_append(t_toks *token)
 {
 	token->argument = 0;
@@ -236,6 +267,9 @@ static void	sure_append(t_toks *token)
 	token->pipe = 0;
 }
 
+/*
+sets everything to zero in token except for heredoc_delim flag
+*/
 static void	sure_hredir(t_toks *token)
 {
 	token->argument = 0;
@@ -253,9 +287,6 @@ counts how many << and >> operators can be found in a token
 */
 static int	doubredir_found(t_toks *token, int type)
 {
-	size_t	index;
-	int	doubles;
-
 	if (type == '>')
 	{
 		if (ft_strncmp(token->content, ">>", 2) == 0 && ft_strlen(token->content) == 2)
@@ -272,14 +303,7 @@ static int	doubredir_found(t_toks *token, int type)
 			return (1);
 		}
 	}
-	index = 0;
-	doubles = 0;
-	while (index < ft_strlen(token->content) - 2)
-	{
-		doubles += find_doubredir(token->content, &index, type);
-		index++;
-	}
-	return (doubles);
+	return (search_mixedflag_token(token->content, type, 1));
 }
 
 /*

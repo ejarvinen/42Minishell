@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:23:27 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:33:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ static int	closing_quote(char const *str, int *index, int quote)
 }
 
 /*
+find_token helper function to find the matching quote in str by quote_type
+*/
+static void	find_closing_quote(char *str, int *index, int quote_type)
+{
+	(*index)++;
+	while (closing_quote(str, index, quote_type) == 0)
+		(*index)++;
+}
+
+/*
 finds a word in str that is either separated by beginning/end of string, space,
 tab or one type of quote as long as there's a matching quote found in the string
 */
@@ -38,33 +48,21 @@ static int	find_token(char *str)
 	
 	index = 0;
 	if (str[index] == 39)
-	{
-		index++;
-		while (closing_quote(str, &index, 39) == 0)
-			index++;
-	}
+		find_closing_quote(str, &index, 39);
 	else if (str[index] == 34)
-	{
-		index++;
-		while (closing_quote(str, &index, 34) == 0)
-			index++;
-	}
+		find_closing_quote(str, &index, 34);
 	else
 	{
 		while (str[index + 1] != 32 && str[index + 1] != 9 && str[index + 1] != 0)
 		{
 			if (str[index] == 39)
 			{
-				index++;
-				while (closing_quote(str, &index, 39) == 0)
-					index++;
+				find_closing_quote(str, &index, 39);
 				return (index);
 			}
 			else if (str[index] == 34)
 			{
-				index++;
-				while (closing_quote(str, &index, 34) == 0)
-					index++;
+				find_closing_quote(str, &index, 34);
 				return (index);
 			}
 			index++;
