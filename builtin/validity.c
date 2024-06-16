@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:45:57 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/16 11:53:50 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:22:45 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,7 @@ int	validity(char *str, char *function)
 	}
 	while (ft_isalnum(str[i]) == 1 || str[i] == '_')
 		i++;
-	if (str[i] == '=')
-	{
-		i++;
-		while (ft_isalnum(str[i]) == 1 || str[i] == '_' || str[i] == ' ')
-			i++;
-	}
-	if (str[i] == '\0')
+	if (str[i] == '\0' || str[i] == '=')
 		return (0);
 	ft_validerror(str, function);
 	return (1);
