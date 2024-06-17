@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 17:14:44 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:50:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			}
 			else if (cmd == NULL)
 				return ;
+			cmd->append = 0;
 		}
 		if (token->in_redir == 1 && struct_sum(token) == 1)
 		{
@@ -231,6 +232,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 				ft_lstclear_pars(cmds);
 				return ;
 			}
+			cmd->append = 0;
 		}
 		if (token->out_redir == 1 && struct_sum(token) == 1)
 		{
@@ -243,6 +245,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 				ft_lstclear_pars(cmds);
 				return ;
 			}
+			cmd->append = 0;
 		}
 		if (token->append == 1 && struct_sum(token) == 1)
 		{
@@ -255,6 +258,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 				ft_lstclear_pars(cmds);
 				return ;
 			}
+			cmd->append = 1;
 		}
 		if (token->heredoc_delimiter == 1 && struct_sum(token) == 1)
 		{
@@ -267,6 +271,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 				ft_lstclear_pars(cmds);
 				return ;
 			}
+			cmd->append = 0;
 		}
 		token = token->next;
 	}

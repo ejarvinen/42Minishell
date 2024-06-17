@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/14 09:51:21 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/17 07:54:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_cmds
     int                id;
     int                commands;
     int				builtin;
+    int				append;
     int                valid;
     int                exit_status;
     struct s_cmds    *next;
@@ -115,12 +116,18 @@ t_cmds	*build_command_list(t_toks **tokens);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
+void	validate_commands(t_cmds **cmds, t_env **envs);
+char	*full_path(char *path, char *command);
 
 /*				INPUT VALIDATION				*/
 
 void	prep_for_exec(t_mini *shell);
 void	open_files(t_cmds **cmds);
 void	close_files(t_cmds **cmds);
+int	is_dir(char *command);
+void	print_dirmsg(char *command);
+void	dot_cmd(t_cmds **cmds);
+void	nonexistent_cmd(t_cmds **cmds);
 
 /*				FOR CREATING ENV				*/
 

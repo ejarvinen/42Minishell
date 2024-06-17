@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/12 14:38:55 by sataskin         ###   ########.fr        #
+#    Updated: 2024/06/17 08:16:51 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,9 +43,12 @@ SRCS = main.c \
 		parser/add_cmd_info.c \
 		parser/parser.c \
 		parser/ft_splitstr.c \
+		parser/command_validation.c \
 		builtin/exit.c \
 		execute/open_files.c \
 		execute/prep_for_exec.c \
+		execute/error_messages.c \
+		execute/error_msg_utils.c \
 		builtin/export_file.c
 
 OBJECTS = $(SRCS:.c=.o)

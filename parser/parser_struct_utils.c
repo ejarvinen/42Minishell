@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/13 14:41:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/06/17 07:10:19 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cmds	*ft_lstnew_pars(int index)
 		new_node->commands = -1;
 		new_node->builtin = -1;
 		new_node->valid = -1;
+		new_node->append = -1;
 		new_node->exit_status = -1;
 		new_node->next = NULL;
 		return (new_node);
@@ -117,7 +118,8 @@ void	ft_lstclear_pars(t_cmds **lst)
 		*lst = (*lst)->next;
 		if (node->command)
 			free_array(node->command);
-		//free(node->path);
+		if (node->path)
+			free(node->path);
 		if (node->infile_name)
 			free(node->infile_name);
 		if (node->outfile_name)
