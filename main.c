@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/01 09:30:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:01:30 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main(int argc, char **argv, char **envp)
 			break ;
 		if (rl[0] == '\0')
 			continue ;
+		printf("This is the rl input = %s\n", rl);
 		if (parser(rl, &shell) == 0)
 		{
 			prep_for_exec(&shell);

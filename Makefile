@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/01 08:58:18 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/01 14:42:01 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SRCS = main.c \
 		execute/prep_for_exec.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
-		builtin/export_file.c
+		builtin/export_file.c \
+		builtin/echo.c
 
 OBJECTS = $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_for_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/01 09:23:21 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:40:21 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	check_builtin(t_mini *shell, char **str)
 	else if (ft_strcmp(str[0], "cd") == 0)
 		ft_cd(shell, str[1]);
 	else if (ft_strcmp(str[0], "echo") == 0)
-		printf("not made echo yet\n");
+		ft_echo(shell);
 	else if (ft_strcmp(str[0], "exit") == 0)
 		now_exit(shell, str);
 	else if (ft_strcmp(str[0], "test") == 0)
