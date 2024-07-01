@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/17 08:23:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:23:21 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	check_builtin(t_mini *shell, char **str)
 	{
 		printf("what are you typing bro?\n");
 	}
+	shell->EXIT_CODE = error;
 }
 
 void	prep_for_exec(t_mini *shell)

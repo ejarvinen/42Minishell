@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/12 14:29:38 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:12:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	find_key(t_env **env, char *str)
 		if (1 == -1)
 			exit (1);
 		i = 0;
-		while (temp->key[i] == str[i] && temp->key != '\0' && str != '\0')
+		while (temp->key[i] == str[i] && temp->key[i] != '\0' && str[i] != '\0')
 			i++;
 		if (temp->key[i] == '\0' && str[i] == '=')
 		{
@@ -102,28 +102,25 @@ void print_export(t_env *env)
 void	export(t_env **env, char **str, int fd)
 {
 	int	i;
-	t_env *temp;
 	
-	if (fd > -1)
+	if (fd < 0)
+		return ;
+	if (str[1] == NULL)
 	{
-		if (str[1] == NULL)
+		update_index(env);
+		if (fd == 0)
+			print_export(*env);
+		else
+			print_to_file(*env, fd);
+	}
+	i = 1;
+	if (str[i] != NULL)
+	{
+		while (str[i])
 		{
-			update_index(env);
-			if (fd == 0)
-				print_export(*env);
-			else
-				print_to_file(*env, fd);
-		}
-		temp = *env;
-		i = 1;
-		if (str[i] != NULL)
-		{
-			while (str[i])
-			{
-				if (validity(str[i], "export") == 0)
-					find_key(env, str[i]);
-				i++;
-			}
+			if (validity(str[i], "export") == 0)
+				find_key(env, str[i]);
+			i++;
 		}
 	}
 }

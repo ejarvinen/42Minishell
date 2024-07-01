@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 16:34:00 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:21:26 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,14 @@ static int	remove_quotes(t_toks **token, t_env **envs, int *index, int quote_typ
 	if (quote_type == 39)
 	{
 		remove_singles(token, index);
-		if (index < 0)
+		if (*index < 0)
 			return (1);
 		return (0);
 	}
 	else if (quote_type == 34)
 	{
 		remove_doubles(token, envs, index);
-		if (index < 0)
+		if (*index < 0)
 			return (1);
 		return (0);
 	}

@@ -6,11 +6,13 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/17 08:38:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:30:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g23_sig;
 
 int main(int argc, char **argv, char **envp)
 {
@@ -18,6 +20,7 @@ int main(int argc, char **argv, char **envp)
 	static t_mini	shell;
 
 	(void)argv;
+	g23_sig = 0;
 	if (argc != 1)
 	{
 		printf("Run minishell using only <./minishell>\n");

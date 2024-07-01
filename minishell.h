@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/17 07:54:29 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:20:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <termios.h>
 # include <fcntl.h>
 
-static int	g23_sig = 0;
+extern int	g23_sig;
 
 typedef struct s_cmds
 {
