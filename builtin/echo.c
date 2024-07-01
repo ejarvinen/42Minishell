@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/01 14:48:52 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:56:43 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,16 @@ void	ft_echo(t_mini *shell)
 	fd = shell->cmds->fd_outfile;
 	while (shell->cmds->command[i] != NULL)
 	{
-		if (nl == 1)
+		if (nl == 1 && shell->cmds->command[i + 1] == NULL)
+		{
+			nl = 0;
 			ft_putendl_fd(shell->cmds->command[i], fd);
+		}
 		else
+		{
 			ft_putstr_fd(shell->cmds->command[i], fd);
+			ft_putchar_fd(' ', fd);
+		}
 		i++;
 	}
 }
