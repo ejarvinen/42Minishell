@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 08:33:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:13:33 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ char	**ltoa(t_env *env);
 
 /*				FOR CD							*/
 
-void	ft_cd(t_mini *shell, char *path);
+void	ft_cd(t_mini *shell, char **path);
 void	set_data(t_mini *shell, char **envp);
 
 /*				BUILTIN ERROR					*/
