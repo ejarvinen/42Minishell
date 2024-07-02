@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 09:25:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:54:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ void	validate_commands(t_cmds **cmds, t_env **envs)
 				return ;
 			}
 		}
-		/*else
-			cmd->valid = 1;*/
+		else
+			cmd->valid = 1;
 		cmd = cmd->next;
 	}
 	free_array(paths);

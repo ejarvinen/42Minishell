@@ -6,13 +6,13 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 11:13:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:49:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	check_builtin(t_mini *shell, t_cmds *cmd)
+void	check_builtin(t_mini *shell, t_cmds *cmd)
 {
 	int error;
 	
@@ -29,7 +29,7 @@ static void	check_builtin(t_mini *shell, t_cmds *cmd)
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
 		ft_cd(shell, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "echo") == 0)
-		ft_echo(shell);
+		ft_echo(cmd);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
 		now_exit(shell, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "test") == 0)
@@ -48,43 +48,4 @@ static void	check_builtin(t_mini *shell, t_cmds *cmd)
 		printf("what are you typing bro?\n");
 	}
 	shell->EXIT_CODE = error;
-}
-
-static void	run_single(t_mini *shell, t_cmds *cmd)
-{
-	char	**env;
-	t_env	**envs;
-
-	envs = shell->env;
-	env = ltoa(*envs);
-	if (!env)
-		return ;
-	cmd->c_pid = fork();
-	if (cmd->c_pid < 0)
-	{
-		perror("minishell");
-		return ;
-	}
-	if (cmd->c_pid == 0)
-	{
-		execute_single(shell, env, cmd);
-	}
-}
-
-void	run_commands(t_mini *shell)
-{
-	t_cmds	*cmds;
-	
-	cmds = shell->cmds;
-	if (cmds->commands == 1)
-	{
-		if (cmds->builtin == 1)
-			check_builtin(shell, cmds);
-		else
-			run_single(shell, cmds);
-	}
-	while (cmds)
-	{
-		
-	}
 }

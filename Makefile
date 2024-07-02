@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/01 14:42:01 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/02 11:48:08 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,8 @@ SRCS = main.c \
 		execute/prep_for_exec.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
+		execute/run_commands.c \
+		execute/run_commands_forreal.c \
 		builtin/export_file.c \
 		builtin/echo.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 11:19:11 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:49:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <fcntl.h>
 
 extern int	g23_sig;
+
+# define READ_END 0
+# define WRITE_END 1
 
 typedef struct s_cmds
 {
@@ -208,5 +211,10 @@ void	ft_echo(t_cmds *cmds);
 /*				FOR TESTING						*/
 
 void	print_cmd_info(t_cmds **cmds);
+
+/*				FOR EXECUTION					*/
+
+void	check_builtin(t_mini *shell, t_cmds *cmd);
+void	run_commands(t_mini *shell);
 
 #endif
