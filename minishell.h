@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 11:13:33 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:19:11 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void	now_exit(t_mini *shell, char **str);
 
 /*				FOR ECHO						*/
 
-void	ft_echo(t_mini *shell);
+void	ft_echo(t_cmds *cmds);
 
 /*				FOR TESTING						*/
 
