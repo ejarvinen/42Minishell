@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 11:12:29 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:00:26 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_cd(t_mini *shell, char **path)
 	i = 0;
 	while (path[i] != NULL)
 		i++;
-	if (i > 1)
+	if (i > 2)
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	else if (path[1] == NULL)
 		go_home(shell, shell->env);
