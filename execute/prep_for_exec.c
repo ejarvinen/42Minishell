@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_for_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/01 14:40:21 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:22:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	prep_for_exec(t_mini *shell)
 	open_files(&shell->cmds);
 	print_cmd_info(&shell->cmds);
 	check_builtin(shell, shell->cmds->command);
-//	nonexistent_cmd(&shell->cmds);
-//	dot_cmd(&shell->cmds);
+	nonexistent_cmd(&shell->cmds);
+	dot_cmd(&shell->cmds);
 	if (shell->cmds->fd_infile == -1)
 	{}
 }

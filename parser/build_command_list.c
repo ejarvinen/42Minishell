@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/17 08:50:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:05:39 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	args_count(t_toks **tokens, int cmd_id)
 
 	token = *tokens;
 	args = 0;
-	if (cmd_id == ft_lstsize_toks(token) - 1)
+	if (ft_lstsize_toks(token) == 1)
 		return (args);
 	while (token->id != cmd_id)
 		token = token->next;
@@ -178,24 +178,6 @@ static int	syntax_check(t_toks *token, t_cmds **cmds)
 	return (0);
 }
 
-/*static int	move_to_next_cmd(t_toks *token, t_cmds *cmd, t_cmds **cmds)
-{
-	if (token->id > 0 && token->pipe == 1 && struct_sum(token) == 1)
-	{
-		cmd = cmd->next;
-		token = token->next;
-		if (token == NULL)
-		{
-			ft_putstr_fd("minishell: syntax error\n", 2);
-			ft_lstclear_pars(cmds);
-			return (1);
-		}
-		else if (cmd == NULL)
-			return (1);
-	}
-	return (0);
-}*/
-
 static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 {
 	t_toks	*token;
@@ -205,8 +187,6 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 	cmd = *cmds;
 	while (token && cmd)
 	{
-		//if (move_to_next_cmd(token, cmd, cmds) > 0)
-		//	return ;
 		if (token->id > 0 && token->pipe == 1 && struct_sum(token) == 1)
 		{
 			cmd = cmd->next;
@@ -217,11 +197,16 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 				ft_lstclear_pars(cmds);
 				return ;
 			}
+			else if (cmd == NULL && token != NULL)
+			{
+				syntax_check(NULL, cmds);
+				return ;
+			}
 			else if (cmd == NULL)
 				return ;
 			cmd->append = 0;
 		}
-		if (token->in_redir == 1 && struct_sum(token) == 1)
+		else if (token->in_redir == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
 			if (syntax_check(token, cmds) > 0)
@@ -234,7 +219,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			}
 			cmd->append = 0;
 		}
-		if (token->out_redir == 1 && struct_sum(token) == 1)
+		else if (token->out_redir == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
 			if (syntax_check(token, cmds) > 0)
@@ -247,7 +232,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			}
 			cmd->append = 0;
 		}
-		if (token->append == 1 && struct_sum(token) == 1)
+		else if (token->append == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
 			if (syntax_check(token, cmds) > 0)
@@ -260,7 +245,7 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			}
 			cmd->append = 1;
 		}
-		if (token->heredoc_delimiter == 1 && struct_sum(token) == 1)
+		else if (token->heredoc_delimiter == 1 && struct_sum(token) == 1)
 		{
 			token = token->next;
 			if (syntax_check(token, cmds) > 0)
@@ -273,7 +258,12 @@ static void	fill_redir_info(t_cmds **cmds, t_toks **tokens)
 			}
 			cmd->append = 0;
 		}
-		token = token->next;
+		else
+		{
+			if (cmd->append < 1)
+				cmd->append = 0;
+			token = token->next;
+		}
 	}
 }
 

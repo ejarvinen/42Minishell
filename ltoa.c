@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ltoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/05 10:31:08 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:13:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_string(char *key, char *value)
 
 	i = ft_strlen(key);
 	j = 0;
-	new = (char *)malloc(sizeof(char) *  (i + ft_strlen(value) + 2));
+	new = (char *)malloc(sizeof(char) * (i + ft_strlen(value) + 2));
 	if (!new)
 		exit (1);
 	i = 0;

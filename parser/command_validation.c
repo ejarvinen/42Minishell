@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/17 08:48:27 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:25:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,14 @@ static char	**path_finder(t_env **envs)
 	if (!env[index])
 	{
 		ft_putstr_fd("minishell: no PATH environment variable specified\n", 2);
+		free_array(env);
 		return (NULL);
 	}
 	paths = ft_split(env[index] + 5, ':');
 	if (!paths)
 	{
 		perror("minishell");
+		free_array(env);
 		return (NULL);
 	}
 	return (paths);
@@ -148,10 +150,13 @@ void	validate_commands(t_cmds **cmds, t_env **envs)
 			path_index = validate_command(cmd->command[0], paths);
 			if (path_index == -4 || add_path(cmd, paths, path_index) > 0)
 			{
+				free_array(paths);
 				ft_lstclear_pars(cmds);
 				return ;
 			}
 		}
+		/*else
+			cmd->valid = 1;*/
 		cmd = cmd->next;
 	}
 	free_array(paths);

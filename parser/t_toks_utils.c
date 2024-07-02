@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:49:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 14:37:08 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 08:34:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_lstclear_toks(t_toks **lst)
 	*lst = NULL;
 }
 
-t_toks	*ft_lstnew_toks(void *content)
+t_toks	*ft_lstnew_toks(char *content)
 {
 	t_toks	*new_node;
 

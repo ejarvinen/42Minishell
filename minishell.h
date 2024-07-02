@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/01 14:41:18 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/02 08:33:14 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
 t_toks	*checker(char *input);
 void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);
 void		ft_lstclear_toks(t_toks **lst);
-t_toks	*ft_lstnew_toks(void *content);
+t_toks	*ft_lstnew_toks(char *content);
 int		ft_lstsize_toks(t_toks *lst);
 t_toks	*ft_lstlast_toks(t_toks *lst);
 void		identify_delims(t_toks **tokens);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 15:33:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:02:14 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,28 @@ char	*ft_strtok(char *str)
 	if (!str || !*str)
 	{
 		if (ft_strlen(leftovers) == 0)
+		{
+			leftovers = NULL;
 			return (NULL);
+		}
 		index = find_token(leftovers);
-		new = leftovers;
 		if (leftovers[index + 1] == '\0')
 		{
+			new = leftovers;
 			leftovers = leftovers + index + 1;
 			return (new);
 		}
 		leftovers[index + 1] = '\0';
+		new = leftovers;
 		leftovers = leftovers + index + 2;
 		return (new);
 	}
 	index = find_token(str);
 	if (str[index + 1] == '\0')
+	{
+		leftovers = NULL;
 		return (str);
+	}
 	leftovers = str + index + 2;
 	str[index + 1] = '\0';
 	return (str);

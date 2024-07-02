@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 08:20:16 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 07:34:06 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 07:21:47 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,97 @@ void	identify_args(t_toks **tokens)
 	}
 }
 
+static void	add_pipe_info(t_toks *token)
+{
+	token->pipe = 1;
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->append = 0;
+}
+
+static void	add_inredir_info(t_toks *token)
+{
+	token->pipe = 0;
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 1;
+	token->out_redir = 0;
+	token->append = 0;
+}
+
+static void	add_outredir_info(t_toks *token)
+{
+	token->pipe = 0;
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->out_redir = 1;
+	token->append = 0;
+}
+
+static void	add_append_info(t_toks *token)
+{
+	token->pipe = 0;
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 0;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->append = 1;
+}
+
+static void	add_hredir_info(t_toks *token)
+{
+	token->pipe = 0;
+	token->argument = 0;
+	token->command = 0;
+	token->file = 0;
+	token->heredoc = 0;
+	token->heredoc_delimiter = 1;
+	token->in_redir = 0;
+	token->out_redir = 0;
+	token->append = 0;
+}
+
+static void	double_check(t_toks **tokens)
+{
+	t_toks	*token;
+	
+	token = *tokens;
+	if (ft_lstsize_toks(token) == 1)
+		return ;
+	while (token)
+	{
+		if (struct_sum(token) != 1)
+		{
+			if (ft_strncmp(token->content, "|", 1) == 0 && ft_strlen(token->content) == 1)
+				add_pipe_info(token);
+			else if (ft_strncmp(token->content, "<", 1) == 0 && ft_strlen(token->content) == 1)
+				add_inredir_info(token);
+			else if (ft_strncmp(token->content, ">", 1) == 0 && ft_strlen(token->content) == 1)
+				add_outredir_info(token);
+			else if (ft_strncmp(token->content, ">>", 2) == 0 && ft_strlen(token->content) == 2)
+				add_append_info(token);
+			else if (ft_strncmp(token->content, "<<", 2) == 0 && ft_strlen(token->content) == 2)
+				add_hredir_info(token);
+		}
+		token = token->next;
+	}
+}
+
 void	identifier(t_toks **tokens)
 {
 	identify_delims(tokens);
@@ -163,4 +254,5 @@ void	identifier(t_toks **tokens)
 	recognize_file(tokens);
 	identify_commands(tokens);
 	identify_args(tokens);
+	double_check(tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 17:08:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:25:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,14 +282,11 @@ void	no_blanks_cleanup(t_toks **tokens)
 				ft_lstclear_toks(tokens);
 				return ;
 			}
-			else
-			{
-				free(token->content);
-				free(token);
-				token = *tokens;
-				add_indexes(tokens);
-				identifier(tokens);
-			}
+			free(token->content);
+			free(token);
+			token = *tokens;
+			add_indexes(tokens);
+			identifier(tokens);
 		}
 		else
 			token = token->next;

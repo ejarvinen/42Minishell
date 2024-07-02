@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 15:53:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:03:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,19 +158,5 @@ t_toks	*checker(char *input)
 	return (tokens);
 }
 
-/*{
-				free(rl);
-				if (tokens != NULL)
-					ft_lstclear_toks(&tokens);
-				return (NULL);
-			}*/
-
-/*{
-			ft_putstr_fd("minishell: syntax error\n", 2);
-			free(rl);
-			if (tokens != NULL)
-				ft_lstclear_toks(&tokens);
-			return (NULL);
-		}*/
 
 //exit(258); exit code for command not found or maybe it was syntax error, who the fuck knows at this point....
