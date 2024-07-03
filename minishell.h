@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 11:49:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:22:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_mini
 	t_cmds	*cmds;
 	int		shlvl;
 	int		EXIT_CODE;
+	int		saved_stdin;
+	int		saved_stdout;
 	char	*pwd;
 	char	*oldpwd;
 }	t_mini;
