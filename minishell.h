@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/03 11:22:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/04 08:37:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,5 +218,6 @@ void	print_cmd_info(t_cmds **cmds);
 
 void	check_builtin(t_mini *shell, t_cmds *cmd);
 void	run_commands(t_mini *shell);
+void	restore_fds(t_mini *shell, int fd_type);
 
 #endif
