@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/03 11:28:39 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/04 10:40:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	restore_fds(t_mini *shell, int fd_type)
+{
+	if (fd_type == 0 && shell->saved_stdin != -1)
+	{
+		if (dup2(shell->saved_stdin, STDIN_FILENO) < 0)
+		{
+			perror("minishell");
+			//free_data(shell, "failed to restore STDIN");
+		}
+		close(shell->saved_stdin);
+	}
+	else if (fd_type == 1 && shell->saved_stdin != -1)
+	{
+		if (dup2(shell->saved_stdout, STDOUT_FILENO) < 0)
+		{
+			perror("minishell");
+			//free_data(shell, "failed to restore STDOUT");
+		}
+		close(shell->saved_stdout);
+	}
+}
 
 void	check_builtin(t_mini *shell, t_cmds *cmd)
 {
