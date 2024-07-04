@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/04 08:37:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:30:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ void	rl_redisplay(void);
 /*				FOR EXPORT						*/
 
 void	print_export(t_env *env);
-void	export(t_env **env, char **str, int fd);
+//void	export(t_env **env, char **str, int fd);
+void	export(t_mini *shell, t_cmds *cmd);
 int		lstsize(t_env *lst);
 t_env	*find_next(t_env *env);
 void	change_index(t_env **env);
@@ -170,7 +171,8 @@ void 	print_to_file(t_env *env, int fd);
 /*				FOR UNSET						*/
 
 void	ft_realunset(t_env **env, char *str);
-void	ft_unset(t_env **env, char **str);
+//void	ft_unset(t_env **env, char **str);
+void	ft_unset(t_mini *shell, t_cmds *cmd);
 
 /*				CHECKING FOR VALID KEY			*/
 
@@ -178,16 +180,19 @@ int		validity(char *str, char *function);
 
 /*				FOR PWD							*/
 
-void	pwd(t_mini *shell);
+//void	pwd(t_mini *shell);
+void	pwd(t_mini *shell, t_cmds *cmd);
 
 /*				FOR ENV							*/
 
-int		ft_env(t_mini *shell);
+//int		ft_env(t_mini *shell);
+int	ft_env(t_mini *shell, t_cmds *cmd);
 char	**ltoa(t_env *env);
 
 /*				FOR CD							*/
 
-void	ft_cd(t_mini *shell, char **path);
+//void	ft_cd(t_mini *shell, char **path);
+void	ft_cd(t_mini *shell, t_cmds *cmd);
 void	set_data(t_mini *shell, char **envp);
 
 /*				BUILTIN ERROR					*/
@@ -208,7 +213,8 @@ void	now_exit(t_mini *shell, char **str);
 
 /*				FOR ECHO						*/
 
-void	ft_echo(t_cmds *cmds);
+//void	ft_echo(t_cmds *cmds);
+void	ft_echo(t_mini *shell, t_cmds *cmds);
 
 /*				FOR TESTING						*/
 

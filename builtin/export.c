@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/01 09:12:53 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:11:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void print_export(t_env *env)
 // 	}
 // }
 
-void	export(t_env **env, char **str, int fd)
+/* void	export(t_env **env, char **str, int fd)
 {
 	int	i;
 	
@@ -123,4 +123,44 @@ void	export(t_env **env, char **str, int fd)
 			i++;
 		}
 	}
+} */
+
+void	export(t_mini *shell, t_cmds *cmd)
+{
+	int	i;
+	
+	if (cmd->fd_outfile < 0)
+	{
+		if (cmd->c_pid == -1)
+			return ;
+		else
+		{
+			free_data(shell, NULL);
+			exit(1);
+		}
+	}
+	if (cmd->command[1] == NULL)
+	{
+		update_index(&shell->env);
+		if (cmd->fd_outfile == 0)
+			print_export(shell->env);
+		else
+			print_to_file(shell->env, cmd->fd_outfile);
+	}
+	i = 1;
+	if (cmd->command[i] != NULL)
+	{
+		while (cmd->command[i])
+		{
+			if (validity(cmd->command[i], "export") == 0)
+				find_key(&shell->env, cmd->command[i]);
+			i++;
+		}
+	}
+	if (cmd->c_pid != -1)
+	{
+		free_data(shell, NULL);
+		exit(0);
+	}
 }
+

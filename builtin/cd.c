@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 12:00:26 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:26:26 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	cd_path(char *path, t_mini *shell)
 		perror("minishell: cd: ");
 }
 
-void	ft_cd(t_mini *shell, char **path)
+/* void	ft_cd(t_mini *shell, char **path)
 {
 	char	*test;
 	int		i;
@@ -113,5 +113,35 @@ void	ft_cd(t_mini *shell, char **path)
 		}
 		else
 			cd_error(shell, test, path[1]);
+	}
+} */
+
+void	ft_cd(t_mini *shell, t_cmds *cmd)
+{
+	char	*test;
+	int		i;
+
+	i = 0;
+	while (cmd->command[i] != NULL)
+		i++;
+	if (i > 2)
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+	else if (cmd->command[1] == NULL)
+		go_home(shell, shell->env);
+	else
+	{
+		test = getcwd(NULL, 0);
+		if (test != NULL)
+		{ 
+			cd_path(cmd->command[1], shell);
+			free(test);
+		}
+		else
+			cd_error(shell, test, cmd->command[1]);
+	}
+	if (cmd->c_pid != -1)
+	{
+		free_data(shell, NULL);
+		exit(0);
 	}
 }

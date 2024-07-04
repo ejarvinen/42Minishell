@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 11:28:48 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:29:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	check_newline(char **str)
 	return (i);
 }
 
-void	ft_echo(t_cmds *cmds)
+/* void	ft_echo(t_cmds *cmds)
 {
 	int	nl;
 	int	i;
@@ -68,5 +68,47 @@ void	ft_echo(t_cmds *cmds)
 		else
 			ft_putstr_fd(cmds->command[i], fd);
 		i++;
+	}
+} */
+
+void	ft_echo(t_mini *shell, t_cmds *cmds)
+{
+	int	nl;
+	int	i;
+	int	fd;
+	
+	if (protection(cmds->command) != 0)
+	{
+		if (cmds->c_pid == -1)
+			return ;
+		else
+		{
+			free_data(shell, NULL);
+			exit(1);
+		}
+	}
+	nl = check_newline(cmds->command);
+	i = nl;
+	fd = cmds->fd_outfile;
+	while (cmds->command[i] != NULL)
+	{
+		if (nl == 1 && cmds->command[i + 1] == NULL)
+		{
+			nl = 0;
+			ft_putendl_fd(cmds->command[i], fd);
+		}
+		else if (cmds->command[i + 1] != NULL)
+		{
+			ft_putstr_fd(cmds->command[i], fd);
+			ft_putchar_fd(' ', fd);
+		}
+		else
+			ft_putstr_fd(cmds->command[i], fd);
+		i++;
+	}
+	if (cmds->c_pid != -1)
+	{
+		free_data(shell, NULL);
+		exit(0);
 	}
 }

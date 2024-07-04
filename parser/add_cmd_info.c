@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:15:39 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 12:39:26 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:06:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	add_cmds_info(t_cmds **cmds)
 	while (cmd)
 	{
 		cmd->commands = nbr_of_cmds;
+		cmd->c_pid = -1;
 		cmd = cmd->next;
 	}
 }
