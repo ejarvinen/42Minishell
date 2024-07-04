@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 11:49:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:28:39 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,5 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 		ft_echo(cmd);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
 		now_exit(shell, cmd->command);
-	else if (ft_strcmp(cmd->command[0], "test") == 0)
-	{
-		char **str = ltoa(shell->env);
-		int i = 0;
-		while (str[i] != NULL)
-		{
-			printf("%s\n", str[i]);
-			i++;
-		}
-		ft_freearray(str);
-	}
-	else
-	{
-		printf("what are you typing bro?\n");
-	}
 	shell->EXIT_CODE = error;
 }
