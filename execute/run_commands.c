@@ -6,36 +6,11 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/04 13:27:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:35:04 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-void	restore_fds(t_mini *shell, int fd_type)
-{
-	if (fd_type == 0 && shell->saved_stdin != -1)
-	{
-		if (dup2(shell->saved_stdin, STDIN_FILENO) < 0)
-		{
-			perror("minishell99");
-			//free_data(shell, "failed to restore STDIN");
-		}
-		close(shell->saved_stdin);
-		shell->saved_stdin = -1;
-	}
-	else if (fd_type == 1 && shell->saved_stdin != -1)
-	{
-		if (dup2(shell->saved_stdout, STDOUT_FILENO) < 0)
-		{
-			perror("minishell98");
-			//free_data(shell, "failed to restore STDOUT");
-		}
-		close(shell->saved_stdout);
-		shell->saved_stdout = -1;
-	}
-}*/
 
 void	check_builtin(t_mini *shell, t_cmds *cmd)
 {
@@ -45,23 +20,84 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 		return ;
 	if (ft_strcmp(cmd->command[0], "export") == 0)
 		export(shell, cmd);
-		//export(&shell->env, cmd->command, cmd->fd_outfile);
 	else if (ft_strcmp(cmd->command[0], "unset") == 0)
 		ft_unset(shell, cmd);
-		//ft_unset(&shell->env, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
 		error = ft_env(shell, cmd);
-		//error = ft_env(shell);
 	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
 		pwd(shell, cmd);
-		//pwd(shell);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
 		ft_cd(shell, cmd);
-		//ft_cd(shell, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "echo") == 0)
 		ft_echo(shell, cmd);
-		//ft_echo(cmd);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
 		now_exit(shell, cmd->command);
 	shell->EXIT_CODE = error;
+}
+
+static int	duplicate_fds(t_cmds *cmd)
+{
+	if (cmd->fd_infile != 0)
+	{
+		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
+		{
+			perror("minishell");
+			return (1);
+		}
+		close(cmd->fd_infile);
+	}
+	if (cmd->fd_outfile != 1)
+	{
+		if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+		{
+			perror("minishell");
+			return (1);
+		}
+		close(cmd->fd_outfile);
+	}
+	return (0);
+}
+
+static void	run_single(/*t_mini *shell, */t_cmds *cmd, char **env)
+{
+	cmd->c_pid = fork();
+	if (cmd->c_pid < 0)
+	{
+		perror("minishell");
+		return ;
+	}
+	if (cmd->c_pid == 0)
+	{
+		if (duplicate_fds(cmd) > 0)
+			return ;
+		if (execve(cmd->path, cmd->command, env) == -1)
+		{
+			perror("minishell");
+		}
+	}
+}
+
+void	run_commands(t_mini *shell)
+{
+	t_cmds	*cmds;
+	int		status;
+	char	**env;
+	
+	cmds = shell->cmds;
+	env = ltoa(shell->env);
+	if (!env)
+		return ;
+	if (cmds->commands == 1)
+	{
+		if (cmds->builtin == 1)
+			check_builtin(shell, cmds);
+		else
+		{
+			run_single(/*shell, */cmds, env);
+			waitpid(cmds->c_pid, &status, 0);
+			cmds->exit_status = status;
+		}
+		return ;
+	}
+	run_multiple(shell, env, cmds);
 }

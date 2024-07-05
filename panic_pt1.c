@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/04 12:06:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:23:16 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ void	ft_freearray(char **array)
 
 void	free_data(t_mini *shell, char *message)
 {
-	/* if (shell->saved_stdin != -1)
-		restore_fds(shell, STDIN_FILENO);
-	if (shell->saved_stdout != -1)
-		restore_fds(shell, STDOUT_FILENO); */
 	free_env(shell->env);
 	if (shell->oldpwd)
 		free(shell->oldpwd);

@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/02 11:48:08 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/05 09:39:52 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,9 @@ SRCS = main.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
 		execute/run_commands.c \
-		execute/run_commands_forreal.c \
+		execute/execute.c \
+		execute/pipe_utils.c \
+		execute/run_multiple_cmds.c \
 		builtin/export_file.c \
 		builtin/echo.c
 
