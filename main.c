@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/02 09:05:49 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:18:55 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_signal(0);
-   	 	rl = readline("\x1b[95mMINISHELL💖~$ ");
+   	 	rl = readline("\x1b[95mMINISHELL\x1b[0m💖~$ ");
 		if (!rl)
 			break ;
 		if (rl[0] == '\0')
 			continue ;
+		set_signal(1);
 		if (parser(rl, &shell) == 0)
 		{
 			prep_for_exec(&shell);
