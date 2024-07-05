@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/05 09:38:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:40:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_env	*add_env(char **envp);
 void	free_env(t_env *env);
 void	ft_freearray(char **array);
 void	free_data(t_mini *shell, char *message);
+void	panic(t_mini *shell, int *pipefds, int error_code);
 
 /*				FOR SIGNALs						*/
 
@@ -156,7 +157,6 @@ void	rl_redisplay(void);
 /*				FOR EXPORT						*/
 
 void	print_export(t_env *env);
-//void	export(t_env **env, char **str, int fd);
 void	export(t_mini *shell, t_cmds *cmd);
 int		lstsize(t_env *lst);
 t_env	*find_next(t_env *env);
@@ -169,7 +169,6 @@ void 	print_to_file(t_env *env, int fd);
 /*				FOR UNSET						*/
 
 void	ft_realunset(t_env **env, char *str);
-//void	ft_unset(t_env **env, char **str);
 void	ft_unset(t_mini *shell, t_cmds *cmd);
 
 /*				CHECKING FOR VALID KEY			*/
@@ -178,18 +177,15 @@ int		validity(char *str, char *function);
 
 /*				FOR PWD							*/
 
-//void	pwd(t_mini *shell);
 void	pwd(t_mini *shell, t_cmds *cmd);
 
 /*				FOR ENV							*/
 
-//int		ft_env(t_mini *shell);
 int	ft_env(t_mini *shell, t_cmds *cmd);
 char	**ltoa(t_env *env);
 
 /*				FOR CD							*/
 
-//void	ft_cd(t_mini *shell, char **path);
 void	ft_cd(t_mini *shell, t_cmds *cmd);
 void	set_data(t_mini *shell, char **envp);
 
@@ -211,7 +207,6 @@ void	now_exit(t_mini *shell, char **str);
 
 /*				FOR ECHO						*/
 
-//void	ft_echo(t_cmds *cmds);
 void	ft_echo(t_mini *shell, t_cmds *cmds);
 
 /*				FOR TESTING						*/
@@ -224,8 +219,8 @@ void	check_builtin(t_mini *shell, t_cmds *cmd);
 void	run_commands(t_mini *shell);
 void	run_multiple(t_mini *shell, char **env, t_cmds *cmds);
 void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds);
-void	first_command(t_cmds *cmd, int *pipefds);
-void	last_command(t_cmds *cmd, int *pipefds);
+void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds);
+void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds);
 void	close_pipes(int *pipefds);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 13:30:10 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:42:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,38 +58,33 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 	return (0);
 }
 
-// dup2 fail error code: 9
-static void	set_pipes(t_cmds *cmd, int *pipefds)
+static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	if (cmd->id % 2 == 0)
 	{
 		if (even_id_cmds(cmd, pipefds) > 0)
-			return ;
+			panic(shell, pipefds, 9);
 	}
 	else
 	{
 		if (odd_id_cmds(cmd, pipefds) > 0)
-			return ;
+			panic(shell, pipefds, 9);
 	}
 }
 
-// execve fail error code: 126
 void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 {
 	if (cmd->id == 0)
-		first_command(cmd, pipefds);
+		first_command(shell, cmd, pipefds);
 	else if (cmd->id == cmd->commands - 1)
-		last_command(cmd, pipefds);
+		last_command(shell, cmd, pipefds);
 	else
-		set_pipes(cmd, pipefds);
+		set_pipes(shell, cmd, pipefds);
 	if (cmd->builtin == 1)
 		check_builtin(shell, cmd);
 	else
 	{
 		if (execve(cmd->path, cmd->command, env) == -1)
-		{
-			free_data(shell, NULL);
-			exit(126);
-		}
+			panic(shell, pipefds, 126);
 	}
 }

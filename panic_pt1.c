@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/05 09:23:16 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:39:58 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ void	ft_freearray(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	panic(t_mini *shell, int *pipefds, int error_code)
+{
+	if (pipefds)
+	{
+		close_pipes(pipefds);
+		free(pipefds);
+	}
+	free_data(shell, NULL);
+	exit(error_code);
 }
 
 void	free_data(t_mini *shell, char *message)

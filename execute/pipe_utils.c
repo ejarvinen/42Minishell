@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 09:38:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:44:00 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	close_pipes(int *pipefds)
 	}
 }
 
-void	first_command(t_cmds *cmd, int *pipefds)
+void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[READ_END]);
 	if (cmd->fd_infile != 0)
@@ -33,7 +33,7 @@ void	first_command(t_cmds *cmd, int *pipefds)
 		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 		{
 			perror("minishell2");
-			return ;
+			panic(shell, pipefds, 9);
 		}
 		close(cmd->fd_infile);
 	}
@@ -44,7 +44,7 @@ void	first_command(t_cmds *cmd, int *pipefds)
 	if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
 	{
 		perror("minishell3");
-		return ;
+		panic(shell, pipefds, 9);
 	}
 	close(cmd->fd_outfile);
 	if (cmd->commands > 2)
@@ -108,17 +108,17 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 }
 
 // dup2 fail error code: 9
-void	last_command(t_cmds *cmd, int *pipefds)
+void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	if (cmd->commands % 2 == 0)
 	{
 		if (even_commands(cmd, pipefds) > 0)
-			return ;
+			panic(shell, pipefds, 9);
 	}
 	else
 	{
 		if (odd_commands(cmd, pipefds) > 0)
-			return ;
+			panic(shell, pipefds, 9);
 	}
 }
 
