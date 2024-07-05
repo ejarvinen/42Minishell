@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/05 09:39:52 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/05 12:52:35 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,12 @@ fclean: clean
 
 re: fclean all
 
+valgrind:
+	valgrind ./minishell
+
+fvalgrind:
+	valgrind --leak-check=full --track-fds=all --trace-children=yes ./minishell
 debug:
 	@gcc -Wall -Wextra -Werror -g3 -fsanitize=address $(OBJECT) $(LIBFT) -o $(NAME) -lreadline
 
-.PHONY: clean fclean all re
+.PHONY: clean fclean all re run fvalgrind

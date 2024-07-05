@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 12:14:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:54:56 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ static char	**path_finder(t_env **envs)
 		free_array(env);
 		return (NULL);
 	}
+	free_array(env);
 	return (paths);
 }
 
