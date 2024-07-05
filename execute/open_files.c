@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/12 15:12:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:50:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	open_outfiles(t_cmds *cmd)
 {
 	if (cmd->outfile_name == NULL)
 		cmd->fd_outfile = 1;
+	else if (cmd->fd_infile == -1)
+		cmd->fd_outfile = -1;
 	else
 	{
 		cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
