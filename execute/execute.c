@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 09:37:01 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:30:10 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 	else
 	{
 		if (execve(cmd->path, cmd->command, env) == -1)
-			perror("minishell12");
+		{
+			free_data(shell, NULL);
+			exit(126);
+		}
 	}
 }
