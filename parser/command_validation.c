@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 11:54:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:14:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ checks for NULL command, absolute path and executability
 */
 static int	validate_command(char *command, char **paths)
 {
-	if (command == NULL)
+	if (command == NULL || ft_strncmp(command, "\0", 1) == 0)
 		return (-1);
 	if (access(command, F_OK) == 0)
 	{
@@ -159,5 +159,6 @@ void	validate_commands(t_cmds **cmds, t_env **envs)
 			cmd->valid = 1;
 		cmd = cmd->next;
 	}
+	cmd = *cmds;
 	free_array(paths);
 }

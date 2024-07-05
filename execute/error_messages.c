@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 07:49:29 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/17 07:51:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:19:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	dot_cmd(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
-		if (cmd->command[0])
+		if (cmd->command[0] != NULL && ft_strncmp(cmd->command[0], "\0", 1) != 0)
 		{
 			if (cmd->id == 0 && cmd->fd_infile != -1)
 			{
