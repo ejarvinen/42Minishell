@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 07:49:29 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 12:19:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:56:44 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ prints error messages by command type
 static void	print_error_msg(char *command, int type)
 {
 	int	dir;
-	
+
 	if (type == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);

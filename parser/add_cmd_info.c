@@ -6,12 +6,16 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:15:39 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/04 13:06:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:12:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+adds the number of commands in the pipeline and initializes process if to -1
+for each command
+*/
 void	add_cmds_info(t_cmds **cmds)
 {
 	t_cmds	*cmd;
@@ -27,6 +31,9 @@ void	add_cmds_info(t_cmds **cmds)
 	}
 }
 
+/*
+identifies and marks command a builtin
+*/
 void	add_builtin_info(t_cmds **cmds)
 {
 	t_cmds	*cmd;
@@ -34,21 +41,21 @@ void	add_builtin_info(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
-		if (ft_strncmp(cmd->command[0], "echo", 4) == 0 && ft_strlen(cmd->command[0]) == 4)
+		if (ft_strcmp(cmd->command[0], "echo") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "cd", 2) == 0 && ft_strlen(cmd->command[0]) == 2)
+		else if (ft_strcmp(cmd->command[0], "cd") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "pwd", 3) == 0 && ft_strlen(cmd->command[0]) == 3)
+		else if (ft_strcmp(cmd->command[0], "pwd") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "export", 6) == 0 && ft_strlen(cmd->command[0]) == 6)
+		else if (ft_strcmp(cmd->command[0], "export") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "unset", 5) == 0 && ft_strlen(cmd->command[0]) == 5)
+		else if (ft_strcmp(cmd->command[0], "unset") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "env", 3) == 0 && ft_strlen(cmd->command[0]) == 3)
+		else if (ft_strcmp(cmd->command[0], "env") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "exit", 4) == 0 && ft_strlen(cmd->command[0]) == 4)
+		else if (ft_strcmp(cmd->command[0], "exit") == 0)
 			cmd->builtin = 1;
-		else if (ft_strncmp(cmd->command[0], "$?", 2) == 0 && ft_strlen(cmd->command[0]) == 2)
+		else if (ft_strcmp(cmd->command[0], "$?") == 0)
 			cmd->builtin = 1;
 		else
 			cmd->builtin = 0;

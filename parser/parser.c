@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 07:34:18 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:47:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parser(char *rl, t_mini *shell)
 {
 	t_toks	*tokens;
-	
+
 	tokens = checker(rl);
 	if (!tokens)
 		return (1);
@@ -32,17 +32,5 @@ int	parser(char *rl, t_mini *shell)
 		return (1);
 	add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
-	validate_commands(&shell->cmds, &shell->env);
-	if (!shell->cmds)
-		return (1);
-	return (0);
+	return (validate_commands(&shell->cmds, &shell->env));
 }
-
-	/*node = tokens;
-	while (node)
-	{
-		printf("token: %s\n", node->content);
-		printf("file: %d\ncommand: %d\nargument: %d\npipe: %d\nin_redir: %d\nout_redir: %d\nappend: %d\nheredoc: %d\nheredoc_delim: %d\n", node->file, node->command, node->argument, node->pipe, node->in_redir, node->out_redir, node->append, node->heredoc, node->heredoc_delimiter);
-		printf("---------------\n");
-		node = node->next;
-	}*/

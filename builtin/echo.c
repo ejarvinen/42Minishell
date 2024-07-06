@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/04 13:29:43 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:41:59 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	check_newline(char **str)
 	return (i);
 }
 
-/* void	ft_echo(t_cmds *cmds)
+/* void	ft_echo(t_cmds *cmds) old version before child processes
 {
 	int	nl;
 	int	i;
@@ -68,6 +68,34 @@ static int	check_newline(char **str)
 		else
 			ft_putstr_fd(cmds->command[i], fd);
 		i++;
+	}
+} */
+
+/* void	ft_echo(t_mini *shell, t_cmds *cmds) !! sample version that works with piping !!
+{
+	int	index;
+	
+	if (protection(cmds->command) != 0)
+	{
+		if (cmds->c_pid == -1)
+			return ;
+		else
+		{
+			free_data(shell, NULL);
+			exit(1);
+		}
+	}
+	index = 1;
+	while (cmds->command[index])
+	{
+		printf("%s ", cmds->command[index]);
+		index++;
+	}
+	printf("\n");
+	if (cmds->c_pid != -1)
+	{
+		free_data(shell, NULL);
+		exit(0);
 	}
 } */
 

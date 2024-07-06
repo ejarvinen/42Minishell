@@ -3,84 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 12:54:56 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:45:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-constructs a full command path
+saves path info to cmd according to given path_index: constructs full path
+for positve indexes; for index -2 saves command as absolute path; for other
+indexes strdups an empty string
 */
-char	*full_path(char *path, char *command)
-{
-	char	*temp;
-	char	*full_path;
-
-	temp = ft_strjoin(path, "/");
-	if (!temp)
-		return (NULL);
-	full_path = ft_strjoin(temp, command);
-	if (!path)
-	{
-		free(temp);
-		return (NULL);
-	}
-	free(temp);
-	return (full_path);
-}
-
-/*
-checks whether the calling process can access path for a given command;
-returns index for accessible path in paths, -1 if path not found/command
-doesn't exist, -2 if given command is an absolute path that is executable,
--3 if path is accessible but not executable
-*/
-static int	path_checker(char *command, char **paths)
-{
-	char	*path;
-	int		index;
-
-	index = 0;
-	while (paths[index])
-	{
-		path = full_path(paths[index], command);
-		if (!path)
-			return (-4);
-		if (access(path, F_OK) == 0)
-		{
-			if (access(path, X_OK) == 0)
-			{
-				free(path);
-				return (index);
-			}
-			free(path);
-			return (-3);
-		}
-		free(path);
-		index++;
-	}
-	return (-1);
-}
-
-/*
-checks for NULL command, absolute path and executability
-*/
-static int	validate_command(char *command, char **paths)
-{
-	if (command == NULL || ft_strncmp(command, "\0", 1) == 0)
-		return (-1);
-	if (access(command, F_OK) == 0)
-	{
-		if (access(command, X_OK) == 0)
-			return (-2);
-	}
-	return (path_checker(command, paths));
-}
-
 static int	add_path(t_cmds *cmd, char **paths, int path_index)
 {
 	if (path_index > -1)
@@ -93,6 +29,19 @@ static int	add_path(t_cmds *cmd, char **paths, int path_index)
 		return (1);
 	cmd->valid = path_index;
 	return (0);
+}
+
+/*
+prints ppath_finder errors according to err_code
+*/
+static char	**print_error(char **env, int err_code)
+{
+	if (err_code == 1)
+		ft_putstr_fd("minishell: no PATH environment variable specified\n", 2);
+	else if (err_code == 2)
+		ft_putstr_fd("minishell: malloc fail\n", 2);
+	ft_freearray(env);
+	return (NULL);
 }
 
 /*
@@ -115,51 +64,58 @@ static char	**path_finder(t_env **envs)
 		index++;
 	}
 	if (!env[index])
-	{
-		ft_putstr_fd("minishell: no PATH environment variable specified\n", 2);
-		free_array(env);
-		return (NULL);
-	}
+		return (print_error(env, 1));
 	paths = ft_split(env[index] + 5, ':');
 	if (!paths)
-	{
-		perror("minishell");
-		free_array(env);
-		return (NULL);
-	}
-	free_array(env);
+		return (print_error(env, 2));
+	ft_freearray(env);
 	return (paths);
 }
 
-void	validate_commands(t_cmds **cmds, t_env **envs)
+/*
+validate_commands helper function: frees paths and cmds list if given
+*/
+static int	free_resources(char **paths, t_cmds **cmds)
+{
+	if (paths)
+		ft_freearray(paths);
+	if (cmds)
+	{
+		ft_lstclear_pars(cmds);
+		return (1);
+	}
+	return (0);
+}
+
+/*
+checks and finds valid paths for non-builtin commands,
+marks builtins valid by default
+*/
+int	validate_commands(t_cmds **cmds, t_env **envs)
 {
 	t_cmds	*cmd;
 	char	**paths;
-	int	path_index;
+	int		path_index;
 
 	cmd = *cmds;
-	paths = path_finder(envs);
-	if (!paths)
-	{
-		ft_lstclear_pars(cmds);
-		return ;
-	}
+	paths = NULL;
 	while (cmd)
 	{
 		if (cmd->builtin != 1)
 		{
+			if (paths == NULL)
+			{
+				paths = path_finder(envs);
+				if (!paths)
+					return (free_resources(NULL, cmds));
+			}
 			path_index = validate_command(cmd->command[0], paths);
 			if (path_index == -4 || add_path(cmd, paths, path_index) > 0)
-			{
-				free_array(paths);
-				ft_lstclear_pars(cmds);
-				return ;
-			}
+				return (free_resources(paths, cmds));
 		}
 		else
 			cmd->valid = 1;
 		cmd = cmd->next;
 	}
-	cmd = *cmds;
-	free_array(paths);
+	return (free_resources(paths, NULL));
 }

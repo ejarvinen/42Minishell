@@ -6,12 +6,16 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:08:12 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/07 06:43:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:43:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+updates file info for < and > redirections when token contains more than
+just the redir character
+*/
 static void	single_redirs_long_str(t_toks *token, t_toks *next, int type)
 {
 	if (token->content[0] == type)
@@ -33,6 +37,9 @@ static void	single_redirs_long_str(t_toks *token, t_toks *next, int type)
 	}
 }
 
+/*
+updates file info when token contains more than just the infile redirection
+*/
 static void	check_infile_redirection(t_toks *token, t_toks *next)
 {
 	if (token->in_redir > 0 && ft_strlen(token->content) == 1)
@@ -49,6 +56,9 @@ static void	check_infile_redirection(t_toks *token, t_toks *next)
 		token->file = 0;
 }
 
+/*
+updates file info when token contains more than just the outfile redirection
+*/
 static void	check_outfile_redirection(t_toks *token, t_toks *next)
 {
 	if (token->out_redir > 0 && ft_strlen(token->content) == 1)
@@ -65,46 +75,12 @@ static void	check_outfile_redirection(t_toks *token, t_toks *next)
 		token->file = 0;
 }
 
-static void	double_redirs_long_str(t_toks *token, t_toks *next)
-{
-	if (ft_strncmp(token->content, ">>", 2) == 0)
-	{
-		token->file = 1;
-		if (next)
-			next->file = 0;
-	}
-	else if (ft_strncmp((token->content + (int)ft_strlen(token->content) - 2), ">>", 2) == 0)
-	{
-		if (next)
-			next->file = 1;
-		token->file = 0;
-	}
-	else
-	{
-		token->file = 1;
-		token->argument = 1;
-	}
-}
-
-static void	check_append(t_toks *token, t_toks *next)
-{
-	if (token->append > 0 && ft_strlen(token->content) == 2)
-	{
-		token->file = 0;
-		if (next)
-			next->file = 1;
-	}
-	else if (token->append > 0 && ft_strlen(token->content) > 2)
-	{
-		double_redirs_long_str(token, next);
-	}
-	else
-		token->file = 0;
-}
-
+/*
+checks for all types of redirections and updates token's file flag accordingly
+*/
 static void	add_file_info(t_toks *token, t_toks *next)
 {
-	int file;
+	int	file;
 
 	file = 0;
 	check_infile_redirection(token, next);
@@ -116,6 +92,9 @@ static void	add_file_info(t_toks *token, t_toks *next)
 	token->file = file;
 }
 
+/*
+identifies a file in tokens and updates the token info accordingly
+*/
 void	recognize_file(t_toks **tokens)
 {
 	t_toks	*token;

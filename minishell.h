@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/05 13:40:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:06:21 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +108,46 @@ int		ft_lstsize_pars(t_cmds *lst);
 t_cmds	*ft_lstlast_pars(t_cmds *lst);
 void		ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
 void		ft_lstclear_pars(t_cmds **lst);
-void	free_array(char **array);
 int	in_quotes(char *token, size_t index);
 void	no_blanks_cleanup(t_toks **tokens);
 void	add_indexes(t_toks **tokens);
-void	add_token_info(t_toks *new_node);
+int	quote_check(char *token);
+void	initialize_token(t_toks *new_node);
 int	parser(char *rl, t_mini *shell);
 int	struct_sum(t_toks *token);
 t_cmds	*build_command_list(t_toks **tokens);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
-void	validate_commands(t_cmds **cmds, t_env **envs);
+int	validate_commands(t_cmds **cmds, t_env **envs);
+int	validate_command(char *command, char **paths);
 char	*full_path(char *path, char *command);
+void	fill_cmd_info(t_cmds **cmds, t_toks **tokens);
+void	fill_redir_info(t_cmds **cmds, t_toks **tokens);
+int	syntax_check(t_toks *token, t_cmds **cmds);
+int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+void	sure_pipe(t_toks *token);
+void	sure_inredir(t_toks *token);
+void	sure_outredir(t_toks *token);
+void	sure_append(t_toks *token);
+void	sure_hredir(t_toks *token);
+int	redir_found(t_toks *token, int type);
+int	doubredir_found(t_toks *token, int type);
+void	check_append(t_toks *token, t_toks *next);
+void	add_pipe_info(t_toks *token);
+void	add_inredir_info(t_toks *token);
+void	add_outredir_info(t_toks *token);
+void	add_append_info(t_toks *token);
+void	add_hredir_info(t_toks *token);
+int	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid);
+int	identify_expandable(char *token);
+t_env	*key_finder(char *var, t_env **envs);
+void	build_list_delimstr(t_toks **addition, char *content,
+char **new_tokens, char *delim);
+void	build_list(t_toks **addition, char *content,
+char **new_tokens, char delim);
+void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote);
+int	end_quote_index(t_toks **token, t_env **envs, int *index);
 
 /*				INPUT VALIDATION				*/
 

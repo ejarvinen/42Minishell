@@ -6,42 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/14 13:23:24 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:42:14 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	identify_expandable(char *token)
-{
-	int	index;
-
-	index = 0;
-	while (token[index] != '\0' && token[index] != 34 && token[index] != 39 && token[index] != 32 && (ft_isalnum(token[index]) == 1 || token[index] == '_'))
-		index++;
-	return (index);
-}
-
-static t_env	*find_key(char *var, t_env **envs)
-{
-	t_env	*env;
-	size_t	var_len;
-
-	env = *envs;
-	var_len = ft_strlen(var);
-	while (env)
-	{
-		if (var_len == ft_strlen(env->key) && ft_strncmp(var, env->key, var_len) == 0)
-		{
-			if (!env->value[0] || !env->value)
-				return (NULL);
-			return (env);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}
-
+/*
+copies contents from token to new_token and replaces key in tindex by key value
+*/
 static void	copy_contents(char *new_token, char *token, t_env *key, int tindex)
 {
 	int	index;
@@ -70,6 +43,10 @@ static void	copy_contents(char *new_token, char *token, t_env *key, int tindex)
 	new_token[index] = '\0';
 }
 
+/*
+copies the contents of token to new_token skipping everything starting from
+index start to index len
+*/
 static void	erase_dollar(char *new_token, char *token, int start, int len)
 {
 	int	index;
@@ -91,25 +68,42 @@ static void	erase_dollar(char *new_token, char *token, int start, int len)
 	new_token[index] = '\0';
 }
 
+/*
+mallocs space for new token string and copies the old token contents
+and replacing the identified key with it's value
+*/
+static char	*expand_key(char *token, t_env *key, int len, int start)
+{
+	char	*new_token;
+
+	new_token = (char *)malloc(sizeof(char)
+			* (ft_strlen(token) - len + ft_strlen(key->value)));
+	if (!new_token)
+		return (NULL);
+	copy_contents(new_token, token, key, start - 1);
+	return (new_token);
+}
+
+/*
+if key exists and it has a value, the value is inserted in the token where
+key was found; otherwise erase dollar sign and key from token string
+*/
 static char	*expand(char *token, t_env **envs, int start, int len)
 {
 	char	*var;
 	t_env	*key;
 	char	*new_token;
-	
+
 	if (len > 0)
 	{
 		var = ft_substr(token, start, len);
 		if (!var)
 			return (NULL);
-		key = find_key(var, envs);
+		key = key_finder(var, envs);
 		free(var);
 		if (key != NULL)
 		{
-			new_token = (char *)malloc(sizeof(char) * (ft_strlen(token) - len + ft_strlen(key->value)));
-			if (!new_token)
-				return (NULL);
-			copy_contents(new_token, token, key, start - 1);
+			new_token = expand_key(token, key, len, start);
 			return (new_token);
 		}
 	}
@@ -120,12 +114,15 @@ static char	*expand(char *token, t_env **envs, int start, int len)
 	return (new_token);
 }
 
+/*
+identifies key for dollar sign and expands it to it's value if value is given
+*/
 void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
 {
 	int		varlen;
 	char	*freeable;
 	t_toks	*item;
-	
+
 	item = *token;
 	varlen = identify_expandable(item->content + *index + 1);
 	if (varlen == 0 && in_doubles == 1)

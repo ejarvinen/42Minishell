@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 13:44:00 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:45:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+closes any open pipes in pipefds
+*/
 void	close_pipes(int *pipefds)
 {
 	int	index;
@@ -25,6 +28,9 @@ void	close_pipes(int *pipefds)
 	}
 }
 
+/*
+sets up file descriptors and redirections for the first command in a pipeline
+*/
 void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[READ_END]);
@@ -54,6 +60,10 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 	}
 }
 
+/*
+sets up filedescriptors and redirections for the last command
+in a pipeline when command id is an even number
+*/
 static int	even_commands(t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[WRITE_END]);
@@ -82,6 +92,10 @@ static int	even_commands(t_cmds *cmd, int *pipefds)
 	return (0);
 }
 
+/*
+sets up filedescriptors and redirections for the last command
+in a pipeline when command id is an odd number
+*/
 static int	odd_commands(t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[WRITE_END + 2]);
@@ -107,7 +121,9 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 	return (0);
 }
 
-// dup2 fail error code: 9
+/*
+sets up filedescritors and redirections for the last command in a pipeline
+*/
 void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	if (cmd->commands % 2 == 0)
@@ -121,4 +137,3 @@ void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 			panic(shell, pipefds, 9);
 	}
 }
-

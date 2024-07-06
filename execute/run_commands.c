@@ -6,16 +6,19 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 09:35:04 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:03:08 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+runs a builtin command
+*/
 void	check_builtin(t_mini *shell, t_cmds *cmd)
 {
-	int error;
-	
+	int	error;
+
 	if (cmd->command[0] == NULL)
 		return ;
 	if (ft_strcmp(cmd->command[0], "export") == 0)
@@ -35,6 +38,9 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 	shell->EXIT_CODE = error;
 }
 
+/*
+sets redirections for a single command
+*/
 static int	duplicate_fds(t_cmds *cmd)
 {
 	if (cmd->fd_infile != 0)
@@ -58,7 +64,10 @@ static int	duplicate_fds(t_cmds *cmd)
 	return (0);
 }
 
-static void	run_single(/*t_mini *shell, */t_cmds *cmd, char **env)
+/*
+runs a single command in a child process
+*/
+static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 {
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
@@ -73,16 +82,21 @@ static void	run_single(/*t_mini *shell, */t_cmds *cmd, char **env)
 		if (execve(cmd->path, cmd->command, env) == -1)
 		{
 			perror("minishell");
+			panic(shell, NULL, 126);
 		}
 	}
 }
 
+/*
+fetches environment variables and executes either a single command
+or a pipeline
+*/
 void	run_commands(t_mini *shell)
 {
 	t_cmds	*cmds;
 	int		status;
 	char	**env;
-	
+
 	cmds = shell->cmds;
 	env = ltoa(shell->env);
 	if (!env)
@@ -93,7 +107,7 @@ void	run_commands(t_mini *shell)
 			check_builtin(shell, cmds);
 		else
 		{
-			run_single(/*shell, */cmds, env);
+			run_single(shell, cmds, env);
 			waitpid(cmds->c_pid, &status, 0);
 			cmds->exit_status = status;
 		}

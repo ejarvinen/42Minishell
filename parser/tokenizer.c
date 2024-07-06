@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 09:02:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:08:45 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	closing_quote(char const *str, int *index, int quote)
 		(*index)++;
 	if (str[*index + 1] == '\0' && str[*index] != quote)
 		return (-1);
-	else if (str[*index] == quote && (str[*index + 1] == '\0' || str[*index + 1] == 32 || str[*index + 1] == 9))
+	else if (str[*index] == quote && (str[*index + 1] == '\0'
+			|| str[*index + 1] == 32 || str[*index + 1] == 9))
 		return (1);
 	else
 		return (0);
@@ -45,7 +46,7 @@ tab or one type of quote as long as there's a matching quote found in the string
 static int	find_token(char *str)
 {
 	int	index;
-	
+
 	index = 0;
 	if (str[index] == 39)
 		find_closing_quote(str, &index, 39);
@@ -77,8 +78,8 @@ tokenizes string str, returns the next token in str when called with NULL
 char	*ft_strtok(char *str)
 {
 	static char	*leftovers;
-	char	*new;
-	int	index;
+	char		*new;
+	int			index;
 
 	if (!str || !*str)
 	{

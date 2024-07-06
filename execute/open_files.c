@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 11:31:21 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:56:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ static void	open_outfiles(t_cmds *cmd)
 	else
 	{
 		if (cmd->append == 1)
-			cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			cmd->fd_outfile = open(cmd->outfile_name,
+					O_WRONLY | O_CREAT | O_APPEND, 0666);
 		else
-			cmd->fd_outfile = open(cmd->outfile_name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			cmd->fd_outfile = open(cmd->outfile_name,
+					O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (cmd->fd_outfile < 0)
 		{
 			ft_putstr_fd("minishell: ", 2);
@@ -54,6 +56,9 @@ static void	open_infile(t_cmds *cmd)
 	}
 }
 
+/*
+closes any infiles and outfiles that might be open for each command
+*/
 void	close_files(t_cmds **cmds)
 {
 	t_cmds	*cmd;
@@ -69,6 +74,9 @@ void	close_files(t_cmds **cmds)
 	}
 }
 
+/*
+opens any infiles and outfiles specified for each command
+*/
 void	open_files(t_cmds **cmds)
 {
 	t_cmds	*cmd;

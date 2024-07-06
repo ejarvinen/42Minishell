@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 09:35:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:51:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+adds the reading and writing ends of a pipe to array of pipe filedescriptors
+*/
 static void	add_pipefds(int *pipefds, int *index, int rd_end, int w_end)
 {
 	pipefds[*index] = rd_end;
@@ -20,7 +23,11 @@ static void	add_pipefds(int *pipefds, int *index, int rd_end, int w_end)
 	(*index)++;
 }
 
-static int *setup_pipes(t_cmds *cmds)
+/*
+mallocs an array of ints for a set of two pipes; if pipeline has only
+two commands, the second pipeline is not opened, but marked as -1
+*/
+static int	*setup_pipes(t_cmds *cmds)
 {
 	int	*pipefds;
 	int	fds[2];
@@ -49,6 +56,10 @@ static int *setup_pipes(t_cmds *cmds)
 	return (pipefds);
 }
 
+/*
+forks a child process, executes it and closes pipes if running the last command
+in the pipeline
+*/
 static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 {
 	cmd->c_pid = fork();
@@ -67,6 +78,10 @@ static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 	}
 }
 
+/*
+waits each command in a pipeline to finish execution, saves it's exit code
+and closes any open files and pipes if necessary
+*/
 static void	wait_for_children(t_cmds *cmds, int *pipefds)
 {
 	t_cmds	*cmd;
@@ -93,6 +108,10 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 	}
 }
 
+/*
+runs a pipeline by setting up pipes, forks child processes for the
+commands and then waits for the children to execute
+*/
 void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 {
 	t_cmds	*cmd;
@@ -104,7 +123,7 @@ void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 	cmd = cmds;
 	while (cmd)
 	{
-		child_process(shell, cmd, env, pipefds); // this may need to be changed to int
+		child_process(shell, cmd, env, pipefds);
 		cmd = cmd->next;
 	}
 	wait_for_children(cmds, pipefds);

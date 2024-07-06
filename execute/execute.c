@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/05 13:42:13 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 11:54:18 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+sets up pipes for command that's id is an even number
+*/
 static int	even_id_cmds(t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[WRITE_END + 2]);
@@ -35,6 +38,9 @@ static int	even_id_cmds(t_cmds *cmd, int *pipefds)
 	return (0);
 }
 
+/*
+sets up pipes for command that's id is an odd number
+*/
 static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 {
 	close(pipefds[WRITE_END]);
@@ -58,6 +64,10 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 	return (0);
 }
 
+/*
+if the command to be executed is not the first or the last command
+in a pipeline, sets up pipes according to even and odd numbered ids
+*/
 static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds)
 {
 	if (cmd->id % 2 == 0)
@@ -72,6 +82,10 @@ static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds)
 	}
 }
 
+/*
+sets up pipes and redirections according to command type and runs
+a builtin or execve accordingly
+*/
 void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 {
 	if (cmd->id == 0)

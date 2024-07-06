@@ -6,25 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/17 07:10:19 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:46:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_array(char **array)
-{
-	int	index;
-
-	index = 0;
-	while (array[index])
-	{
-		free(array[index]);
-		index++;
-	}
-	free(array);
-}
-
+/*
+adds a new node to list of cmds
+*/
 t_cmds	*ft_lstnew_pars(int index)
 {
 	t_cmds	*new_node;
@@ -117,7 +107,7 @@ void	ft_lstclear_pars(t_cmds **lst)
 	{
 		*lst = (*lst)->next;
 		if (node->command)
-			free_array(node->command);
+			ft_freearray(node->command);
 		if (node->path)
 			free(node->path);
 		if (node->infile_name)

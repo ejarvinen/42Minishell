@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 10:22:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/06/10 10:36:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:17:41 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+returns an empty 2D array
+*/
 static char	**null_arr(void)
 {
 	char	**ptr;
@@ -23,6 +26,9 @@ static char	**null_arr(void)
 	return (ptr);
 }
 
+/*
+frees nbr_of_subs substrings in str
+*/
 static char	**free_substrs(char **str, int nbr_of_subs)
 {
 	while (nbr_of_subs >= 0)
@@ -34,6 +40,9 @@ static char	**free_substrs(char **str, int nbr_of_subs)
 	return (NULL);
 }
 
+/*
+splits string s into 2D array of substrings by delimiter string c
+*/
 static char	**split_str(char **ptr, char const *s, char *c, int substrs)
 {
 	size_t	index;
@@ -63,6 +72,9 @@ static char	**split_str(char **ptr, char const *s, char *c, int substrs)
 	return (ptr);
 }
 
+/*
+counts words matching string c in string s
+*/
 static int	word_count(char const *s, size_t slen, char *c)
 {
 	size_t	index;
@@ -72,7 +84,8 @@ static int	word_count(char const *s, size_t slen, char *c)
 	substrs = 0;
 	while (index < slen)
 	{
-		if (ft_strncmp((s + index), c, 2) != 0 && (s[index + 1] == '\0' || ft_strncmp((s + index + 1), c, 2) == 0))
+		if (ft_strncmp((s + index), c, 2) != 0
+			&& (s[index + 1] == '\0' || ft_strncmp((s + index + 1), c, 2) == 0))
 		{	
 			substrs++;
 			index++;
@@ -82,6 +95,9 @@ static int	word_count(char const *s, size_t slen, char *c)
 	return (substrs);
 }
 
+/*
+splits string s to substrings by string c
+*/
 char	**ft_splitstr(char const *s, char *c)
 {
 	char	**ptr;
