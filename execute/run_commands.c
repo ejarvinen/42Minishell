@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 07:55:55 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:49:24 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,29 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 	if (cmd->c_pid == 0)
 	{
 		if (duplicate_fds(cmd) > 0)
-		{
-			ft_freearray(env);
-			panic(shell, NULL, 9);
-		}
+			panic(shell, NULL, env, 9);
 		if (execve(cmd->path, cmd->command, env) == -1)
 		{
 			perror("minishell");
-			ft_freearray(env);
-			panic(shell, NULL, 126);
+			panic(shell, NULL, env, 126);
 		}
+	}
+}
+
+static void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmds)
+{
+	int		status;
+	
+	if (cmds->builtin == 1)
+	{
+		ft_freearray(env);
+		check_builtin(shell, cmds);
+	}
+	else
+	{
+		run_single(shell, cmds, env);
+		waitpid(cmds->c_pid, &status, 0);
+		cmds->exit_status = status;
 	}
 }
 
@@ -98,7 +111,6 @@ or a pipeline
 void	run_commands(t_mini *shell)
 {
 	t_cmds	*cmds;
-	int		status;
 	char	**env;
 
 	cmds = shell->cmds;
@@ -107,15 +119,9 @@ void	run_commands(t_mini *shell)
 		return ;
 	if (cmds->commands == 1)
 	{
-		if (cmds->builtin == 1)
-			check_builtin(shell, cmds);
-		else
-		{
-			run_single(shell, cmds, env);
-			waitpid(cmds->c_pid, &status, 0);
-			cmds->exit_status = status;
-		}
-		ft_freearray(env);
+		run_a_single_cmd(shell, env, cmds);
+		if (cmds->builtin != 1)
+			ft_freearray(env);
 		return ;
 	}
 	run_multiple(shell, env, cmds);

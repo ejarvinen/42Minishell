@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 07:20:41 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:32:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_string(char *key, char *value)
 	j = 0;
 	new = (char *)malloc(sizeof(char) * (i + ft_strlen(value) + 2));
 	if (!new)
-		exit (1);
+		return (NULL);
 	i = 0;
 	while (key[i] != '\0')
 	{
@@ -67,7 +67,7 @@ char	**ltoa(t_env *env)
 	len = ltoa_lstsize(env);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
-		exit (1);
+		return (NULL);
 	temp = env;
 	i = 0;
 	while (temp != NULL)
@@ -75,6 +75,11 @@ char	**ltoa(t_env *env)
 		if (temp->value != NULL)
 		{
 			ret[i] = get_string(temp->key, temp->value);
+			if (!ret[i])
+			{
+				ft_freearray(ret);
+				return (NULL);
+			}
 			i++;
 		}
 		temp = temp->next;

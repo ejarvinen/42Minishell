@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 07:20:25 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:03:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ void	ft_freearray(char **array)
 	free(array);
 }
 
-void	panic(t_mini *shell, int *pipefds, int error_code)
+void	panic(t_mini *shell, int *pipefds, char **envs, int error_code)
 {
 	if (pipefds)
 	{
 		close_pipes(pipefds);
 		free(pipefds);
 	}
+	if (envs)
+		ft_freearray(envs);
 	free_data(shell, NULL);
 	exit(error_code);
 }

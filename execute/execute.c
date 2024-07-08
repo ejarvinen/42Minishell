@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 11:54:18 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:37:15 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 if the command to be executed is not the first or the last command
 in a pipeline, sets up pipes according to even and odd numbered ids
 */
-static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds)
+static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 {
 	if (cmd->id % 2 == 0)
 	{
 		if (even_id_cmds(cmd, pipefds) > 0)
-			panic(shell, pipefds, 9);
+			panic(shell, pipefds, env, 9);
 	}
 	else
 	{
 		if (odd_id_cmds(cmd, pipefds) > 0)
-			panic(shell, pipefds, 9);
+			panic(shell, pipefds, env, 9);
 	}
 }
 
@@ -89,16 +89,19 @@ a builtin or execve accordingly
 void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 {
 	if (cmd->id == 0)
-		first_command(shell, cmd, pipefds);
+		first_command(shell, cmd, pipefds, env);
 	else if (cmd->id == cmd->commands - 1)
-		last_command(shell, cmd, pipefds);
+		last_command(shell, cmd, pipefds, env);
 	else
-		set_pipes(shell, cmd, pipefds);
+		set_pipes(shell, cmd, pipefds, env);
 	if (cmd->builtin == 1)
+	{
+		ft_freearray(env);
 		check_builtin(shell, cmd);
+	}
 	else
 	{
 		if (execve(cmd->path, cmd->command, env) == -1)
-			panic(shell, pipefds, 126);
+			panic(shell, pipefds, env, 126);
 	}
 }

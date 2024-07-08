@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 11:45:29 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 08:09:42 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	close_pipes(int *pipefds)
 /*
 sets up file descriptors and redirections for the first command in a pipeline
 */
-void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
+void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 {
 	close(pipefds[READ_END]);
 	if (cmd->fd_infile != 0)
@@ -39,7 +39,7 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 		{
 			perror("minishell2");
-			panic(shell, pipefds, 9);
+			panic(shell, pipefds, env, 9);
 		}
 		close(cmd->fd_infile);
 	}
@@ -50,7 +50,7 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds)
 	if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
 	{
 		perror("minishell3");
-		panic(shell, pipefds, 9);
+		panic(shell, pipefds, env, 9);
 	}
 	close(cmd->fd_outfile);
 	if (cmd->commands > 2)
@@ -124,16 +124,16 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 /*
 sets up filedescritors and redirections for the last command in a pipeline
 */
-void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds)
+void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 {
 	if (cmd->commands % 2 == 0)
 	{
 		if (even_commands(cmd, pipefds) > 0)
-			panic(shell, pipefds, 9);
+			panic(shell, pipefds, env, 9);
 	}
 	else
 	{
 		if (odd_commands(cmd, pipefds) > 0)
-			panic(shell, pipefds, 9);
+			panic(shell, pipefds, env, 9);
 	}
 }
