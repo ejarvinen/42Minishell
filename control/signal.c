@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vibes.c                                            :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:07:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 10:56:44 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:58:21 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	set_signal(int mode)
 		signal(SIGINT, child_sig_c);
 		signal(SIGQUIT, child_sig_slash);
 	}
-	if (mode == 1)
+	if (mode == 2)
 	{
 		signal(SIGINT, heredoc_c);
 		signal(SIGQUIT, SIG_IGN);
