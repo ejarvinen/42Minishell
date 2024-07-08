@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 08:10:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:42:20 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 # include <signal.h>
-# include <termios.h>
+//# include <termios.h>
 # include <fcntl.h>
 
-extern int	g23_sig;
+extern int	g_sig;
 
 # define READ_END 0
 # define WRITE_END 1

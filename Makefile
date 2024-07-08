@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/08 07:20:09 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/08 10:57:03 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

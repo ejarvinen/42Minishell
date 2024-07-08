@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 07:35:21 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:43:51 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g23_sig;
+int g_sig;
 
 static int	main_loop(t_mini *shell)
 {
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp)
 	static t_mini	shell;
 
 	(void)argv;
-	g23_sig = 0;
+	g_sig = 0;
 	if (argc != 1)
 	{
 		printf("Run minishell using only <./minishell>\n");
