@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:08:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 13:10:10 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:19:24 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ checks for even number of quotes in token according to first type of quote found
 int	quote_check(char *token)
 {
 	int	quotes;
-	
+
 	quotes = 0;
 	if (token[0] == 39 || token[0] == 34)
 	{

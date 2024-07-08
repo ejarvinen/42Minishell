@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 17:03:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:24:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	syntax_check(t_toks *token, t_cmds **cmds)
 {
 	if (token == NULL)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		ft_lstclear_pars(cmds);
 		return (1);
 	}
