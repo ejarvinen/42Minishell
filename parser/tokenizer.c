@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 17:08:45 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:44:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,35 @@ static int	find_token(char *str)
 }
 
 /*
+finds the next token in leftovers and returns it, sets letfovers to point to
+after the just found token
+*/
+static char	*empty_leftovers(char **leftovers)
+{
+	char	*lunchbox;
+	char		*new;
+	int			index;
+
+	lunchbox = *leftovers;
+	index = find_token(lunchbox);
+	if (lunchbox[index + 1] == '\0')
+	{
+		new = *leftovers;
+		*leftovers = lunchbox + index + 1;
+		return (new);
+	}
+	lunchbox[index + 1] = '\0';
+	new = lunchbox;
+	*leftovers = lunchbox + index + 2;
+	return (new);
+}
+
+/*
 tokenizes string str, returns the next token in str when called with NULL
 */
 char	*ft_strtok(char *str)
 {
 	static char	*leftovers;
-	char		*new;
 	int			index;
 
 	if (!str || !*str)
@@ -88,17 +111,7 @@ char	*ft_strtok(char *str)
 			leftovers = NULL;
 			return (NULL);
 		}
-		index = find_token(leftovers);
-		if (leftovers[index + 1] == '\0')
-		{
-			new = leftovers;
-			leftovers = leftovers + index + 1;
-			return (new);
-		}
-		leftovers[index + 1] = '\0';
-		new = leftovers;
-		leftovers = leftovers + index + 2;
-		return (new);
+		return (empty_leftovers(&leftovers));
 	}
 	index = find_token(str);
 	if (str[index + 1] == '\0')
