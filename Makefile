@@ -6,19 +6,19 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/06 17:10:07 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/08 07:20:09 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main.c \
-		add_env.c \
-		panic_pt1.c \
-		signal.c \
-		ltoa.c \
-		set_data.c \
-		print_cmd_info.c \
+		control/add_env.c \
+		control/panic_pt1.c \
+		control/signal.c \
+		control/ltoa.c \
+		control/set_data.c \
+		control/print_cmd_info.c \
 		builtin/export_index.c \
 		builtin/export.c \
 		builtin/update_env.c \

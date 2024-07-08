@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 12:03:08 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 07:55:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,14 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 	if (cmd->c_pid == 0)
 	{
 		if (duplicate_fds(cmd) > 0)
-			return ;
+		{
+			ft_freearray(env);
+			panic(shell, NULL, 9);
+		}
 		if (execve(cmd->path, cmd->command, env) == -1)
 		{
 			perror("minishell");
+			ft_freearray(env);
 			panic(shell, NULL, 126);
 		}
 	}
@@ -111,7 +115,9 @@ void	run_commands(t_mini *shell)
 			waitpid(cmds->c_pid, &status, 0);
 			cmds->exit_status = status;
 		}
+		ft_freearray(env);
 		return ;
 	}
 	run_multiple(shell, env, cmds);
+	ft_freearray(env);
 }
