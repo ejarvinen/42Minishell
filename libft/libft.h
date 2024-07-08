@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 11:46:08 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/07 13:42:56 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:31:16 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 50
+# endif
 
 typedef struct s_list
 {
@@ -57,6 +61,11 @@ void	ft_putnbr_fd(int n, int fd);
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
 int		ft_strcmp(char *s1, char *s2);
+
+/*GET_NEXT_LINE*/
+
+char	*get_next_line(int fd);
+int		newline_finder(char *buff, int size);
 
 /*BONUS FUNCTIONS*/
 

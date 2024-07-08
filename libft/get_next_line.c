@@ -6,11 +6,11 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 06:53:44 by emansoor          #+#    #+#             */
-/*   Updated: 2024/01/11 08:00:33 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:32:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static void	*trim_line(char *from, char *to)
 {

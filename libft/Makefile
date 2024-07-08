@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 11:36:21 by sataskin          #+#    #+#              #
-#    Updated: 2024/06/07 13:44:53 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/08 13:32:23 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SOURCE = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 		ft_memchr.c ft_memcmp.c ft_strncmp.c ft_atoi.c ft_strnstr.c\
 		ft_strlcat.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c\
 		ft_strtrim.c ft_striteri.c ft_strmapi.c ft_putchar_fd.c ft_putstr_fd.c\
-		ft_putendl_fd.c ft_putnbr_fd.c ft_itoa.c ft_split.c ft_strcmp.c
+		ft_putendl_fd.c ft_putnbr_fd.c ft_itoa.c ft_split.c ft_strcmp.c \
+		get_next_line.c
 		
 OBJECT = $(SOURCE:.c=.o)
 
