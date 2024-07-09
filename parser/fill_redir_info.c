@@ -6,27 +6,27 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:30 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:27:04 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:17:59 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	get_index(char **file_array)
+int	get_index(char **array)
 {
 	int	index;
 	
 	index = 0;
-	if (!file_array)
+	if (!array)
 		return (index);
-	while (file_array[index])
+	while (array[index])
 	{
 		index++;
 	}
 	return (index);
 }
 
-static int	copy_filenames(char **to, char **from, char *new_file, int index)
+int	copy_filenames(char **to, char **from, char *new_file, int index)
 {
 	int	i;
 

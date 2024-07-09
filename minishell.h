@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 11:52:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:18:22 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void	build_list(t_toks **addition, char *content,
 char **new_tokens, char delim);
 void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote);
 int	end_quote_index(t_toks **token, t_env **envs, int *index);
+int	get_index(char **array);
+int	copy_filenames(char **to, char **from, char *new_file, int index);
 
 /*				INPUT VALIDATION				*/
 

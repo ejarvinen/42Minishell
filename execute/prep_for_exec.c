@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:53:19 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:28:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ void	prep_for_exec(t_mini *shell)
 	while (temp)
 	{
 		if (temp->heredoc != NULL)
+		{
 			heredoc(shell, temp);
+			if (temp->fd_infile == 0)
+			{
+				heredoc_to_file(temp);
+			}
+		}
 		temp = temp->next;
 	}
 	open_files(&shell->cmds);

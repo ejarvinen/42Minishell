@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:47:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:07:51 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,42 +67,6 @@ static int	open_outfile(t_cmds *cmd)
 }
 
 /*
-checks if infile exists
-*/
-/* static void	open_infile(t_cmds *cmd)
-{
-	int	index;
-	int error;
-	
-	if (cmd->infile_name == NULL)
-		cmd->fd_infile = 0;
-	else
-	{
-		index = 0;
-		error = 0;
-		while (cmd->infile_name[index])
-		{
-			if (ft_strcmp(cmd->infile_name[index], "heredoc") != 0)
-			{
-				cmd->fd_infile = open(cmd->infile_name[index], O_RDONLY, 0666);
-				if (cmd->fd_infile < 0 && error < 1)
-				{
-					ft_putstr_fd("minishell: ", 2);
-					perror(cmd->infile_name[index]);
-					error = 1;
-				}
-				if (cmd->infile_name[index + 1] == NULL)
-					break ;
-				close(cmd->fd_infile);
-			}
-			index++;
-		}
-		if (ft_strcmp(cmd->infile_name[index - 1], "heredoc") == 0)
-			cmd->fd_infile = 0;
-	}
-} */
-
-/*
 closes any infiles and outfiles that might be open for each command
 */
 void	close_files(t_cmds **cmds)
@@ -130,7 +94,6 @@ void	open_files(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
-		//open_infile(cmd);
 		if (open_outfile(cmd) > 0)
 		{
 			ft_lstclear_pars(cmds);
