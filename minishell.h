@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:34:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:38:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	**ft_splitstr(char const *s, char *c);
 int	validate_commands(t_cmds **cmds, t_env **envs);
 int	validate_command(char *command, char **paths);
 char	*full_path(char *path, char *command);
-void	fill_cmd_info(t_cmds **cmds, t_toks **tokens);
+void	fill_cmd_info(t_cmds **cmds, t_toks **tokens, int missing_cmd);
 void	fill_redir_info(t_cmds **cmds, t_toks **tokens);
 int	syntax_check(t_toks *token, t_cmds **cmds);
 int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token);
