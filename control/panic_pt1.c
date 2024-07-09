@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   panic_pt1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 08:03:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:17:19 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,15 @@ void	free_data(t_mini *shell, char *message)
 	}
 	if (message != NULL)
 		printf("%s", message);
+}
+
+void	free_and_exit(t_mini *shell, char *message)
+{
+	//if (shell->pipefds)
+	//{
+	//	close_pipes(pipefds);
+	//	free(pipefds);
+	//}
+	free_data(shell, message);
+	exit (1);
 }

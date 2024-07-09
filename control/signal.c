@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:07:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 10:58:21 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:58:08 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,40 @@
 
 void	par_sig_handler(int sig)
 {
-	g_sig = sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (sig)
+	{
+		g_sig = 130;
+		printf("\33[2K\r\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 static void	child_sig_c(int sig)
 {
-	g_sig = sig;
-	printf("^C\n");
+	if (sig)
+	{
+		g_sig = 130;
+		printf("^C\n");
+	}
 }
 
 static void	child_sig_slash(int sig)
 {
-	g_sig = sig;
-	printf("\33[2K\r%s\n", "Quit (core dumped)");
+	if (sig)
+	{
+		g_sig = 131;
+		printf("\33[2K\r%s\n", "Quit (core dumped)");
+	}
 }
 
 static void	heredoc_c(int sig)
 {
-	g_sig = sig;
-	printf("\n");
+	if (sig)
+	{
+		g_sig = 130;
+		printf("\n");
+	}
 }
 
 void	set_signal(int mode)

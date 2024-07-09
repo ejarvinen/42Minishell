@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 18:20:45 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:00:43 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ static void	go_home(t_mini *shell, t_env *env)
 			old = old->next;
 		set_pwd(shell, old, new);
 		reset_data(shell);
-		shell->EXIT_CODE = 0;
+		exit_code(shell, 0, 0);
 		return ;
 	}
 	else if (temp == NULL)
 		ft_putendl_fd("minishell: cd: HOME not set", 2);
 	else
 		perror("minishell: cd");
-	shell->EXIT_CODE = 1;
+	exit_code(shell, 1, 0);
 }
 
 static void	cd_path(char *path, t_mini *shell)
@@ -89,7 +89,7 @@ static void	cd_path(char *path, t_mini *shell)
 			old = old->next;
 		set_pwd(shell, old, new);
 		reset_data(shell);
-		shell->EXIT_CODE = 0;
+		exit_code(shell, 0, 0);
 	}
 	else
 		cd_error(shell, "TEST", path);
@@ -106,7 +106,7 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 	if (i > 2)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		shell->EXIT_CODE = 1;
+		exit_code(shell, 1, 0);
 	}
 	else if (cmd->command[1] == NULL)
 		go_home(shell, shell->env);

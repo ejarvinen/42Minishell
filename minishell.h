@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 10:42:20 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:19:55 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,5 +249,8 @@ void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds);
 void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	close_pipes(int *pipefds);
+
+void	exit_code(t_mini *shell, int code, int sig);
+void	write_exit(t_mini *shell);
 
 #endif

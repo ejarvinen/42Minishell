@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:29:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/04 13:16:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:19:15 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,17 @@ void	ft_realunset(t_env **env, char *str)
 	t_env	*unset;
 	t_env	*prev;
 	t_env	*next;
-
+	
 	unset = *env;
+	if (unset->next == NULL)
+	{
+		if (unset->value != NULL)
+			free(unset->value);
+		free(unset->key);
+		*env = NULL;
+		return ;
+	}
+	
 	while (ft_strcmp(unset->next->key, str) != 0)
 		unset = unset->next;
 	prev = unset;
@@ -78,7 +87,6 @@ void	ft_unset(t_mini *shell, t_cmds *cmd)
 		{
 			if (ft_strcmp(temp->key, cmd->command[i]) == 0)
 			{
-				printf("found key\n");
 				ft_realunset(&shell->env, cmd->command[i]);
 				break ;
 			}
