@@ -3,38 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:22:12 by sataskin          #+#    #+#             */
-/*   Updated: 2023/11/08 12:51:33 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:29:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static char	*create_substr(char *substr, char const *s,
+		unsigned int start, size_t len)
+{
+	size_t	index;
+	size_t	slen;
+
+	index = 0;
+	slen = ft_strlen(s);
+	while (index < len && start + index < slen)
+	{
+		substr[index] = s[start + index];
+		index++;
+	}
+	substr[index] = '\0';
+	return (substr);
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*str;
-	unsigned int	index;
+	char	*substr;
+	size_t	slen;
 
-	if (ft_strlen(s) < start)
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	if (s[0] == '\0')
-		len = 0;
-	str = (char *)malloc((len + 1) * sizeof(char));
-	index = 0;
-	if (!str)
-		return (0);
-	if (start >= ft_strlen(s) && len > 0)
-		return (ft_bzero(str, len));
-	while (index < len && s[start] != '\0')
+	if (s)
 	{
-		str[index] = s[start];
-		index++;
-		start++;
+		slen = ft_strlen(s);
+		if (len > (slen - start))
+			len = slen - start;
+		if (start >= MAX_ULONG || slen <= start || len == 0)
+			return (ft_strdup(""));
+		else if (slen >= (start + len))
+			substr = (char *)malloc(len * sizeof(char) + 1);
+		else
+			substr = (char *)malloc((slen - start) * sizeof(char) + 1);
+		if (!substr)
+			return (NULL);
+		return (create_substr(substr, s, start, len));
 	}
-	str[index] = '\0';
-	return (str);
+	return (NULL);
 }
+

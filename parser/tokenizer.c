@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 11:44:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:49:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,31 @@ tab or one type of quote as long as there's a matching quote found in the string
 */
 static int	find_token(char *str)
 {
-	int	index;
+	int	i;
 
-	index = 0;
-	if (str[index] == 39)
-		find_closing_quote(str, &index, 39);
-	else if (str[index] == 34)
-		find_closing_quote(str, &index, 34);
+	i = 0;
+	if (str[i] == 39)
+		find_closing_quote(str, &i, 39);
+	else if (str[i] == 34)
+		find_closing_quote(str, &i, 34);
 	else
 	{
-		while (str[index + 1] != 32 && str[index + 1] != 9 && str[index + 1] != 0)
+		while (str[i + 1] != 32 && str[i + 1] != 9 && str[i + 1] != 0)
 		{
-			if (str[index] == 39)
+			if (str[i] == 39)
 			{
-				find_closing_quote(str, &index, 39);
-				return (index);
+				find_closing_quote(str, &i, 39);
+				return (i);
 			}
-			else if (str[index] == 34)
+			else if (str[i] == 34)
 			{
-				find_closing_quote(str, &index, 34);
-				return (index);
+				find_closing_quote(str, &i, 34);
+				return (i);
 			}
-			index++;
+			i++;
 		}
 	}
-	return (index);
+	return (i);
 }
 
 /*
@@ -79,8 +79,8 @@ after the just found token
 static char	*empty_leftovers(char **leftovers)
 {
 	char	*lunchbox;
-	char		*new;
-	int			index;
+	char	*new;
+	int		index;
 
 	lunchbox = *leftovers;
 	index = find_token(lunchbox);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:19:55 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:34:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_cmds
 {
     char            **command;
     char            *path;
-    char			*infile_name;
-    char			*outfile_name;
+    char			**infile_name;
+    char			**outfile_name;
     char			*heredoc;
     int                c_pid;
     int                fd_infile;

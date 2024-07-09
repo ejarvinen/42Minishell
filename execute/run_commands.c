@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 08:49:24 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:36:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 static void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmds)
 {
 	int		status;
-	
+
 	if (cmds->builtin == 1)
 	{
 		ft_freearray(env);

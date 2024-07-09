@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:46:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 06:45:16 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ void	ft_lstclear_pars(t_cmds **lst)
 		if (node->path)
 			free(node->path);
 		if (node->infile_name)
-			free(node->infile_name);
+			ft_freearray(node->infile_name);
 		if (node->outfile_name)
-			free(node->outfile_name);
+			ft_freearray(node->outfile_name);
 		if (node->heredoc)
 			free(node->heredoc);
 		free(node);

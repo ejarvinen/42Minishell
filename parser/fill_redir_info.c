@@ -6,27 +6,91 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:30 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 14:14:53 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 06:44:00 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	get_index(char **file_array)
+{
+	int	index;
+	
+	index = 0;
+	if (!file_array)
+		return (index);
+	while (file_array[index])
+	{
+		index++;
+	}
+	return (index);
+}
+
+static int	copy_filenames(char **to, char **from, char *new_file, int index)
+{
+	int	i;
+
+	i = 0;
+	if (from != NULL)
+	{
+		while (i < index)
+		{
+			to[i] = ft_strdup(from[i]);
+			if (!to[i])
+				return (1);
+			i++;
+		}
+	}
+	to[i] = ft_strdup(new_file);
+	if (!to[i])
+		return (1);
+	to[i + 1] = NULL;
+	return (0);
+}
 
 /*
 strdups infile name and saves it to cmd; adds corresponding append info
 */
 static t_toks	*add_infile_info(t_cmds **cmds, t_cmds *cmd, t_toks *token)
 {
+	char	**freeable;
+	int	index;
+	
 	token = token->next;
 	if (syntax_check(token, cmds) > 0)
 		return (NULL);
-	cmd->infile_name = ft_strdup(token->content);
-	if (!cmd->infile_name)
+	if (cmd->infile_name == NULL)
 	{
-		ft_lstclear_pars(cmds);
-		return (NULL);
+		cmd->infile_name = (char **)malloc(sizeof(char *) * 2);
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->infile_name, NULL, token->content, 0) > 0)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
 	}
-	cmd->append = 0;
+	else
+	{
+		index = get_index(cmd->infile_name);
+		freeable = cmd->infile_name;
+		cmd->infile_name = (char **)malloc(sizeof(char *) * (index + 2));
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->infile_name, freeable, token->content, index) > 0)
+		{
+			ft_freearray(freeable);
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		ft_freearray(freeable);
+	}
 	return (token);
 }
 
@@ -37,14 +101,43 @@ info according to given flag
 static t_toks	*add_outfile_info(t_cmds **cmds, t_cmds *cmd,
 	t_toks *token, int append_flag)
 {
+	char	**freeable;
+	int	index;
+	
 	token = token->next;
 	if (syntax_check(token, cmds) > 0)
 		return (NULL);
-	cmd->outfile_name = ft_strdup(token->content);
-	if (!cmd->outfile_name)
+	if (cmd->outfile_name == NULL)
 	{
-		ft_lstclear_pars(cmds);
-		return (NULL);
+		cmd->outfile_name = (char **)malloc(sizeof(char *) * 2);
+		if (!cmd->outfile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->outfile_name, NULL, token->content, 0) > 0)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+	}
+	else
+	{
+		index = get_index(cmd->outfile_name);
+		freeable = cmd->outfile_name;
+		cmd->outfile_name = (char **)malloc(sizeof(char *) * (index + 2));
+		if (!cmd->outfile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->outfile_name, freeable, token->content, index) > 0)
+		{
+			ft_freearray(freeable);
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		ft_freearray(freeable);
 	}
 	cmd->append = append_flag;
 	return (token);
@@ -55,16 +148,50 @@ strdups a heredoc delimiter and saves it to cmd; adds corresponding append info
 */
 static t_toks	*add_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token)
 {
+	char	**freeable;
+	int	index;
+	
 	token = token->next;
 	if (syntax_check(token, cmds) > 0)
 		return (NULL);
+	if (cmd->infile_name == NULL)
+	{
+		cmd->infile_name = (char **)malloc(sizeof(char *) * 2);
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->infile_name, NULL, "heredoc", 0) > 0)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+	}
+	else
+	{
+		index = get_index(cmd->infile_name);
+		freeable = cmd->infile_name;
+		cmd->infile_name = (char **)malloc(sizeof(char *) * (index + 2));
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		if (copy_filenames(cmd->infile_name, freeable, "heredoc", index) > 0)
+		{
+			ft_freearray(freeable);
+			ft_lstclear_pars(cmds);
+			return (NULL);
+		}
+		ft_freearray(freeable);
+	}
 	cmd->heredoc = ft_strdup(token->content);
 	if (!cmd->heredoc)
 	{
 		ft_lstclear_pars(cmds);
 		return (NULL);
 	}
-	cmd->append = 0;
 	return (token);
 }
 

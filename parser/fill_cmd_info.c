@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:00:21 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:45:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:44:33 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void	add_cmd_info(t_cmds *cmd, t_toks **tokens,
 creates a 2D char array containing command and it's possible arguments
 in the current pipeline and adds it to the command list
 */
-void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
+void	fill_cmd_info(t_cmds **cmds, t_toks **tokens, int missing_cmd)
 {
 	t_toks	*token;
 	t_cmds	*cmd;
@@ -120,6 +120,11 @@ void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 
 	token = *tokens;
 	cmd = *cmds;
+	if (missing_cmd)
+	{
+		cmd->command = NULL;
+		return ;
+	}
 	while (token)
 	{
 		if (token->command == 1 && struct_sum(token) == 1)

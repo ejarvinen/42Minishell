@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:47:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:28:49 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,15 @@ int	parser(char *rl, t_mini *shell)
 	ft_lstclear_toks(&tokens);
 	if (!shell->cmds)
 		return (1);
-	add_builtin_info(&shell->cmds);
+	if (shell->cmds->command == NULL)
+	{
+		shell->cmds->builtin = 0;
+		shell->cmds->valid = -1;
+	}
+	else
+		add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
+	if (shell->cmds->command == NULL)
+		return (0);
 	return (validate_commands(&shell->cmds, &shell->env));
 }

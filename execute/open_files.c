@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 11:56:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:24:58 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,44 @@
 checks for an empty file and saves its fd into first command, opens outfile
 and saves its fd into last command in cmds
 */
-static void	open_outfiles(t_cmds *cmd)
+static void	open_outfile(t_cmds *cmd)
 {
+	int	index;
+	int	error;
+	
 	if (cmd->outfile_name == NULL)
 		cmd->fd_outfile = 1;
 	else if (cmd->fd_infile == -1)
 		cmd->fd_outfile = -1;
 	else
 	{
-		if (cmd->append == 1)
-			cmd->fd_outfile = open(cmd->outfile_name,
-					O_WRONLY | O_CREAT | O_APPEND, 0666);
-		else
-			cmd->fd_outfile = open(cmd->outfile_name,
-					O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (cmd->fd_outfile < 0)
+		index = 0;
+		error = 0;
+		while (cmd->outfile_name[index])
 		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(cmd->outfile_name);
+			cmd->fd_outfile = open(cmd->outfile_name[index], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			if (cmd->fd_outfile < 0 && error < 1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				perror(cmd->outfile_name[index]);
+				error = 1;
+			}
+			if (cmd->outfile_name[index + 1] == NULL)
+			{
+				if (cmd->append)
+				{
+					close(cmd->fd_outfile);
+					cmd->fd_outfile = open(cmd->outfile_name[index], O_WRONLY | O_CREAT | O_APPEND, 0666);
+					if (cmd->fd_outfile < 0 && error < 1)
+					{
+						ft_putstr_fd("minishell: ", 2);
+						perror(cmd->outfile_name[index]);
+					}
+				}
+				break ;
+			}
+			close(cmd->fd_outfile);
+			index++;
 		}
 	}
 }
@@ -43,16 +63,34 @@ checks if infile exists
 */
 static void	open_infile(t_cmds *cmd)
 {
+	int	index;
+	int error;
+	
 	if (cmd->infile_name == NULL)
 		cmd->fd_infile = 0;
 	else
 	{
-		cmd->fd_infile = open(cmd->infile_name, O_RDONLY, 0666);
-		if (cmd->fd_infile < 0)
+		index = 0;
+		error = 0;
+		while (cmd->infile_name[index])
 		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(cmd->infile_name);
+			if (ft_strcmp(cmd->infile_name[index], "heredoc") != 0)
+			{
+				cmd->fd_infile = open(cmd->infile_name[index], O_RDONLY, 0666);
+				if (cmd->fd_infile < 0 && error < 1)
+				{
+					ft_putstr_fd("minishell: ", 2);
+					perror(cmd->infile_name[index]);
+					error = 1;
+				}
+				if (cmd->infile_name[index + 1] == NULL)
+					break ;
+				close(cmd->fd_infile);
+			}
+			index++;
 		}
+		if (ft_strcmp(cmd->infile_name[index - 1], "heredoc") == 0)
+			cmd->fd_infile = 0;
 	}
 }
 
@@ -85,7 +123,7 @@ void	open_files(t_cmds **cmds)
 	while (cmd)
 	{
 		open_infile(cmd);
-		open_outfiles(cmd);
+		open_outfile(cmd);
 		cmd = cmd->next;
 	}
 }
