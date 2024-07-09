@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_for_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:36:38 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:53:19 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	prep_for_exec(t_mini *shell)
 		temp = temp->next;
 	}
 	open_files(&shell->cmds);
+	if (!shell->cmds)
+		return ;
 	print_cmd_info(&shell->cmds);
 	if (shell->cmds->command != NULL)
 	{

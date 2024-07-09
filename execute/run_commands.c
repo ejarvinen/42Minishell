@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 13:36:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:33:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ static int	duplicate_fds(t_cmds *cmd)
 		}
 		close(cmd->fd_infile);
 	}
-	if (cmd->fd_outfile != 1)
+	if (cmd->fd_outfile[0] != 1)
 	{
-		if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+		if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 		{
 			perror("minishell");
 			return (1);
 		}
-		close(cmd->fd_outfile);
+		close(cmd->fd_outfile[0]);
 	}
 	return (0);
 }

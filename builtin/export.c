@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:23:59 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:23:05 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ void	export(t_mini *shell, t_cmds *cmd)
 	int	i;
 	
 	i = 1;
-	if (cmd->fd_outfile < 0)
+	//if (cmd->fd_outfile < 0)
+	if (cmd->fd_outfile[0] < 0)
 	{
 		if (cmd->c_pid == -1)
 			return ;
@@ -148,7 +149,8 @@ void	export(t_mini *shell, t_cmds *cmd)
 			if (cmd->fd_outfile == 0)
 				print_export(shell->env);
 			else
-				print_to_file(shell->env, cmd->fd_outfile);
+				print_to_file(shell->env, cmd->fd_outfile[0]);
+				//print_to_file(shell->env, cmd->fd_outfile);
 		}
 	}
 	else if (cmd->command[i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 06:45:16 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:57:03 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmds	*ft_lstnew_pars(int index)
 		new_node->outfile_name = NULL;
 		new_node->heredoc = NULL;
 		new_node->fd_infile = -1;
-		new_node->fd_outfile = -1;
+		new_node->fd_outfile = NULL;
 		new_node->id = index;
 		new_node->commands = -1;
 		new_node->builtin = -1;
@@ -111,9 +111,11 @@ void	ft_lstclear_pars(t_cmds **lst)
 		if (node->path)
 			free(node->path);
 		if (node->infile_name)
-			ft_freearray(node->infile_name);
+			free(node->infile_name);
 		if (node->outfile_name)
 			ft_freearray(node->outfile_name);
+		if (node->fd_outfile)
+			free(node->fd_outfile);
 		if (node->heredoc)
 			free(node->heredoc);
 		free(node);

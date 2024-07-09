@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:13:16 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 06:44:31 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:38:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,9 @@ void	print_cmd_info(t_cmds **cmds)
 		}
 		else
 			printf("path: NULL (builtin)\n");
+		printf("infile name: %s\n", node->infile_name);
 		index = 0;
-		printf("infile name: ");
-		if ((node->infile_name == NULL) || node->infile_name[index] == NULL)
-			printf("NULL\n");
-		else
-		{
-			while (node->infile_name[index])
-			{
-				printf("%s ", node->infile_name[index]);
-				index++;
-			}
-			printf("\n");
-		}
-		index = 0;
-		printf("outfile name: ");
+		printf("outfile name(s): ");
 		if ((node->outfile_name == NULL) || node->outfile_name[index] == NULL)
 			printf("NULL\n");
 		else
@@ -74,7 +62,7 @@ void	print_cmd_info(t_cmds **cmds)
 			printf("\n");
 		}
 		printf("infile fd: %d\n", node->fd_infile);
-		printf("outfile fd: %d\n", node->fd_outfile);
+		printf("outfile fd: %d\n", node->fd_outfile[0]);
 		printf("heredoc delimeter: %s\n", node->heredoc);
 		printf("append: %d\n", node->append);
 		printf("builtin: %d\n", node->builtin);

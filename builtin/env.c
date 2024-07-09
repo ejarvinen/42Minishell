@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:49:54 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/05 14:15:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:25:04 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ int	ft_env(t_mini *shell, t_cmds *cmd)
 	{
 		if (temp->equal == 1)
 		{
-			ft_putstr_fd(temp->key, cmd->fd_outfile);
-			ft_putstr_fd("=", cmd->fd_outfile);
+			//ft_putstr_fd(temp->key, cmd->fd_outfile);
+			ft_putstr_fd(temp->key, cmd->fd_outfile[0]);
+			//ft_putstr_fd("=", cmd->fd_outfile);
+			ft_putstr_fd("=", cmd->fd_outfile[0]);
 			if (temp->value != NULL)
-				ft_putstr_fd(temp->value, cmd->fd_outfile);
-			ft_putchar_fd('\n', cmd->fd_outfile);
+				ft_putstr_fd(temp->value, cmd->fd_outfile[0]);
+				//ft_putstr_fd(temp->value, cmd->fd_outfile);
+			//ft_putchar_fd('\n', cmd->fd_outfile);
+			ft_putchar_fd('\n', cmd->fd_outfile[0]);
 		}
 		temp = temp->next;
 	}

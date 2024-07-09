@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 08:37:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:34:42 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static int	even_id_cmds(t_cmds *cmd, int *pipefds)
 	}
 	close(cmd->fd_infile);
 	close(pipefds[READ_END]);
-	if (cmd->fd_outfile == 1)
-		cmd->fd_outfile = pipefds[WRITE_END];
-	if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+	if (cmd->fd_outfile[0] == 1)
+		cmd->fd_outfile[0] = pipefds[WRITE_END];
+	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
 		perror("minishell9");
 		return (1);
 	}
-	close(cmd->fd_outfile);
+	close(cmd->fd_outfile[0]);
 	return (0);
 }
 
@@ -53,14 +53,14 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 	}
 	close(cmd->fd_infile);
 	close(pipefds[READ_END + 2]);
-	if (cmd->fd_outfile == 1)
-		cmd->fd_outfile = pipefds[WRITE_END + 2];
-	if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+	if (cmd->fd_outfile[0] == 1)
+		cmd->fd_outfile[0] = pipefds[WRITE_END + 2];
+	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
 		perror("minishell11");
 		return (1);
 	}
-	close(cmd->fd_outfile);
+	close(cmd->fd_outfile[0]);
 	return (0);
 }
 

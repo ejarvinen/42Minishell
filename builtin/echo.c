@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 19:00:39 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:25:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void	echo_to_file(t_mini *shell, t_cmds *cmds)
 	
 	nl = check_newline(cmds->command);
 	i = nl;
-	fd = cmds->fd_outfile;
+	//fd = cmds->fd_outfile;
+	fd = cmds->fd_outfile[0];
 	while (cmds->command[i] != NULL)
 	{
 		if (nl == 1 && cmds->command[i + 1] == NULL)

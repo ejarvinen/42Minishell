@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:07:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 11:30:53 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:00:23 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	heredoc_c(int sig)
 	if (sig)
 	{
 		g_sig = 130;
-		printf("\n");
+		printf("\33[2K\r> \n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

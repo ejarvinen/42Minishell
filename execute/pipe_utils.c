@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 08:09:42 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:36:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 		}
 		close(cmd->fd_infile);
 	}
-	if (cmd->fd_outfile == 1)
-		cmd->fd_outfile = pipefds[WRITE_END];
+	if (cmd->fd_outfile[0] == 1)
+		cmd->fd_outfile[0] = pipefds[WRITE_END];
 	else
 		close(pipefds[WRITE_END]);
-	if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
 		perror("minishell3");
 		panic(shell, pipefds, env, 9);
 	}
-	close(cmd->fd_outfile);
+	close(cmd->fd_outfile[0]);
 	if (cmd->commands > 2)
 	{
 		close(pipefds[READ_END + 2]);
@@ -75,14 +75,14 @@ static int	even_commands(t_cmds *cmd, int *pipefds)
 		return (1);
 	}
 	close(cmd->fd_infile);
-	if (cmd->fd_outfile != 1)
+	if (cmd->fd_outfile[0] != 1)
 	{
-		if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+		if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 		{
 			perror("minishell5");
 			return (1);
 		}
-		close(cmd->fd_outfile);
+		close(cmd->fd_outfile[0]);
 	}
 	if (cmd->commands > 2)
 	{
@@ -107,14 +107,14 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 		return (1);
 	}
 	close(cmd->fd_infile);
-	if (cmd->fd_outfile != 1)
+	if (cmd->fd_outfile[0] != 1)
 	{
-		if (dup2(cmd->fd_outfile, STDOUT_FILENO) < 0)
+		if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 		{
 			perror("minishell7");
 			return (1);
 		}
-		close(cmd->fd_outfile);
+		close(cmd->fd_outfile[0]);
 	}
 	close(pipefds[READ_END]);
 	close(pipefds[WRITE_END]);

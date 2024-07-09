@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 11:51:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:33:41 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 			close(cmd->fd_infile);
 			cmd->fd_infile = -1;
 		}
-		if (cmd->id == cmd->commands - 1 && cmd->fd_outfile > 1)
+		if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
 		{
-			close(cmd->fd_outfile);
-			cmd->fd_outfile = -1;
+			close(cmd->fd_outfile[0]);
+			cmd->fd_outfile[0] = -1;
 		}
 		if (cmd->id == cmd->commands - 1)
 			close_pipes(pipefds);
