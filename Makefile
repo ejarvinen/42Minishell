@@ -6,7 +6,7 @@
 #    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/09 08:20:45 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/09 10:55:12 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS = main.c \
 		execute/execute.c \
 		execute/pipe_utils.c \
 		execute/run_multiple_cmds.c \
+		execute/heredoc.c
 
 OBJECTS = $(SRCS:.c=.o)
 

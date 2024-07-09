@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:38:53 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:56:01 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,5 +252,8 @@ void	close_pipes(int *pipefds);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	write_exit(t_mini *shell);
+void	free_and_exit(t_mini *shell, char *message);
+
+void	heredoc(t_mini *shell, t_cmds *cmd);
 
 #endif
