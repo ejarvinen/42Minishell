@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 12:07:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:13:06 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	open_files(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
+		if (cmd->infile_name == NULL)
+			cmd->fd_infile = 0;
 		if (open_outfile(cmd) > 0)
 		{
 			ft_lstclear_pars(cmds);

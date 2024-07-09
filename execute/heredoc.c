@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 11:34:55 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:43:28 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 		free(rl);
 	}
 	set_signal(1);
-	if (ft_strcmp(rl, comp) == 0 && cmd->heredoc == NULL)
+	if (rl && cmd->heredoc == NULL && ft_strcmp(rl, comp) == 0)
 	{
 		cmd->heredoc = ft_strdup("");
 		if (!cmd->heredoc)
@@ -71,6 +71,9 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 	if (rl)
 		free(rl);
 	else
+	{
+		ft_putstr_fd("minishell: heredoc interrupted by CTRL+D\n", 2);
 		free(cmd->heredoc);
+	}
 	free(comp);
 }

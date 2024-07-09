@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:30 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 12:17:59 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:28:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ int	copy_filenames(char **to, char **from, char *new_file, int index)
 		{
 			to[i] = ft_strdup(from[i]);
 			if (!to[i])
+			{
+				ft_putstr_fd("minishell: malloc fail", 2);
 				return (1);
+			}
 			i++;
 		}
 	}
 	to[i] = ft_strdup(new_file);
 	if (!to[i])
+	{
+		ft_putstr_fd("minishell: malloc fail", 2);
 		return (1);
+	}
 	to[i + 1] = NULL;
 	return (0);
 }
