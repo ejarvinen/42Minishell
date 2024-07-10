@@ -3,35 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:29:05 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 11:23:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:01:23 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* moro */
-
-/* void	pwd(t_mini *shell)
-{
-	if (shell->cmds->fd_outfile == 0)
-		printf("%s\n", shell->pwd);
-	else
-		ft_putendl_fd(shell->pwd, shell->cmds->fd_outfile);
-} */
-
 void	pwd(t_mini *shell, t_cmds *cmd)
 {
-	if (cmd->fd_outfile == 0)
-		printf("%s\n", shell->pwd);
-	else
-		ft_putendl_fd(shell->pwd, cmd->fd_outfile[0]);
-		//ft_putendl_fd(shell->pwd, cmd->fd_outfile);
+	printf("%s\n", shell->pwd);
 	if (cmd->c_pid != -1)
 	{
 		free_data(shell, NULL);
 		exit(0);
 	}
+	exit_code(shell, 0, 0);
 }
