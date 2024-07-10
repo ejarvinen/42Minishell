@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 18:31:27 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:43:38 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,10 +176,10 @@ void	nonexistent_cmd(t_cmds **cmds);
 /*				FOR CREATING ENV				*/
 
 void	ft_lstadd_back_mini(t_env **lst, t_env *new);
-char	*get_key(char *str);
-char	*get_value(char *envp);
-void	add_input(t_env *node, char *envp);
-t_env	*add_env(char **envp);
+char	*get_key(t_mini *shell, char *str);
+char	*get_value(t_mini *shell, char *envp);
+void	add_input(t_mini *shell, t_env *node, char *envp);
+t_env	*add_env(t_mini *shell, char **envp);
 
 /*				FOR PANIC						*/
 
@@ -197,14 +197,14 @@ void	rl_redisplay(void);
 
 /*				FOR EXPORT						*/
 
-void	print_export(t_env *env);
+void	print_export(t_mini *shell, t_env *env);
 void	export(t_mini *shell, t_cmds *cmd);
 int		lstsize(t_env *lst);
 t_env	*find_next(t_env *env);
 void	change_index(t_env **env);
 void	update_index(t_env **env);
-void	edit_env(t_env *node, char *str);
-void	new_env(t_env **env, char *str);
+void	edit_env(t_mini *shell, t_env *node, char *str);
+void	new_env(t_mini *shell, t_env **env, char *str);
 
 /*				FOR UNSET						*/
 
@@ -232,6 +232,8 @@ void	set_data(t_mini *shell, char **envp);
 /*				BUILTIN ERROR					*/
 
 void	cd_error(t_mini *shell, char *test, char *path);
+void	cd_more(t_mini *shell, char *message);
+void	childish(t_mini *shell);
 
 /*				BUILTIN	UTILS					*/
 

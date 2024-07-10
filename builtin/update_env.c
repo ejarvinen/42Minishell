@@ -6,13 +6,20 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:33:05 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/06 12:12:05 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:40:35 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	edit_env(t_env *node, char *str)
+static void	make_new(t_mini *shell, t_env *new, char *str)
+{
+	new->key = get_key(shell, str);
+	new->value = get_value(shell, str);
+	new->equal = 1;
+}
+
+void	edit_env(t_mini *shell, t_env *node, char *str)
 {
 	int	i;
 
@@ -24,31 +31,30 @@ void	edit_env(t_env *node, char *str)
 		return ;
 	if (node->value != NULL)
 		free(node->value);
-	node->value = get_value(str);
+	node->value = get_value(shell, str);
 }
 
-void	new_env(t_env **env, char *str)
+void	new_env(t_mini *shell, t_env **env, char *str)
 {
 	t_env	*new;
 	int		i;
 
 	i = 0;
 	new = malloc(sizeof(t_env));
-	//malloc check
+	if (!new)
+		free_and_exit(shell, "minishell: malloc fail\n");
 	while (str[i] != '\0' && str[i] != '=')
 		i++;
 	if (str[i] == '\0')
 	{
 		new->key = ft_strdup(str);
+		if (!new->key)
+			free_and_exit(shell, "minishell: malloc fail\n");
 		new->value = NULL;
 		new->equal = 0;
 	}
 	else
-	{
-		new->key = get_key(str);
-		new->value = get_value(str);
-		new->equal = 1;
-	}
+		make_new(shell, new, str);
 	new->index = -1;
 	new->next = NULL;
 	ft_lstadd_back_mini(env, new);

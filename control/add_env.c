@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:08:56 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 07:20:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:35:52 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_lstadd_back_mini(t_env **lst, t_env *new)
 	}
 }
 
-char	*get_key(char *str)
+char	*get_key(t_mini *shell, char *str)
 {
 	int		i;
 	char	*key;
@@ -47,7 +47,7 @@ char	*get_key(char *str)
 		i++;
 	key = (char *)malloc(sizeof(char) * (i + 1));
 	if (!key)
-		exit (1);
+		free_and_exit(shell, "minishell: malloc fail\n");
 	key[i] = '\0';
 	i--;
 	while (i >= 0)
@@ -58,7 +58,7 @@ char	*get_key(char *str)
 	return (key);
 }
 
-char	*get_value(char *envp)
+char	*get_value(t_mini *shell, char *envp)
 {
 	int		i;
 	int		len;
@@ -73,7 +73,7 @@ char	*get_value(char *envp)
 	len = ft_strlen(envp);
 	value = (char *)malloc(sizeof(char) * (len - i + 1));
 	if (!value)
-		exit (0);
+		free_and_exit(shell, "minishell: malloc fail\n");;
 	len = 0;
 	i++;
 	while (envp[i] != '\0')
@@ -86,15 +86,15 @@ char	*get_value(char *envp)
 	return (value);
 }
 
-void	add_input(t_env *node, char *envp)
+void	add_input(t_mini *shell, t_env *node, char *envp)
 {
-	node->key = get_key(envp);
-	node->value = get_value(envp);
+	node->key = get_key(shell, envp);
+	node->value = get_value(shell, envp);
 	node->equal = 1;
 	node->index = -1;
 }
 
-t_env	*add_env(char **envp)
+t_env	*add_env(t_mini *shell, char **envp)
 {
 	int		i;
 	t_env	*env;
@@ -102,20 +102,12 @@ t_env	*add_env(char **envp)
 	
 	i = 0;
 	env = NULL;
-	// if (envp == NULL)
-	// {
-	// 	env = hardcode_envp();
-	// 	return (env);
-	// }
 	while (envp[i])
 	{
 		new = malloc(sizeof(t_env));
 		if (!new)
-		{
-			printf("Malloc error");
-			exit (1);
-		}
-		add_input(new, envp[i]);
+			free_and_exit(shell, "minishell: malloc fail\n");
+		add_input(shell, new, envp[i]);
 		new->next = NULL;
 		ft_lstadd_back_mini(&env, new);
 		i++;

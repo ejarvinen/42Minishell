@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:00:43 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:38:50 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	set_pwd(t_mini *shell, t_env *old, t_env *new)
 			free(old->value);
 		old->value = ft_strdup(shell->pwd);
 		if (!old->value)
-			exit (1);
+			free_and_exit(shell, "minishell: malloc fail");
 		old->equal = 1;
 	}
 	if (new)
@@ -29,7 +29,7 @@ static void	set_pwd(t_mini *shell, t_env *old, t_env *new)
 			free(new->value);
 		new->value = getcwd(NULL, 0);
 		if (!new->value)
-			exit (1);
+			free_and_exit(shell, "minishell: malloc fail");
 		new->equal = 1;
 	}
 }
@@ -40,11 +40,11 @@ static void	reset_data(t_mini *shell)
 		free(shell->oldpwd);
 	shell->oldpwd = ft_strdup(shell->pwd);
 	if (!shell->oldpwd)
-		exit (1);
+		free_and_exit(shell, "minishell: malloc fail");
 	free(shell->pwd);
 	shell->pwd = getcwd(NULL, 0);
 	if (!shell->pwd)
-		exit (1);
+		free_and_exit(shell, "minishell: malloc fail");
 }
 
 static void	go_home(t_mini *shell, t_env *env)
@@ -52,7 +52,7 @@ static void	go_home(t_mini *shell, t_env *env)
 	t_env	*temp;
 	t_env	*new;
 	t_env	*old;
-	
+
 	new = env;
 	old = env;
 	temp = retrieve_key(env, "HOME");
@@ -78,7 +78,7 @@ static void	cd_path(char *path, t_mini *shell)
 {
 	t_env	*new;
 	t_env	*old;
-	
+
 	new = shell->env;
 	old = shell->env;
 	if (chdir(path) == 0)
@@ -104,17 +104,14 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 	while (cmd->command[i] != NULL)
 		i++;
 	if (i > 2)
-	{
-		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		exit_code(shell, 1, 0);
-	}
+		cd_more(shell, "minishell: cd: too many arguments");
 	else if (cmd->command[1] == NULL)
 		go_home(shell, shell->env);
 	else
 	{
 		test = getcwd(NULL, 0);
 		if (test != NULL)
-		{ 
+		{
 			cd_path(cmd->command[1], shell);
 			free(test);
 		}
@@ -122,8 +119,5 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 			cd_error(shell, test, cmd->command[1]);
 	}
 	if (cmd->c_pid != -1)
-	{
-		free_data(shell, NULL);
-		exit(0);
-	}
+		childish(shell);
 }

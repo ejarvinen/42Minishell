@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:54:35 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 16:31:47 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:41:15 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,10 @@ static void	shell_lvl(t_mini *shell)
 		temp = temp->next;
 	}	
 }
-// static t_env	*hardcode_env()
-// {
-
-// 	node = malloc(sizeof(t_env));
-// 	if (!node)
-// 	{
-// 		perror("minishell");
-// 		exit (1);
-// 	}
-	
-// }
 
 void	set_data(t_mini *shell, char **envp)
 {
-	// if (envp == NULL)
-	// 	//shell->env = hardcode_env();
-	// else
-	shell->env = add_env(envp);
+	shell->env = add_env(shell, envp);
 	shell->oldpwd = NULL;
 	shell->pwd = getcwd(NULL, 0);
 	shell->EXIT_CODE = 0;
