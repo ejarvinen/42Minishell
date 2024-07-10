@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 08:08:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:46:04 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	heredoc_to_file(t_cmds *cmd)
 	return (0);
 }
 
-void	prep_for_exec(t_mini *shell)
+void	minishell(t_mini *shell)
 {
 	t_cmds	*temp;
 

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 15:52:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:47:05 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_mini
 	int		saved_stdin;
 	int		saved_stdout;
 	int		EXIT_CODE;
+	int		syntax;
 	char	*pwd;
 	char	*oldpwd;
 }	t_mini;
@@ -98,7 +99,7 @@ typedef struct s_mini
 char		*ft_strtok(char *str);
 void		token_cleanup(t_toks **tokens, t_env **envs);
 void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
-t_toks	*checker(char *input);
+t_toks	*checker(char *input, t_mini *shell);
 void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);
 void		ft_lstclear_toks(t_toks **lst);
 t_toks	*ft_lstnew_toks(char *content);
@@ -157,10 +158,10 @@ void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote);
 int	end_quote_index(t_toks **token, t_env **envs, int *index);
 int	get_index(char **array);
 int	copy_filenames(char **to, char **from, char *new_file, int index);
+void	parser_error(char *str);
 
 /*				INPUT VALIDATION				*/
 
-void	prep_for_exec(t_mini *shell);
 void	open_files(t_cmds **cmds);
 void	close_files(t_cmds **cmds);
 int	is_dir(char *command);
@@ -258,6 +259,7 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	close_pipes(int *pipefds);
 void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
+void	minishell(t_mini *shell);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	write_exit(t_mini *shell, t_cmds *cmd);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 11:10:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:45:47 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ int g_sig;
 static int	main_loop(t_mini *shell)
 {
 	char	*rl;
+	int		ret;
 
 	set_signal(0);
-	//rl = readline("\x1b[95mMINISHELL\x1b[0m💖~$ ");
 	rl = readline(PINK PROMPT RESET);
 	if (!rl)
 		return (1);
 	if (rl[0] == '\0')
 		return (0);
 	set_signal(1);
-	if (parser(rl, shell) == 0)
-	{
-		prep_for_exec(shell);
-	}
+	ret = parser(rl, shell);
+	if (ret == 0)
+		minishell(shell);
+	else
+		shell->EXIT_CODE = ret;
 	close_files(&shell->cmds);
 	ft_lstclear_pars(&shell->cmds);
 	add_history(rl);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 14:58:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:05:39 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ t_cmds	*build_command_list(t_toks **tokens)
 		return (NULL);
 	return (cmds);
 }
-	// if infile/outfile name is missing, mark fds to -2 for error

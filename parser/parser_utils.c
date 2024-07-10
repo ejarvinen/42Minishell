@@ -6,11 +6,17 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:47:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:19:23 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	parser_error(char *str)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putendl_fd(str, 2);
+}
 
 /*
 returns the sum of all flags in token

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 13:11:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:35:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	add_new_token(char *token, t_toks **tokens)
 	new_token = ft_lstnew_toks(token);
 	if (!new_token)
 	{
-		perror("minishell");
+		parser_error("malloc fail");
 		return (1);
 	}
 	initialize_token(new_token);
@@ -63,9 +63,11 @@ static t_toks	*free_checker_resources(char *rl, t_toks **tokens)
 prints syntax error message when token contains uneven amount of
 certain quote type
 */
-static t_toks	*print_syntax_error_toks(char *rl, t_toks **tokens)
+static t_toks	*print_syntax_error_toks(char *rl,
+t_toks **tokens, t_mini *shell)
 {
-	ft_putstr_fd("minishell: syntax error\n", 2);
+	parser_error("syntax error");
+	shell->syntax = 258;
 	return (free_checker_resources(rl, tokens));
 }
 
@@ -74,7 +76,7 @@ tokenizes readline input, performs a quote check for each token and builds
 returns a list of tokens if all tokens pass validity check; returns NULL for
 any faulty token
 */
-t_toks	*checker(char *input)
+t_toks	*checker(char *input, t_mini *shell)
 {
 	char	*token;
 	char	*rl;
@@ -93,11 +95,10 @@ t_toks	*checker(char *input)
 				return (free_checker_resources(rl, &tokens));
 		}
 		else
-			return (print_syntax_error_toks(rl, &tokens));
+			return (print_syntax_error_toks(rl, &tokens, shell));
 		token = ft_strtok(NULL);
 	}
 	free(rl);
 	add_indexes(&tokens);
 	return (tokens);
 }
-//exit(258); exit code for command not found or maybe it was syntax error
