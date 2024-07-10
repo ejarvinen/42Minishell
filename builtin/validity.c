@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:45:57 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/16 13:22:45 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:13:51 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 static void	ft_validerror(char *mes, char *func)
 {
-	printf("minishell: %s: `%s\': not a valid identifier\n", func, mes);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(func, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(mes, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 }
 
 int	validity(char *str, char *function)
@@ -31,6 +35,7 @@ int	validity(char *str, char *function)
 		i++;
 	if (str[i] == '\0' || str[i] == '=')
 		return (0);
-	ft_validerror(str, function);
+	if (function[0] != 'u')
+		ft_validerror(str, function);
 	return (1);
 }

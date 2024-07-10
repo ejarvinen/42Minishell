@@ -6,78 +6,58 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:29:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:19:15 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:04:32 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_realunset(t_env **env, char *str)
+static void	free_unset(t_env *unset)
 {
-	t_env	*unset;
-	t_env	*prev;
-	t_env	*next;
-	
-	unset = *env;
-	if (unset->next == NULL)
-	{
-		if (unset->value != NULL)
-			free(unset->value);
-		free(unset->key);
-		*env = NULL;
-		return ;
-	}
-	
-	while (ft_strcmp(unset->next->key, str) != 0)
-		unset = unset->next;
-	prev = unset;
-	unset = unset->next;
-	next = unset->next;
-	prev->next = next;
 	if (unset->value != NULL)
 		free(unset->value);
 	free(unset->key);
 	free(unset);
 }
 
-/* void	ft_unset(t_env **env, char **str)
+void	ft_realunset(t_env **env, char *str)
 {
-	t_env	*temp;
-	int		i;
+	t_env	*unset;
+	t_env	*prev;
+	t_env	*next;
 
-	i = 1;
-	while (str[i] != NULL)
+	unset = *env;
+	if (unset->next == NULL)
 	{
-		if (validity(str[i], "unset") != 0 || ft_strcmp("_", str[i]) == 0)
-		{
-			i++;
-			continue ;
-		}
-		temp = *env;
-		while (temp != NULL)
-		{
-			if (ft_strcmp(temp->key, str[i]) == 0)
-			{
-				printf("found key\n");
-				ft_realunset(env, str[i]);
-				break ;
-			}
-			else
-				temp = temp->next;
-		}
-		i++;
+		free_unset(unset);
+		*env = NULL;
+		return ;
 	}
-} */
+	if (ft_strcmp(unset->key, str) == 0)
+	{
+		*env = unset->next;
+		free_unset(unset);
+		return ;
+	}
+	while (ft_strcmp(unset->next->key, str) != 0)
+		unset = unset->next;
+	prev = unset;
+	unset = unset->next;
+	next = unset->next;
+	prev->next = next;
+	free_unset(unset);
+}
 
-void	ft_unset(t_mini *shell, t_cmds *cmd)
+static void	almost_real_unset(t_cmds *cmd, t_mini *shell)
 {
 	t_env	*temp;
 	int		i;
 
-	i = 1;
+	i = 0;
 	while (cmd->command[i] != NULL)
 	{
-		if (validity(cmd->command[i], "unset") != 0 || ft_strcmp("_", cmd->command[i]) == 0)
+		if (validity(cmd->command[i], "unset") != 0
+			|| ft_strcmp("_", cmd->command[i]) == 0)
 		{
 			i++;
 			continue ;
@@ -95,9 +75,16 @@ void	ft_unset(t_mini *shell, t_cmds *cmd)
 		}
 		i++;
 	}
+}
+
+void	ft_unset(t_mini *shell, t_cmds *cmd)
+{
+	if (shell->env != NULL)
+		almost_real_unset(cmd, shell);
 	if (cmd->c_pid != -1)
 	{
 		free_data(shell, NULL);
 		exit(0);
 	}
+	exit_code(shell, 0, 0);
 }

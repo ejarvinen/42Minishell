@@ -6,18 +6,18 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/06/11 13:03:34 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:10:17 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*	TOO MANY ARGUMENTS DOESN'T EXIT BUT LETTER's Does with exit code 255	*/
+/*	TOO MANY ARGUMENTS DOESN'T EXIT BUT LETTER'S DOES WITH EXIT_CODE 255	*/
 
 void	real_exit(t_mini *shell, char *str, int i)
 {
 	char	*check;
-	
+
 	if (i > 0)
 	{
 		free_data(shell, NULL);
@@ -32,7 +32,7 @@ void	real_exit(t_mini *shell, char *str, int i)
 		free(check);
 		print_letter(shell, str);
 	}
-	free(check);	
+	free(check);
 	free_data(shell, NULL);
 	ft_putstr_fd("exit\n", 1);
 	exit (i);
@@ -43,7 +43,7 @@ void	print_toomany(t_mini *shell)
 	printf("exit\n");
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putendl_fd("too many arguments", 2);
-	shell->EXIT_CODE = 1;
+	exit_code(shell, 1, 0);
 }
 
 void	print_letter(t_mini *shell, char *str)
@@ -52,7 +52,7 @@ void	print_letter(t_mini *shell, char *str)
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(": numeric argument required", 2);
-	real_exit(shell, str, 255);	
+	real_exit(shell, str, 255);
 }
 
 int	check_num(char *str)
