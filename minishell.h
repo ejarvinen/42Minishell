@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 08:13:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:36:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 # include <signal.h>
-//# include <termios.h>
+# include <termios.h>
 # include <fcntl.h>
 
 extern int	g_sig;
+
+# define PINK "\001\e[95m\002"
+# define PROMPT "MINISHELL💖~$ "
+# define HDOC "> "
+# define RESET "\001\e[0m\002"
 
 # define READ_END 0
 # define WRITE_END 1
@@ -79,6 +84,8 @@ typedef struct s_mini
 	t_env	*env;
 	t_cmds	*cmds;
 	int		shlvl;
+	int		saved_stdin;
+	int		saved_stdout;
 	int		EXIT_CODE;
 	char	*pwd;
 	char	*oldpwd;
@@ -251,6 +258,7 @@ void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds);
 void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	close_pipes(int *pipefds);
+void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	write_exit(t_mini *shell, t_cmds *cmd);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 14:43:28 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:19:48 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 	set_signal(2);
 	while (1)
 	{
-		rl = readline("> ");
+		//rl = readline("> ");
+		rl = readline(PINK HDOC RESET);
 		if (!rl)
 			break ;
 		if (rl[0] == '\0')

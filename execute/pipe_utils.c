@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:36:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:55:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 	{
 		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 		{
-			perror("minishell2");
+			perror("minishell");
 			panic(shell, pipefds, env, 9);
 		}
 		close(cmd->fd_infile);
@@ -49,7 +49,7 @@ void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 		close(pipefds[WRITE_END]);
 	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
-		perror("minishell3");
+		perror("minishell");
 		panic(shell, pipefds, env, 9);
 	}
 	close(cmd->fd_outfile[0]);
@@ -71,7 +71,7 @@ static int	even_commands(t_cmds *cmd, int *pipefds)
 		cmd->fd_infile = pipefds[READ_END];
 	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 	{
-		perror("minishell4");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_infile);
@@ -79,7 +79,7 @@ static int	even_commands(t_cmds *cmd, int *pipefds)
 	{
 		if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 		{
-			perror("minishell5");
+			perror("minishell");
 			return (1);
 		}
 		close(cmd->fd_outfile[0]);
@@ -103,7 +103,7 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 		cmd->fd_infile = pipefds[READ_END + 2];
 	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 	{
-		perror("minishell6");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_infile);
@@ -111,7 +111,7 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 	{
 		if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 		{
-			perror("minishell7");
+			perror("minishell");
 			return (1);
 		}
 		close(cmd->fd_outfile[0]);

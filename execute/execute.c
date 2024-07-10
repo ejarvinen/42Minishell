@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:34:42 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:51:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	even_id_cmds(t_cmds *cmd, int *pipefds)
 		cmd->fd_infile = pipefds[READ_END + 2];
 	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 	{
-		perror("minishell8");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_infile);
@@ -31,7 +31,7 @@ static int	even_id_cmds(t_cmds *cmd, int *pipefds)
 		cmd->fd_outfile[0] = pipefds[WRITE_END];
 	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
-		perror("minishell9");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_outfile[0]);
@@ -48,7 +48,7 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 		cmd->fd_infile = pipefds[READ_END];
 	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 	{
-		perror("minishell10");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_infile);
@@ -57,7 +57,7 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 		cmd->fd_outfile[0] = pipefds[WRITE_END + 2];
 	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
-		perror("minishell11");
+		perror("minishell");
 		return (1);
 	}
 	close(cmd->fd_outfile[0]);

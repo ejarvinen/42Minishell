@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 11:25:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:51:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_newline(char **str)
 	return (i);
 }
 
-static void	echo_to_file(t_mini *shell, t_cmds *cmds)
+/* static void	echo_to_file(t_mini *shell, t_cmds *cmds)
 {
 	int	i;
 	int	nl;
@@ -30,7 +30,6 @@ static void	echo_to_file(t_mini *shell, t_cmds *cmds)
 	
 	nl = check_newline(cmds->command);
 	i = nl;
-	//fd = cmds->fd_outfile;
 	fd = cmds->fd_outfile[0];
 	while (cmds->command[i] != NULL)
 	{
@@ -46,7 +45,7 @@ static void	echo_to_file(t_mini *shell, t_cmds *cmds)
 		i++;
 	}
 	shell->EXIT_CODE = 0;	
-}
+} */
 
 static void	echo_to_terminal(t_mini *shell, t_cmds *cmds)
 {
@@ -101,9 +100,9 @@ void	ft_echo(t_mini *shell, t_cmds *cmds)
 			exit(1);
 		}
 	}
-	if (cmds->outfile_name != NULL)
+	/* if (cmds->outfile_name != NULL)
 		echo_to_file(shell, cmds);
-	else
+	else */
 		echo_to_terminal(shell, cmds);
 	if (cmds->c_pid != -1)
 	{

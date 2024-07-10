@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 18:41:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:10:23 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	main_loop(t_mini *shell)
 	char	*rl;
 
 	set_signal(0);
-	rl = readline("\x1b[95mMINISHELL\x1b[0m💖~$ ");
+	//rl = readline("\x1b[95mMINISHELL\x1b[0m💖~$ ");
+	rl = readline(PINK PROMPT RESET);
 	if (!rl)
 		return (1);
 	if (rl[0] == '\0')

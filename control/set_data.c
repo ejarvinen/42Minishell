@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:54:35 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 07:20:52 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:47:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	set_data(t_mini *shell, char **envp)
 	shell->oldpwd = NULL;
 	shell->pwd = getcwd(NULL, 0);
 	shell->EXIT_CODE = 0;
+	shell->saved_stdin = -1;
+	shell->saved_stdout = -1;
 	shell_lvl(shell);
 }
 

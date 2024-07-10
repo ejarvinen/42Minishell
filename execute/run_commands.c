@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 08:12:48 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:35:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,67 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 	}
 }
 
-static void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmds)
+static void	restore_fds(t_mini *shell)
+{
+	if (shell->saved_stdin != -1)
+	{
+		dup2(shell->saved_stdin, STDIN_FILENO);
+		close(shell->saved_stdin);
+		shell->saved_stdin = -1;
+	}
+	if (shell->saved_stdout != -1)
+	{
+		dup2(shell->saved_stdout, STDOUT_FILENO);
+		close(shell->saved_stdout);
+		shell->saved_stdout = -1;
+	}
+}
+
+void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
 {
 	int		status;
 
-	if (cmds->builtin == 1)
+	if (cmd->builtin == 1)
 	{
+		shell->saved_stdin = dup(STDIN_FILENO);
+		shell->saved_stdout = dup(STDOUT_FILENO);
 		ft_freearray(env);
-		check_builtin(shell, cmds);
+		if (duplicate_fds(cmd) > 0)
+			return ;
+		check_builtin(shell, cmd);
+		if (cmd->fd_infile != 0)
+			close(STDIN_FILENO);
+		if (cmd->fd_outfile[0] != 1)
+			close(STDOUT_FILENO);
+		restore_fds(shell);
 	}
 	else
 	{
-		run_single(shell, cmds, env);
-		waitpid(cmds->c_pid, &status, 0);
-		cmds->exit_status = status;
+		run_single(shell, cmd, env);
+		waitpid(cmd->c_pid, &status, 0);
+		cmd->exit_status = status;
+	}
+}
+
+/*
+checks the exit status for each command and exits the program with the
+last child's exit code
+*/
+static void	update_exitcode(t_mini *shell, t_cmds *cmds)
+{
+	int		exitcode;
+	t_cmds	*command;
+
+	command = cmds;
+	exitcode = 0;
+	while (command)
+	{
+		if (WIFEXITED(command->exit_status) && WEXITSTATUS(command->exit_status) != 0)
+		{
+			exitcode = WEXITSTATUS(command->exit_status);
+			exit_code(shell, exitcode, 0);
+		}
+		command = command->next;
 	}
 }
 
@@ -130,4 +177,22 @@ void	run_commands(t_mini *shell)
 	}
 	run_multiple(shell, env, cmds);
 	ft_freearray(env);
+	update_exitcode(shell, shell->cmds);
 }
+
+
+/*
+
+can be piped:
+- echo
+- pwd
+- export (no args)
+- env
+
+DEF NO
+- cd
+- export (with args)
+- unset
+- exit
+
+*/

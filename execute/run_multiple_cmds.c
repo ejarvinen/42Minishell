@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 07:08:26 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:36:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,28 @@ static int	*setup_pipes(t_cmds *cmds)
 	return (pipefds);
 }
 
+static int	execute_builtin(t_cmds *cmd)
+{
+	if (ft_strcmp(cmd->command[0], "cd") == 0 || (ft_strcmp(cmd->command[0], "export") == 0 && cmd->command[1] != NULL) || ft_strcmp(cmd->command[0], "unset") == 0 || ft_strcmp(cmd->command[0], "exit") == 0)
+		return (1);
+	return (0);
+}
+
 /*
 forks a child process, executes it and closes pipes if running the last command
 in the pipeline
 */
 static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 {
+	if (execute_builtin(cmd) > 0)
+	{
+		run_a_single_cmd(shell, env, cmd);
+		return ;
+	}
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
 	{
-		perror("minishell13");
+		perror("minishell");
 		return ;
 	}
 	if (cmd->c_pid == 0)
