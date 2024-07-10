@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 13:35:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:42:10 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ runs a builtin command
 */
 void	check_builtin(t_mini *shell, t_cmds *cmd)
 {
-	int	error;
-
 	if (cmd->command[0] == NULL)
 		return ;
 	if (ft_strcmp(cmd->command[0], "export") == 0)
@@ -26,7 +24,7 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 	else if (ft_strcmp(cmd->command[0], "unset") == 0)
 		ft_unset(shell, cmd);
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
-		error = ft_env(shell, cmd);
+		ft_env(shell, cmd);
 	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
 		pwd(shell, cmd);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
@@ -37,7 +35,6 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 		now_exit(shell, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "$?") == 0)
 		write_exit(shell, cmd);
-	shell->EXIT_CODE = error;
 }
 
 /*
