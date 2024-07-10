@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 17:07:03 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:06:28 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	remove_singles(t_toks **token, int *index)
 	item->content = (char *)malloc(sizeof(char) * (ft_strlen(freeable) - 1));
 	if (!item->content)
 	{
+		parser_error("malloc fail");
 		*index = -1;
 		return ;
 	}
@@ -54,6 +55,7 @@ static void	remove_doubles(t_toks **token, t_env **envs, int *index)
 	item->content = (char *)malloc(sizeof(char) * (ft_strlen(freeable) - 1));
 	if (!item->content)
 	{
+		parser_error("malloc fail");
 		*index = -1;
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:24:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 10:57:03 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:54:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmds	*ft_lstnew_pars(int index)
 		new_node->next = NULL;
 		return (new_node);
 	}
-	perror("minishell");
+	parser_error("malloc fail");
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:35:29 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:54:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static int	add_new_token(char *token, t_toks **tokens)
 
 	new_token = ft_lstnew_toks(token);
 	if (!new_token)
-	{
-		parser_error("malloc fail");
 		return (1);
-	}
 	initialize_token(new_token);
 	ft_lstadd_back_toks(tokens, new_token);
 	return (0);

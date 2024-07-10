@@ -6,12 +6,15 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:19:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:56:15 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+writes the given str to STDERR
+*/
 void	parser_error(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:05:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:34:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,10 @@ static void	create_list(t_cmds **cmds, int lst_size)
 /*
 returns a list of commands and their redirection info in a linked list
 */
-t_cmds	*build_command_list(t_toks **tokens)
+void	build_command_list(t_toks **tokens, t_mini *shell)
 {
 	int		commands;
 	int		missing_cmd;
-	t_cmds	*cmds;
 
 	commands = count_cmds(tokens);
 	missing_cmd = 0;
@@ -70,15 +69,12 @@ t_cmds	*build_command_list(t_toks **tokens)
 		commands = 1;
 		missing_cmd = 1;
 	}
-	cmds = NULL;
-	create_list(&cmds, commands);
-	if (!cmds)
-		return (NULL);
-	fill_cmd_info(&cmds, tokens, missing_cmd);
-	if (!cmds)
-		return (NULL);
-	fill_redir_info(&cmds, tokens);
-	if (!cmds)
-		return (NULL);
-	return (cmds);
+	shell->cmds = NULL;
+	create_list(&shell->cmds, commands);
+	if (!shell->cmds)
+		return ;
+	fill_cmd_info(&shell->cmds, tokens, missing_cmd);
+	if (!shell->cmds)
+		return ;
+	fill_redir_info(shell, &shell->cmds, tokens);
 }

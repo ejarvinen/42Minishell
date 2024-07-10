@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:46:04 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:47:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void	minishell(t_mini *shell)
 		if (temp->heredoc != NULL)
 		{
 			heredoc(shell, temp);
-			printf("heredoc: %s\n", temp->heredoc);
-			printf("temp infile fd: %d\n", temp->fd_infile);
 			if (temp->heredoc && temp->fd_infile == 0)
 			{
 				if (heredoc_to_file(temp) > 0)

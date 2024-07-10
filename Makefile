@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/10 15:53:03 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/10 18:35:30 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,9 @@ SRCS = main.c \
 		parser/no_blanks_cleanup_list_tools.c \
 		parser/no_blanks_cleanup_splitting.c \
 		parser/add_cmd_info.c \
+		parser/add_heredoc_info.c \
+		parser/add_infile_info.c \
+		parser/add_outfile_info.c \
 		parser/parser.c \
 		parser/parser_utils.c \
 		parser/ft_splitstr.c \

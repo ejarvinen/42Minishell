@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:49:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/02 08:34:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:54:47 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ t_toks	*ft_lstnew_toks(char *content)
 
 	new_node = (t_toks *)malloc(sizeof(t_toks));
 	if (!new_node)
+	{
+		parser_error("malloc fail");
 		return (NULL);
+	}
 	new_node->content = ft_strdup(content);
 	if (!new_node->content)
 		return (NULL);

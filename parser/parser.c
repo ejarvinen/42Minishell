@@ -6,11 +6,17 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:14:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:30:18 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	fill_invalid_cmd_info(t_cmds *cmd)
+{
+	cmd->builtin = 0;
+	cmd->valid = -1;
+}
 
 int	parser(char *rl, t_mini *shell)
 {
@@ -26,15 +32,12 @@ int	parser(char *rl, t_mini *shell)
 	no_blanks_cleanup(&tokens);
 	if (!tokens)
 		return (1);
-	shell->cmds = build_command_list(&tokens);
+	build_command_list(&tokens, shell);
 	ft_lstclear_toks(&tokens);
 	if (!shell->cmds)
 		return (1);
 	if (shell->cmds->command == NULL)
-	{
-		shell->cmds->builtin = 0;
-		shell->cmds->valid = -1;
-	}
+		fill_invalid_cmd_info(shell->cmds);
 	else
 		add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);

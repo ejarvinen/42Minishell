@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 16:47:05 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:31:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	quote_check(char *token);
 void	initialize_token(t_toks *new_node);
 int	parser(char *rl, t_mini *shell);
 int	struct_sum(t_toks *token);
-t_cmds	*build_command_list(t_toks **tokens);
+void	build_command_list(t_toks **tokens, t_mini *shell);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
@@ -131,9 +131,9 @@ int	validate_commands(t_cmds **cmds, t_env **envs);
 int	validate_command(char *command, char **paths);
 char	*full_path(char *path, char *command);
 void	fill_cmd_info(t_cmds **cmds, t_toks **tokens, int missing_cmd);
-void	fill_redir_info(t_cmds **cmds, t_toks **tokens);
-int	syntax_check(t_toks *token, t_cmds **cmds);
-int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+void	fill_redir_info(t_mini *shell, t_cmds **cmds, t_toks **tokens);
+int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell);
+int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell);
 void	sure_pipe(t_toks *token);
 void	sure_inredir(t_toks *token);
 void	sure_outredir(t_toks *token);
@@ -159,6 +159,10 @@ int	end_quote_index(t_toks **token, t_env **envs, int *index);
 int	get_index(char **array);
 int	copy_filenames(char **to, char **from, char *new_file, int index);
 void	parser_error(char *str);
+int	add_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+int	update_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int heredoc_flag);
+t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int append_flag);
 
 /*				INPUT VALIDATION				*/
 
