@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:42:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 07:55:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
 	t_toks	*item;
 
 	item = *token;
+	if (ft_strcmp(item->content, "$?") == 0)
+	{
+		*index = *index + 2;
+		return ;
+	}
 	varlen = identify_expandable(item->content + *index + 1);
 	if (varlen == 0 && in_doubles == 1)
 	{

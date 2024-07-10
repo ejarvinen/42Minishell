@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 14:40:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:08:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,20 @@ void	prep_for_exec(t_mini *shell)
 		if (temp->heredoc != NULL)
 		{
 			heredoc(shell, temp);
-			if (!temp->heredoc || temp->fd_infile == 0 || heredoc_to_file(temp) > 0)
+			printf("heredoc: %s\n", temp->heredoc);
+			printf("temp infile fd: %d\n", temp->fd_infile);
+			if (temp->heredoc && temp->fd_infile == 0)
+			{
+				if (heredoc_to_file(temp) > 0)
+				{
+					ft_lstclear_pars(&shell->cmds);
+					return ;
+				}
+			}
+			else
 			{
 				ft_lstclear_pars(&shell->cmds);
-				return ;
+					return ;
 			}
 		}
 		temp = temp->next;

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:33:41 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 07:08:26 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 	{
 		waitpid(cmd->c_pid, &status, 0);
 		cmd->exit_status = status;
+		if (cmd->heredoc != NULL)
+			unlink(".temp");
 		if (cmd->id == 0 && cmd->fd_infile > 0)
 		{
 			close(cmd->fd_infile);

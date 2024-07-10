@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:21:31 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:16:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exit_code(t_mini *shell, int code, int sig)
 	shell->EXIT_CODE = code;
 }
 
-void	write_exit(t_mini *shell)
+void	write_exit(t_mini *shell, t_cmds *cmd)
 {
 	int	num;
 
@@ -27,6 +27,11 @@ void	write_exit(t_mini *shell)
 		num =  g_sig;
 	else
 		num = shell->EXIT_CODE;
-	printf("%d: command not found", num);
+	printf("%d: command not found\n", num);
 	exit_code(shell, 127, 0);
+	if (cmd->c_pid != -1)
+	{
+		free_data(shell, NULL);
+		exit(0);
+	}
 }

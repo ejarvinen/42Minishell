@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 14:13:06 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 07:32:59 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	open_outfile(t_cmds *cmd)
 		error = 0;
 		while (error < index)
 		{
-			if (cmd->fd_outfile[error] > -1)
+			if (cmd->fd_outfile[error] > 1)
 				close(cmd->fd_outfile[error]);
 			error++;
 		}

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 12:18:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:13:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	close_pipes(int *pipefds);
 
 void	exit_code(t_mini *shell, int code, int sig);
-void	write_exit(t_mini *shell);
+void	write_exit(t_mini *shell, t_cmds *cmd);
 void	free_and_exit(t_mini *shell, char *message);
 
 void	heredoc(t_mini *shell, t_cmds *cmd);

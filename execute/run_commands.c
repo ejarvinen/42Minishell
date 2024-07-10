@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/09 11:33:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:12:48 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	check_builtin(t_mini *shell, t_cmds *cmd)
 		ft_echo(shell, cmd);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
 		now_exit(shell, cmd->command);
+	else if (ft_strcmp(cmd->command[0], "$?") == 0)
+		write_exit(shell, cmd);
 	shell->EXIT_CODE = error;
 }
 
@@ -122,6 +124,8 @@ void	run_commands(t_mini *shell)
 		run_a_single_cmd(shell, env, cmds);
 		if (cmds->builtin != 1)
 			ft_freearray(env);
+		if (cmds->heredoc != NULL)
+			unlink(".temp");
 		return ;
 	}
 	run_multiple(shell, env, cmds);
