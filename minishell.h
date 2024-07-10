@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 13:43:47 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:52:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ void	change_index(t_env **env);
 void	update_index(t_env **env);
 void	edit_env(t_env *node, char *str);
 void	new_env(t_env **env, char *str);
-void 	print_to_file(t_env *env, int fd);
 
 /*				FOR UNSET						*/
 

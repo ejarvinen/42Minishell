@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 13:36:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:51:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,22 +102,25 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 	cmd = cmds;
 	while (cmd)
 	{
-		waitpid(cmd->c_pid, &status, 0);
-		cmd->exit_status = status;
-		if (cmd->heredoc != NULL)
-			unlink(".temp");
-		if (cmd->id == 0 && cmd->fd_infile > 0)
+		if (execute_builtin(cmd) < 1)
 		{
-			close(cmd->fd_infile);
-			cmd->fd_infile = -1;
+			waitpid(cmd->c_pid, &status, 0);
+			cmd->exit_status = status;
+			if (cmd->heredoc != NULL)
+				unlink(".temp");
+			if (cmd->id == 0 && cmd->fd_infile > 0)
+			{
+				close(cmd->fd_infile);
+				cmd->fd_infile = -1;
+			}
+			if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
+			{
+				close(cmd->fd_outfile[0]);
+				cmd->fd_outfile[0] = -1;
+			}
+			if (cmd->id == cmd->commands - 1)
+				close_pipes(pipefds);
 		}
-		if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
-		{
-			close(cmd->fd_outfile[0]);
-			cmd->fd_outfile[0] = -1;
-		}
-		if (cmd->id == cmd->commands - 1)
-			close_pipes(pipefds);
 		cmd = cmd->next;
 	}
 }

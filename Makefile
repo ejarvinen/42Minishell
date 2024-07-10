@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/09 10:55:12 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/10 15:53:03 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ SRCS = main.c \
 		builtin/builtin_error.c \
 		builtin/builtin_utils.c \
 		builtin/exit.c \
-		builtin/export_file.c \
 		builtin/echo.c \
 		parser/tokenizer.c \
 		parser/build_token_list.c \
