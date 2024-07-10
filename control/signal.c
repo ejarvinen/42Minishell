@@ -3,21 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:07:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 12:00:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/10 09:36:09 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	set_term(int num)
+{
+	struct termios    term;
+
+    tcgetattr(STDIN_FILENO, &term);
+    if (num != 0)
+        term.c_lflag |= ECHOCTL;
+    else
+        term.c_lflag &= ~ECHOCTL;
+    tcsetattr(STDERR_FILENO, TCSANOW, &term);
+}
 
 void	par_sig_handler(int sig)
 {
 	if (sig)
 	{
 		g_sig = 130;
-		printf("\33[2K\r\n");
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -28,7 +40,7 @@ static void	child_sig_c(int sig)
 	if (sig)
 	{
 		g_sig = 130;
-		printf("^C\n");
+		printf("\n");
 	}
 }
 
@@ -37,7 +49,7 @@ static void	child_sig_slash(int sig)
 	if (sig)
 	{
 		g_sig = 131;
-		printf("\33[2K\r%s\n", "Quit (core dumped)");
+		printf("%s\n", "Quit (core dumped)");
 	}
 }
 
@@ -46,7 +58,7 @@ static void	heredoc_c(int sig)
 	if (sig)
 	{
 		g_sig = 130;
-		printf("\33[2K\r> \n");
+		printf("\33[2K\r>\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -55,6 +67,7 @@ static void	heredoc_c(int sig)
 
 void	set_signal(int mode)
 {
+	set_term(mode);
 	if (mode == 0)
 	{
 		signal(SIGINT, par_sig_handler);
