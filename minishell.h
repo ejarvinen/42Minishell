@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 10:23:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:43:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
 void	minishell(t_mini *shell);
 int		*setup_pipes(t_cmds *cmds);
 int		safe_to_run(t_cmds *cmds);
+void	restore_fds(t_mini *shell);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	update_exitcode(t_mini *shell, t_cmds *cmds);

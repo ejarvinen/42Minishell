@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:23:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:43:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 	}
 }
 
-static void	restore_fds(t_mini *shell)
+void	restore_fds(t_mini *shell)
 {
 	if (shell->saved_stdin != -1)
 	{

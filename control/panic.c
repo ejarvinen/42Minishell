@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 08:15:58 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:44:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	panic(t_mini *shell, int *pipefds, char **envs, int error_code)
 
 void	free_data(t_mini *shell, char *message)
 {
+	restore_fds(shell);
 	free_env(shell->env);
 	if (shell->oldpwd)
 		free(shell->oldpwd);
