@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 14:10:17 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:44:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	real_exit(t_mini *shell, char *str, int i)
 	i = ft_atoi(str);
 	check = ft_itoa(i);
 	if (check == NULL)
+	{
+		restore_fds(shell);
 		exit(1);
+	}
 	if (ft_strcmp(check, str) != 0)
 	{
 		free(check);

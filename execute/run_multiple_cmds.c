@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:52:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:24:26 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 	cmd = cmds;
 	while (cmd)
 	{
-		if (((cmds->fd_infile != -1 || cmds->valid > -1)
-				&& cmds->heredoc != NULL) || cmds->fd_outfile[0] > -1)
+		if (safe_to_run(cmd) > 0)
 			child_process(shell, cmd, env, pipefds);
 		cmd = cmd->next;
 	}

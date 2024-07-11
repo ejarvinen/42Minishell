@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:12:03 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:24:38 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void	print_dirmsg(char *command);
 void	dot_cmd(t_cmds **cmds);
 void	nonexistent_cmd(t_cmds **cmds);
 void	heredoc(t_mini *shell, t_cmds *cmd);
+void	open_with_correct_flags(t_cmds *cmd, int index);
 
 /*				FOR CREATING ENV				*/
 
@@ -269,6 +270,8 @@ void	close_pipes(int *pipefds);
 void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
 void	minishell(t_mini *shell);
 int		*setup_pipes(t_cmds *cmds);
+int		safe_to_run(t_cmds *cmds);
+void	restore_fds(t_mini *shell);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	update_exitcode(t_mini *shell, t_cmds *cmds);

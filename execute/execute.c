@@ -6,11 +6,20 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 12:51:13 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:22:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	safe_to_run(t_cmds *cmds)
+{
+	if (cmds->command == NULL
+			|| ((cmds->fd_infile == -1 || cmds->valid < 0)
+				&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
+				return (0);
+	return (1);
+}
 
 /*
 sets up pipes for command that's id is an even number
