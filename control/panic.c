@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:32:23 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:37:01 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	free_data(t_mini *shell, char *message)
 
 void	free_and_exit(t_mini *shell, char *message)
 {
-	//if (shell->pipefds)
-	//{
-	//	close_pipes(pipefds);
-	//	free(pipefds);
-	//}
+	if (shell->pipefds)
+	{
+		close_pipes(shell->pipefds);
+		free(shell->pipefds);
+	}
 	free_data(shell, message);
 	exit (1);
 }
