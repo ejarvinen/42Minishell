@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:25:39 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	echo_to_terminal(t_mini *shell, t_cmds *cmds)
 			printf("%s", cmds->command[i]);
 		i++;
 	}
-	shell->exit_code = 0;
+	exit_code(shell, 0, 0);
 }
 
 static int	protection(char **str)
@@ -66,7 +66,7 @@ void	ft_echo(t_mini *shell, t_cmds *cmds)
 {
 	if (protection(cmds->command) != 0)
 	{
-		shell->exit_code = 1;
+		exit_code(shell, 1, 0);
 		if (cmds->c_pid == -1)
 			return ;
 		else

@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:29:16 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	main_loop(t_mini *shell)
 	ret = parser(rl, shell);
 	if (ret == 0)
 		minishell(shell);
-	else
-		shell->exit_code = ret;
+	else if (shell->syntax == 0)
+		exit_code(shell, 1, 0);
 	close_files(&shell->cmds);
 	ft_lstclear_pars(&shell->cmds);
 	add_history(rl);

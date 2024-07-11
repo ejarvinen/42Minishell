@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:28:12 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell)
 	if (token == NULL)
 	{
 		parser_error("syntax error near unexpected token");
-		shell->exit_code = 258;
+		shell->syntax = 1;
 		if (cmds)
 			ft_lstclear_pars(cmds);
 		return (1);
@@ -37,7 +37,7 @@ int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell)
 	if (token == NULL)
 	{
 		parser_error("syntax error");
-		shell->exit_code = 258;
+		shell->syntax = 1;
 		ft_lstclear_pars(cmds);
 		return (1);
 	}
