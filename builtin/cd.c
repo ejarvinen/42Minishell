@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 17:38:50 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:57:49 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 	else
 	{
 		test = getcwd(NULL, 0);
-		if (test != NULL)
+		if (test != NULL || cmd->command[1][0] == '/')
 		{
 			cd_path(cmd->command[1], shell);
 			free(test);
