@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 11:46:08 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/09 08:30:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:36:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 50
-# endif
 
 # define MAX_ULONG 4294967295
 

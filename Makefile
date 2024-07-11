@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/11 08:16:07 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/11 08:49:20 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,13 +86,11 @@ RL_PATH := ~/.brew/opt/readline/lib
 all: $(NAME)
 
 %.o:%.c
-#	@cc -Wall -Wextra -Werror -g -fsanitize=address -c $< -o $(<:.c=.o)
-	@gcc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
+	@cc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
 
 $(NAME): $(OBJECTS)
 	@make -C ./libft
-#	@cc -Wall -Wextra -Werror -g3 -fsanitize=address $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
-	@gcc -Wall -Wextra -Werror $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
+	@cc -Wall -Wextra -Werror $(OBJECTS) $(LIBFT) -o $(NAME) -lreadline -L $(RL_PATH)
 	@echo shell sisters MINISHELL done
 
 clean:
@@ -110,7 +108,5 @@ valgrind:
 
 fvalgrind:
 	valgrind --leak-check=full --track-fds=all --trace-children=yes ./minishell
-debug:
-	@gcc -Wall -Wextra -Werror -g3 -fsanitize=address $(OBJECT) $(LIBFT) -o $(NAME) -lreadline
 
 .PHONY: clean fclean all re run fvalgrind
