@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:06:28 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:44:42 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:51:19 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int append_flag)
 	index = get_index(cmd->outfile_name);
 	freeable = cmd->outfile_name;
 	cmd->outfile_name = (char **)malloc(sizeof(char *) * (index + 2));
+	if (!cmd->outfile_name)
 		return (funtastic(shell));
 	if (copy_filenames(cmd->outfile_name, freeable, token->content, index) > 0)
 	{
