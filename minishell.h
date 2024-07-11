@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 08:53:39 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:12:03 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ void	par_sig_handler(int sig);
 void	set_signal(int mode);
 void	rl_replace_line(const char *text, int clear_undo);
 void	rl_redisplay(void);
+void	set_term(int num);
 
 /*				FOR EXPORT						*/
 
