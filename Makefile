@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/10 18:35:30 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/11 08:16:07 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRCS = main.c \
 		control/add_env.c \
-		control/panic_pt1.c \
+		control/panic.c \
 		control/signal.c \
 		control/ltoa.c \
 		control/set_data.c \
@@ -65,6 +65,7 @@ SRCS = main.c \
 		parser/syntax_check.c \
 		parser/token_list_tools.c \
 		execute/open_files.c \
+		execute/close_files.c \
 		execute/prep_for_exec.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
@@ -72,7 +73,9 @@ SRCS = main.c \
 		execute/execute.c \
 		execute/pipe_utils.c \
 		execute/run_multiple_cmds.c \
-		execute/heredoc.c
+		execute/heredoc.c \
+		execute/setup_pipes.c \
+		execute/run_builtins.c
 
 OBJECTS = $(SRCS:.c=.o)
 

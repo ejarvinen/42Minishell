@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 18:34:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:04:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	build_command_list(t_toks **tokens, t_mini *shell)
 	create_list(&shell->cmds, commands);
 	if (!shell->cmds)
 		return ;
-	fill_cmd_info(&shell->cmds, tokens, missing_cmd);
+	if (missing_cmd)
+		shell->cmds->command = NULL;
+	else
+		fill_cmd_info(&shell->cmds, tokens);
 	if (!shell->cmds)
 		return ;
 	fill_redir_info(shell, &shell->cmds, tokens);

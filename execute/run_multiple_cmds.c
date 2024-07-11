@@ -6,59 +6,19 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 13:51:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:52:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-adds the reading and writing ends of a pipe to array of pipe filedescriptors
-*/
-static void	add_pipefds(int *pipefds, int *index, int rd_end, int w_end)
-{
-	pipefds[*index] = rd_end;
-	(*index)++;
-	pipefds[*index] = w_end;
-	(*index)++;
-}
-
-/*
-mallocs an array of ints for a set of two pipes; if pipeline has only
-two commands, the second pipeline is not opened, but marked as -1
-*/
-static int	*setup_pipes(t_cmds *cmds)
-{
-	int	*pipefds;
-	int	fds[2];
-	int	index;
-
-	pipefds = (int *)malloc(sizeof(int) * 4);
-	if (!pipefds)
-	{
-		perror("minishell");
-		return (NULL);
-	}
-	index = 0;
-	while (index < 4)
-	{
-		if (pipe(fds) < 0)
-		{
-			perror("minishell");
-			free(pipefds);
-			return (NULL);
-		}
-		if (index > 1 && cmds->commands == 2)
-			add_pipefds(pipefds, &index, -1, -1);
-		else
-			add_pipefds(pipefds, &index, fds[READ_END], fds[WRITE_END]);
-	}
-	return (pipefds);
-}
-
 static int	execute_builtin(t_cmds *cmd)
 {
-	if (ft_strcmp(cmd->command[0], "cd") == 0 || (ft_strcmp(cmd->command[0], "export") == 0 && cmd->command[1] != NULL) || ft_strcmp(cmd->command[0], "unset") == 0 || ft_strcmp(cmd->command[0], "exit") == 0)
+	if (ft_strcmp(cmd->command[0], "cd") == 0
+		|| (ft_strcmp(cmd->command[0], "export") == 0
+			&& cmd->command[1] != NULL)
+		|| ft_strcmp(cmd->command[0], "unset") == 0
+		|| ft_strcmp(cmd->command[0], "exit") == 0)
 		return (1);
 	return (0);
 }
@@ -90,6 +50,22 @@ static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 	}
 }
 
+static void	close_fds(t_cmds *cmd, int *pipefds)
+{
+	if (cmd->id == 0 && cmd->fd_infile > 0)
+	{
+		close(cmd->fd_infile);
+		cmd->fd_infile = -1;
+	}
+	if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
+	{
+		close(cmd->fd_outfile[0]);
+		cmd->fd_outfile[0] = -1;
+	}
+	if (cmd->id == cmd->commands - 1)
+		close_pipes(pipefds);
+}
+
 /*
 waits each command in a pipeline to finish execution, saves it's exit code
 and closes any open files and pipes if necessary
@@ -108,18 +84,7 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 			cmd->exit_status = status;
 			if (cmd->heredoc != NULL)
 				unlink(".temp");
-			if (cmd->id == 0 && cmd->fd_infile > 0)
-			{
-				close(cmd->fd_infile);
-				cmd->fd_infile = -1;
-			}
-			if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
-			{
-				close(cmd->fd_outfile[0]);
-				cmd->fd_outfile[0] = -1;
-			}
-			if (cmd->id == cmd->commands - 1)
-				close_pipes(pipefds);
+			close_fds(cmd, pipefds);
 		}
 		cmd = cmd->next;
 	}
@@ -140,7 +105,9 @@ void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 	cmd = cmds;
 	while (cmd)
 	{
-		child_process(shell, cmd, env, pipefds);
+		if (((cmds->fd_infile != -1 || cmds->valid > -1)
+				&& cmds->heredoc != NULL) || cmds->fd_outfile[0] > -1)
+			child_process(shell, cmd, env, pipefds);
 		cmd = cmd->next;
 	}
 	wait_for_children(cmds, pipefds);

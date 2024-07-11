@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 13:42:10 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:14:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-runs a builtin command
-*/
-void	check_builtin(t_mini *shell, t_cmds *cmd)
-{
-	if (cmd->command[0] == NULL)
-		return ;
-	if (ft_strcmp(cmd->command[0], "export") == 0)
-		export(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "unset") == 0)
-		ft_unset(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "env") == 0)
-		ft_env(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
-		pwd(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "cd") == 0)
-		ft_cd(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "echo") == 0)
-		ft_echo(shell, cmd);
-	else if (ft_strcmp(cmd->command[0], "exit") == 0)
-		now_exit(shell, cmd->command);
-	else if (ft_strcmp(cmd->command[0], "$?") == 0)
-		write_exit(shell, cmd);
-}
 
 /*
 sets redirections for a single command
@@ -129,28 +104,6 @@ void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
 }
 
 /*
-checks the exit status for each command and exits the program with the
-last child's exit code
-*/
-static void	update_exitcode(t_mini *shell, t_cmds *cmds)
-{
-	int		exitcode;
-	t_cmds	*command;
-
-	command = cmds;
-	exitcode = 0;
-	while (command)
-	{
-		if (WIFEXITED(command->exit_status) && WEXITSTATUS(command->exit_status) != 0)
-		{
-			exitcode = WEXITSTATUS(command->exit_status);
-			exit_code(shell, exitcode, 0);
-		}
-		command = command->next;
-	}
-}
-
-/*
 fetches environment variables and executes either a single command
 or a pipeline
 */
@@ -165,6 +118,12 @@ void	run_commands(t_mini *shell)
 		return ;
 	if (cmds->commands == 1)
 	{
+		if (((cmds->fd_infile == -1 || cmds->valid < 0)
+				&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
+		{
+			ft_freearray(env);
+			return ;
+		}
 		run_a_single_cmd(shell, env, cmds);
 		if (cmds->builtin != 1)
 			ft_freearray(env);
@@ -176,20 +135,3 @@ void	run_commands(t_mini *shell)
 	ft_freearray(env);
 	update_exitcode(shell, shell->cmds);
 }
-
-
-/*
-
-can be piped:
-- echo
-- pwd
-- export (no args)
-- env
-
-DEF NO
-- cd
-- export (with args)
-- unset
-- exit
-
-*/

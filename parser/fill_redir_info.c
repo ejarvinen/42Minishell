@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:30 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 18:10:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:01:52 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_index(char **array)
 {
 	int	index;
-	
+
 	index = 0;
 	if (!array)
 		return (index);

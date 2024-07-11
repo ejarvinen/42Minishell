@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 17:12:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:46:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell)
 	{
 		parser_error("syntax error near unexpected token");
 		shell->EXIT_CODE = 258;
-		ft_lstclear_pars(cmds);
+		if (cmds)
+			ft_lstclear_pars(cmds);
 		return (1);
 	}
 	return (0);

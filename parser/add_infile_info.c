@@ -6,13 +6,14 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:48 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 18:35:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:14:52 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	first_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token, int heredoc_flag)
+static int	first_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+int heredoc_flag)
 {
 	cmd->infile_name = ft_strdup(token->content);
 	if (!cmd->infile_name)
@@ -40,7 +41,7 @@ static int	first_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token, int heredoc_f
 static void	update_fd(t_cmds *cmd)
 {
 	int		prev_fd;
-	
+
 	prev_fd = cmd->fd_infile;
 	if (prev_fd > 1)
 		close(prev_fd);
@@ -52,10 +53,11 @@ static void	update_fd(t_cmds *cmd)
 	}
 }
 
-static int	update_existing_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token, int heredoc_flag)
+static int	update_existing_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+int heredoc_flag)
 {
 	char	*freeable;
-	
+
 	freeable = cmd->infile_name;
 	cmd->infile_name = ft_strdup(token->content);
 	if (!cmd->infile_name)
@@ -77,7 +79,8 @@ static int	update_existing_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token, int
 /*
 strdups infile name and saves it to cmd; adds corresponding append info
 */
-t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int heredoc_flag)
+t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
+int heredoc_flag)
 {
 	token = token->next;
 	if (syntax_check(token, &shell->cmds, shell) > 0)

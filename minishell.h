@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 18:43:38 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:13:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_toks
 	int			out_redir;
 	int			append;
 	int			heredoc;
-	int			heredoc_delimiter;  // means the '<<'
+	int			heredoc_delimiter;
 	int			id;
 	struct s_toks	*next;
 }					t_toks;
@@ -96,71 +96,71 @@ typedef struct s_mini
 
 /*				PARSING							*/
 
-char		*ft_strtok(char *str);
-void		token_cleanup(t_toks **tokens, t_env **envs);
-void		expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
+char	*ft_strtok(char *str);
+void	token_cleanup(t_toks **tokens, t_env **envs);
+void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles);
 t_toks	*checker(char *input, t_mini *shell);
-void		ft_lstadd_back_toks(t_toks **lst, t_toks *new);
-void		ft_lstclear_toks(t_toks **lst);
+void	ft_lstadd_back_toks(t_toks **lst, t_toks *new);
+void	ft_lstclear_toks(t_toks **lst);
 t_toks	*ft_lstnew_toks(char *content);
 int		ft_lstsize_toks(t_toks *lst);
 t_toks	*ft_lstlast_toks(t_toks *lst);
-void		identify_delims(t_toks **tokens);
-void		identify_heredoc(t_toks **tokens);
-void		recognize_file(t_toks **tokens);
-void		identifier(t_toks **tokens);
-void		identify_commands(t_toks **tokens);
-void		identify_args(t_toks **tokens);
+void	identify_delims(t_toks **tokens);
+void	identify_heredoc(t_toks **tokens);
+void	recognize_file(t_toks **tokens);
+void	identifier(t_toks **tokens);
+void	identify_commands(t_toks **tokens);
+void	identify_args(t_toks **tokens);
 t_cmds	*ft_lstnew_pars(int index);
 int		ft_lstsize_pars(t_cmds *lst);
 t_cmds	*ft_lstlast_pars(t_cmds *lst);
-void		ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
-void		ft_lstclear_pars(t_cmds **lst);
-int	in_quotes(char *token, size_t index);
-void	no_blanks_cleanup(t_toks **tokens);
+void	ft_lstadd_back_pars(t_cmds **lst, t_cmds *new);
+void	ft_lstclear_pars(t_cmds **lst);
+int		in_quotes(char *token, size_t index);
+void	no_blanks_cleanup(t_toks **tokens, t_mini *shell);
 void	add_indexes(t_toks **tokens);
-int	quote_check(char *token);
+int		quote_check(char *token);
 void	initialize_token(t_toks *new_node);
-int	parser(char *rl, t_mini *shell);
-int	struct_sum(t_toks *token);
+int		parser(char *rl, t_mini *shell);
+int		struct_sum(t_toks *token);
 void	build_command_list(t_toks **tokens, t_mini *shell);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
-int	validate_commands(t_cmds **cmds, t_env **envs);
-int	validate_command(char *command, char **paths);
+int		validate_commands(t_cmds **cmds, t_env **envs);
+int		validate_command(char *command, char **paths);
 char	*full_path(char *path, char *command);
-void	fill_cmd_info(t_cmds **cmds, t_toks **tokens, int missing_cmd);
+void	fill_cmd_info(t_cmds **cmds, t_toks **tokens);
 void	fill_redir_info(t_mini *shell, t_cmds **cmds, t_toks **tokens);
-int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell);
-int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell);
+int		syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell);
+int		syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell);
 void	sure_pipe(t_toks *token);
 void	sure_inredir(t_toks *token);
 void	sure_outredir(t_toks *token);
 void	sure_append(t_toks *token);
 void	sure_hredir(t_toks *token);
-int	redir_found(t_toks *token, int type);
-int	doubredir_found(t_toks *token, int type);
+int		redir_found(t_toks *token, int type);
+int		doubredir_found(t_toks *token, int type);
 void	check_append(t_toks *token, t_toks *next);
 void	add_pipe_info(t_toks *token);
 void	add_inredir_info(t_toks *token);
 void	add_outredir_info(t_toks *token);
 void	add_append_info(t_toks *token);
 void	add_hredir_info(t_toks *token);
-int	split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid);
-int	identify_expandable(char *token);
+int		split_by_delim(t_toks **tokens, t_toks *token, char delim, char *divid);
+int		identify_expandable(char *token);
 t_env	*key_finder(char *var, t_env **envs);
 void	build_list_delimstr(t_toks **addition, char *content,
-char **new_tokens, char *delim);
+char 	**new_tokens, char *delim);
 void	build_list(t_toks **addition, char *content,
-char **new_tokens, char delim);
+char 	**new_tokens, char delim);
 void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote);
-int	end_quote_index(t_toks **token, t_env **envs, int *index);
-int	get_index(char **array);
-int	copy_filenames(char **to, char **from, char *new_file, int index);
+int		end_quote_index(t_toks **token, t_env **envs, int *index);
+int		get_index(char **array);
+int		copy_filenames(char **to, char **from, char *new_file, int index);
 void	parser_error(char *str);
-int	add_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
-int	update_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+int		add_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+int		update_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
 t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int heredoc_flag);
 t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int append_flag);
 
@@ -168,10 +168,11 @@ t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int append_f
 
 void	open_files(t_cmds **cmds);
 void	close_files(t_cmds **cmds);
-int	is_dir(char *command);
+int		is_dir(char *command);
 void	print_dirmsg(char *command);
 void	dot_cmd(t_cmds **cmds);
 void	nonexistent_cmd(t_cmds **cmds);
+void	heredoc(t_mini *shell, t_cmds *cmd);
 
 /*				FOR CREATING ENV				*/
 
@@ -266,11 +267,11 @@ void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
 void	close_pipes(int *pipefds);
 void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
 void	minishell(t_mini *shell);
+int		*setup_pipes(t_cmds *cmds);
 
 void	exit_code(t_mini *shell, int code, int sig);
+void	update_exitcode(t_mini *shell, t_cmds *cmds);
 void	write_exit(t_mini *shell, t_cmds *cmd);
 void	free_and_exit(t_mini *shell, char *message);
-
-void	heredoc(t_mini *shell, t_cmds *cmd);
 
 #endif

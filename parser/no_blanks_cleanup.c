@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:17:25 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:44:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 /*
 cleans up tokens that have multiple flags by splitting by delimiter
 */
-void	no_blanks_cleanup(t_toks **tokens)
+void	no_blanks_cleanup(t_toks **tokens, t_mini *shell)
 {
 	t_toks	*token;
 	int		status;
@@ -77,6 +77,7 @@ void	no_blanks_cleanup(t_toks **tokens)
 			status = check_for_multiple_flags(tokens, token);
 			if (status < 1)
 			{
+				syntax_check(NULL, NULL, shell);
 				ft_lstclear_toks(tokens);
 				return ;
 			}

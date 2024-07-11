@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:06:28 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 18:36:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:13:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void	copy_fds(int *to, int *from, int index, int append_flag)
 		to[i] = -2;
 }
 
-static int	first_outfile(t_cmds **cmds, t_cmds *cmd, t_toks *token, int append_flag)
+static int	first_outfile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+int append_flag)
 {
 	cmd->outfile_name = (char **)malloc(sizeof(char *) * 2);
 	if (!cmd->outfile_name)
@@ -75,11 +76,12 @@ static int	update_outfile_fds(t_cmds **cmds, t_cmds *cmd, int append_flag)
 	return (0);
 }
 
-static int	update_existing_outfiles(t_cmds **cmds, t_cmds *cmd, t_toks *token, int append_flag)
+static int	update_existing_outfiles(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+int append_flag)
 {
 	char	**freeable;
-	int	index;
-	
+	int		index;
+
 	index = get_index(cmd->outfile_name);
 	freeable = cmd->outfile_name;
 	cmd->outfile_name = (char **)malloc(sizeof(char *) * (index + 2));
@@ -104,7 +106,8 @@ static int	update_existing_outfiles(t_cmds **cmds, t_cmds *cmd, t_toks *token, i
 strdups outfile name and saves it to cmd; adds corresponding append
 info according to given flag
 */
-t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int append_flag)
+t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
+int append_flag)
 {
 	token = token->next;
 	if (syntax_check(token, &shell->cmds, shell) > 0)

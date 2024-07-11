@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 18:30:18 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 07:47:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	parser(char *rl, t_mini *shell)
 	token_cleanup(&tokens, &shell->env);
 	if (!tokens)
 		return (1);
-	no_blanks_cleanup(&tokens);
+	no_blanks_cleanup(&tokens, shell);
 	if (!tokens)
 		return (1);
 	build_command_list(&tokens, shell);
