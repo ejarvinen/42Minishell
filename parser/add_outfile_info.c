@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:06:28 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:13:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:59:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	copy_fds(int *to, int *from, int index, int append_flag)
 		i++;
 	}
 	if (append_flag)
-		to[i] = -3;
+		to[i - 1] = -3;
 	else
-		to[i] = -2;
+		to[i - 1] = -2;
 }
 
 static int	first_outfile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
@@ -57,12 +57,10 @@ int append_flag)
 	return (0);
 }
 
-static int	update_outfile_fds(t_cmds **cmds, t_cmds *cmd, int append_flag)
+static int	update_outfile_fds(t_cmds **cmds, t_cmds *cmd, int index, int append_flag)
 {
 	int		*fd_freeable;
-	int		index;
 
-	index = get_index(cmd->outfile_name);
 	fd_freeable = cmd->fd_outfile;
 	cmd->fd_outfile = (int *)malloc(sizeof(int) * index);
 	if (!cmd->fd_outfile)
@@ -97,7 +95,7 @@ int append_flag)
 		return (1);
 	}
 	ft_freearray(freeable);
-	if (update_outfile_fds(cmds, cmd, append_flag) > 0)
+	if (update_outfile_fds(cmds, cmd, index + 1, append_flag) > 0)
 		return (1);
 	return (0);
 }

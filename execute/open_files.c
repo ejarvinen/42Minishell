@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:02:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:20:33 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,6 @@ static int	open_outfiles(t_cmds *cmd)
 	return (index);
 }
 
-static void	close_extra_fds(t_cmds *cmd, int index)
-{
-	int	fd_index;
-
-	fd_index = 0;
-	while (fd_index < index)
-	{
-		if (cmd->fd_outfile[fd_index] > 1)
-			close(cmd->fd_outfile[fd_index]);
-		fd_index++;
-	}
-	cmd->fd_outfile[0] = cmd->fd_outfile[index];
-}
-
 /*
 checks for an empty file and saves its fd into first command, opens outfile
 and saves its fd into last command in cmds
@@ -83,7 +69,7 @@ static int	open_outfile(t_cmds *cmd)
 	else
 	{
 		index = open_outfiles(cmd);
-		close_extra_fds(cmd, index);
+		cmd->fd_outfile[0] = cmd->fd_outfile[index];
 	}
 	return (0);
 }

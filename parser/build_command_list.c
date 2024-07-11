@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:04:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:59:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ static int	count_cmds(t_toks **tokens)
 		if (token->command > 0)
 			cmds++;
 		token = token->next;
+	}
+	if (cmds == 0)
+	{
+		token = *tokens;
+		while (token)
+		{
+			if (token->pipe > 0)
+				cmds++;
+			token = token->next;
+		}
 	}
 	return (cmds);
 }
