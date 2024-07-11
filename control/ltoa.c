@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ltoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/08 08:32:01 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:06:55 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,29 @@ static char	*get_string(char *key, char *value)
 	return (new);
 }
 
+static char	*make_ret(char **ret, int i, t_env *temp)
+{
+	if (temp->value != NULL)
+	{
+		ret[i] = get_string(temp->key, temp->value);
+		if (!ret[i])
+		{
+			ft_freearray(ret);
+			return (NULL);
+		}	
+	}
+	return ("yay");
+}
+
 char	**ltoa(t_env *env)
 {
 	t_env	*temp;
 	int		len;
 	int		i;
 	char	**ret;
-	
+
+	if (env == NULL)
+		return (NULL);
 	len = ltoa_lstsize(env);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
@@ -72,16 +88,9 @@ char	**ltoa(t_env *env)
 	i = 0;
 	while (temp != NULL)
 	{
-		if (temp->value != NULL)
-		{
-			ret[i] = get_string(temp->key, temp->value);
-			if (!ret[i])
-			{
-				ft_freearray(ret);
-				return (NULL);
-			}
-			i++;
-		}
+		if (make_ret(ret, i, temp) == NULL)
+			return (NULL);
+		i++;
 		temp = temp->next;
 	}
 	ret[len] = NULL;

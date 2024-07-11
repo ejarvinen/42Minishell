@@ -6,19 +6,11 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:08:56 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 18:35:52 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:53:29 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/* THIS WILL MAKE A LINKED LIST 
-	-with a key and value for the envp 
-	-to be added:
-		-handling for no value but given
-		-handling for no value and not given 
-		-pwd="" vs pwd
-*/
 
 void	ft_lstadd_back_mini(t_env **lst, t_env *new)
 {
@@ -73,7 +65,7 @@ char	*get_value(t_mini *shell, char *envp)
 	len = ft_strlen(envp);
 	value = (char *)malloc(sizeof(char) * (len - i + 1));
 	if (!value)
-		free_and_exit(shell, "minishell: malloc fail\n");;
+		free_and_exit(shell, "minishell: malloc fail\n");
 	len = 0;
 	i++;
 	while (envp[i] != '\0')
@@ -99,7 +91,7 @@ t_env	*add_env(t_mini *shell, char **envp)
 	int		i;
 	t_env	*env;
 	t_env	*new;
-	
+
 	i = 0;
 	env = NULL;
 	while (envp[i])
