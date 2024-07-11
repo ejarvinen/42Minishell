@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:56:15 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:42:03 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	parser_error(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putendl_fd(str, 2);
+}
+
+int	funtastic(t_mini *shell)
+{
+	parser_error("malloc fail");
+	exit_code(shell, 1, 0);
+	ft_lstclear_pars(&shell->cmds);
+	return (1);
 }
 
 /*

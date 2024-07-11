@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 12:20:33 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:32:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	open_with_correct_flags(t_cmds *cmd, int index)
 				O_WRONLY | O_CREAT | O_TRUNC, 0666);
 }
 
-static int	open_outfiles(t_cmds *cmd)
+static int	open_outfiles(t_mini *shell, t_cmds *cmd)
 {
 	int	index;
 	int	error;
@@ -36,6 +36,7 @@ static int	open_outfiles(t_cmds *cmd)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(cmd->outfile_name[index]);
+			exit_code(shell, 1, 0);
 			error = 1;
 		}
 		if (cmd->outfile_name[index + 1] == NULL)
@@ -52,7 +53,7 @@ static int	open_outfiles(t_cmds *cmd)
 checks for an empty file and saves its fd into first command, opens outfile
 and saves its fd into last command in cmds
 */
-static int	open_outfile(t_cmds *cmd)
+static int	open_outfile(t_mini *shell, t_cmds *cmd)
 {
 	int	index;
 
@@ -60,7 +61,10 @@ static int	open_outfile(t_cmds *cmd)
 	{
 		cmd->fd_outfile = (int *)malloc(sizeof(int) * 1);
 		if (!cmd->fd_outfile)
+		{
+			parser_error("malloc fail");
 			return (1);
+		}
 	}
 	if (cmd->outfile_name == NULL)
 		cmd->fd_outfile[0] = 1;
@@ -68,7 +72,7 @@ static int	open_outfile(t_cmds *cmd)
 		cmd->fd_outfile[0] = -1;
 	else
 	{
-		index = open_outfiles(cmd);
+		index = open_outfiles(shell, cmd);
 		cmd->fd_outfile[0] = cmd->fd_outfile[index];
 	}
 	return (0);
@@ -77,7 +81,7 @@ static int	open_outfile(t_cmds *cmd)
 /*
 opens any infiles and outfiles specified for each command
 */
-void	open_files(t_cmds **cmds)
+void	open_files(t_mini *shell, t_cmds **cmds)
 {
 	t_cmds	*cmd;
 
@@ -86,7 +90,7 @@ void	open_files(t_cmds **cmds)
 	{
 		if (cmd->infile_name == NULL)
 			cmd->fd_infile = 0;
-		if (open_outfile(cmd) > 0)
+		if (open_outfile(shell, cmd) > 0)
 		{
 			ft_lstclear_pars(cmds);
 			return ;

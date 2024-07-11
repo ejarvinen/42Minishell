@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:24:26 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:18:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,18 @@ commands and then waits for the children to execute
 void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 {
 	t_cmds	*cmd;
-	int		*pipefds;
 
-	pipefds = setup_pipes(cmds);
-	if (!pipefds)
+	shell->pipefds = setup_pipes(cmds);
+	if (!shell->pipefds)
 		return ;
 	cmd = cmds;
 	while (cmd)
 	{
 		if (safe_to_run(cmd) > 0)
-			child_process(shell, cmd, env, pipefds);
+			child_process(shell, cmd, env, shell->pipefds);
 		cmd = cmd->next;
 	}
-	wait_for_children(cmds, pipefds);
-	free(pipefds);
+	wait_for_children(cmds, shell->pipefds);
+	free(shell->pipefds);
+	shell->pipefds = NULL;
 }

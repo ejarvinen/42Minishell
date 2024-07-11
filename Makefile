@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/11 11:11:34 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/11 13:13:44 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ SRCS = main.c \
 		parser/token_list_tools.c \
 		execute/open_files.c \
 		execute/close_files.c \
-		execute/prep_for_exec.c \
+		execute/read_heredoc.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
 		execute/run_commands.c \
@@ -76,7 +76,8 @@ SRCS = main.c \
 		execute/run_multiple_cmds.c \
 		execute/heredoc.c \
 		execute/setup_pipes.c \
-		execute/run_builtins.c
+		execute/run_builtins.c \
+		execute/minishell.c
 
 OBJECTS = $(SRCS:.c=.o)
 

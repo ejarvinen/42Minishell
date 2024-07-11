@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:24:38 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:45:22 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_mini
 	int		syntax;
 	char	*pwd;
 	char	*oldpwd;
+	int		*pipefds;
 }	t_mini;
 
 
@@ -166,13 +167,15 @@ t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token, int append_f
 
 /*				INPUT VALIDATION				*/
 
-void	open_files(t_cmds **cmds);
+void	open_files(t_mini *shell, t_cmds **cmds);
 void	close_files(t_cmds **cmds);
 int		is_dir(char *command);
 void	print_dirmsg(char *command);
 void	dot_cmd(t_cmds **cmds);
 void	nonexistent_cmd(t_cmds **cmds);
 void	heredoc(t_mini *shell, t_cmds *cmd);
+void	read_heredoc(t_mini *shell);
+int		save_heredoc(t_cmds *temp, int outfile_index);
 void	open_with_correct_flags(t_cmds *cmd, int index);
 
 /*				FOR CREATING ENV				*/
@@ -277,5 +280,6 @@ void	exit_code(t_mini *shell, int code, int sig);
 void	update_exitcode(t_mini *shell, t_cmds *cmds);
 void	write_exit(t_mini *shell, t_cmds *cmd);
 void	free_and_exit(t_mini *shell, char *message);
+int		funtastic(t_mini *shell);
 
 #endif

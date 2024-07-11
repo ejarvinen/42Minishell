@@ -6,24 +6,24 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:48 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:14:52 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:37:00 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	first_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+static int	first_infile(t_mini *shell, t_cmds *cmd, t_toks *token,
 int heredoc_flag)
 {
 	cmd->infile_name = ft_strdup(token->content);
 	if (!cmd->infile_name)
 	{
-		ft_lstclear_pars(cmds);
+		ft_lstclear_pars(&shell->cmds);
 		return (1);
 	}
 	if (heredoc_flag)
 	{
-		if (add_heredoc_info(cmds, cmd, token) > 0)
+		if (add_heredoc_info(&shell->cmds, cmd, token) > 0)
 			return (1);
 	}
 	else
@@ -33,12 +33,13 @@ int heredoc_flag)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(cmd->infile_name);
+			exit_code(shell, 1, 0);
 		}
 	}
 	return (0);
 }
 
-static void	update_fd(t_cmds *cmd)
+static void	update_fd(t_mini *shell, t_cmds *cmd)
 {
 	int		prev_fd;
 
@@ -50,10 +51,11 @@ static void	update_fd(t_cmds *cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(cmd->infile_name);
+		exit_code(shell, 1, 0);
 	}
 }
 
-static int	update_existing_infile(t_cmds **cmds, t_cmds *cmd, t_toks *token,
+static int	update_existing_infile(t_mini *shell, t_cmds *cmd, t_toks *token,
 int heredoc_flag)
 {
 	char	*freeable;
@@ -62,17 +64,17 @@ int heredoc_flag)
 	cmd->infile_name = ft_strdup(token->content);
 	if (!cmd->infile_name)
 	{
-		ft_lstclear_pars(cmds);
+		ft_lstclear_pars(&shell->cmds);
 		return (1);
 	}
 	free(freeable);
 	if (heredoc_flag)
 	{
-		if (update_heredoc_info(cmds, cmd, token) > 0)
+		if (update_heredoc_info(&shell->cmds, cmd, token) > 0)
 			return (1);
 	}
 	else
-		update_fd(cmd);
+		update_fd(shell, cmd);
 	return (0);
 }
 
@@ -87,12 +89,12 @@ int heredoc_flag)
 		return (NULL);
 	if (cmd->infile_name == NULL)
 	{
-		if (first_infile(&shell->cmds, cmd, token, heredoc_flag) > 0)
+		if (first_infile(shell, cmd, token, heredoc_flag) > 0)
 			return (NULL);
 	}
 	else
 	{
-		if (update_existing_infile(&shell->cmds, cmd, token, heredoc_flag) > 0)
+		if (update_existing_infile(shell, cmd, token, heredoc_flag) > 0)
 			return (NULL);
 	}
 	return (token);

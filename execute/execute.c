@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:22:53 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:03:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	safe_to_run(t_cmds *cmds)
 {
 	if (cmds->command == NULL
-			|| ((cmds->fd_infile == -1 || cmds->valid < 0)
-				&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
-				return (0);
+		|| ((cmds->fd_infile == -1 || cmds->valid < 0)
+			&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
+		return (0);
 	return (1);
 }
 

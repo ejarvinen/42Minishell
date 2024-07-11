@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_for_exec.c                                    :+:      :+:    :+:   */
+/*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:17:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:15:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	outfile_exists(t_cmds *cmd)
 {
 	int	index;
-	
+
 	if (cmd->outfile_name != NULL && ft_strcmp(cmd->outfile_name[0], "\0") != 0)
 	{
 		index = 0;
@@ -39,7 +39,6 @@ static int	write_hdoc_to_file(t_cmds *cmd, int outfile_index)
 			perror(cmd->outfile_name[outfile_index]);
 		}
 		ft_putstr_fd(cmd->heredoc, cmd->fd_outfile[outfile_index]);
-		//close(cmd->fd_outfile[outfile_index]);
 	}
 	else
 	{
@@ -59,7 +58,7 @@ static int	heredoc_to_file(t_cmds *cmd, int outfile_index)
 {
 	char	**freeable;
 	int		index;
-	
+
 	if (write_hdoc_to_file(cmd, outfile_index) > 0)
 		return (1);
 	if (outfile_index < 0)
@@ -81,10 +80,15 @@ static int	heredoc_to_file(t_cmds *cmd, int outfile_index)
 	return (0);
 }
 
-static void	read_heredoc(t_mini *shell)
+static void	cleanup(t_mini *shell)
+{
+	ft_lstclear_pars(&shell->cmds);
+}
+
+void	read_heredoc(t_mini *shell)
 {
 	t_cmds	*temp;
-	int	outfile_index;
+	int		outfile_index;
 
 	temp = shell->cmds;
 	while (temp)
@@ -93,35 +97,14 @@ static void	read_heredoc(t_mini *shell)
 		{
 			heredoc(shell, temp);
 			outfile_index = outfile_exists(temp);
-			if ((temp->heredoc && temp->fd_infile == 0) || (temp->command != NULL || (temp->command == NULL && outfile_index != -1)))
+			if (save_heredoc(temp, outfile_index) > 0)
 			{
 				if (heredoc_to_file(temp, outfile_index) > 0)
-				{
-					ft_lstclear_pars(&shell->cmds);
-					return ;
-				}
+					return (cleanup(shell));
 			}
 			else
-			{
-				ft_lstclear_pars(&shell->cmds);
-				return ;
-			}
+				return (cleanup(shell));
 		}
 		temp = temp->next;
 	}
-}
-
-void	minishell(t_mini *shell)
-{
-	read_heredoc(shell);
-	open_files(&shell->cmds);
-	if (!shell->cmds)
-		return ;
-	//print_cmd_info(&shell->cmds);
-	if (shell->cmds->command != NULL)
-	{
-		nonexistent_cmd(&shell->cmds);
-		dot_cmd(&shell->cmds);
-	}
-	run_commands(shell);
 }
