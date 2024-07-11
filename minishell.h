@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 13:45:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,36 @@ extern int	g_sig;
 
 typedef struct s_cmds
 {
-    char            **command;
-    char            *path;
-    char			*infile_name;
-    char			**outfile_name;
-    char			*heredoc;
-    int                c_pid;
-    int                fd_infile;
-    int                *fd_outfile;
-    int                id;
-    int                commands;
-    int				builtin;
-    int				append;
-    int                valid;
-    int                exit_status;
-    struct s_cmds    *next;
-}            t_cmds;
+	char			**command;
+	char			*path;
+	char			*infile_name;
+	char			**outfile_name;
+	char			*heredoc;
+	int				c_pid;
+	int				fd_infile;
+	int				*fd_outfile;
+	int				id;
+	int				commands;
+	int				builtin;
+	int				append;
+	int				valid;
+	int				exit_status;
+	struct s_cmds	*next;
+}					t_cmds;
 
 typedef struct s_toks
 {
 	char			*content;
-	int			file;
-	int			command;
-	int			argument;
-	int			pipe;
-	int			in_redir;
-	int			out_redir;
-	int			append;
-	int			heredoc;
-	int			heredoc_delimiter;
-	int			id;
+	int				file;
+	int				command;
+	int				argument;
+	int				pipe;
+	int				in_redir;
+	int				out_redir;
+	int				append;
+	int				heredoc;
+	int				heredoc_delimiter;
+	int				id;
 	struct s_toks	*next;
 }					t_toks;
 
@@ -74,9 +74,8 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	int				equal;
-	int 			index;
+	int				index;
 	struct s_env	*next;
-	//int				shlvl;
 }	t_env;
 
 typedef struct s_mini
@@ -86,7 +85,7 @@ typedef struct s_mini
 	int		shlvl;
 	int		saved_stdin;
 	int		saved_stdout;
-	int		EXIT_CODE;
+	int		exit_code;
 	int		syntax;
 	char	*pwd;
 	char	*oldpwd;

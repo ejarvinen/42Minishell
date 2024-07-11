@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 10:44:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*	TOO MANY ARGUMENTS DOESN'T EXIT BUT LETTER'S DOES WITH EXIT_CODE 255	*/
+/*	TOO MANY ARGUMENTS DOESN'T EXIT BUT LETTER'S DOES WITH exit_code 255	*/
 
 void	real_exit(t_mini *shell, char *str, int i)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:54:35 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 13:17:29 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_data(t_mini *shell, char **envp)
 	shell->env = add_env(shell, envp);
 	shell->oldpwd = NULL;
 	shell->pwd = getcwd(NULL, 0);
-	shell->EXIT_CODE = 0;
+	shell->exit_code = 0;
 	shell->saved_stdin = -1;
 	shell->saved_stdout = -1;
 	shell->pipefds = NULL;

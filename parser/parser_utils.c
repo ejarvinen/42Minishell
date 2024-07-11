@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:42:03 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

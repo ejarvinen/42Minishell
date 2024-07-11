@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:46:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell)
 	if (token == NULL)
 	{
 		parser_error("syntax error near unexpected token");
-		shell->EXIT_CODE = 258;
+		shell->exit_code = 258;
 		if (cmds)
 			ft_lstclear_pars(cmds);
 		return (1);
@@ -37,7 +37,7 @@ int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell)
 	if (token == NULL)
 	{
 		parser_error("syntax error");
-		shell->EXIT_CODE = 258;
+		shell->exit_code = 258;
 		ft_lstclear_pars(cmds);
 		return (1);
 	}

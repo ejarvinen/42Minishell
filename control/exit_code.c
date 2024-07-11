@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:32:00 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_code(t_mini *shell, int code, int sig)
 	shell->syntax = 0;
 	if (g_sig != sig)
 		g_sig = sig;
-	shell->EXIT_CODE = code;
+	shell->exit_code = code;
 }
 
 void	write_exit(t_mini *shell, t_cmds *cmd)
@@ -29,7 +29,7 @@ void	write_exit(t_mini *shell, t_cmds *cmd)
 	else if (shell->syntax > 0)
 		num = 258;
 	else
-		num = shell->EXIT_CODE;
+		num = shell->exit_code;
 	printf("%d: command not found\n", num);
 	exit_code(shell, 127, 0);
 	if (cmd->c_pid != -1)
