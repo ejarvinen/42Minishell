@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 18:45:15 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:23:05 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	printer(t_env *temp)
 		printf("declare -x %s=\"%s\"\n", temp->key, temp->value);
 }
 
-void	print_export(t_mini *shell, t_env *env)
+void	print_export(t_env *env)
 {
 	t_env	*temp;
 	int		i;
@@ -85,7 +85,6 @@ void	print_export(t_mini *shell, t_env *env)
 		else
 			temp = temp->next;
 	}
-	exit_code(shell, 0, 0);
 }
 
 void	export(t_mini *shell, t_cmds *cmd)
@@ -98,7 +97,7 @@ void	export(t_mini *shell, t_cmds *cmd)
 	if (cmd->command[i] == NULL && shell->env != NULL)
 	{
 		update_index(&shell->env);
-		print_export(shell, shell->env);
+		print_export(shell->env);
 	}
 	else if (cmd->command[i] != NULL)
 	{

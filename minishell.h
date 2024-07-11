@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 08:13:55 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:53:39 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ void	rl_redisplay(void);
 
 /*				FOR EXPORT						*/
 
-void	print_export(t_mini *shell, t_env *env);
+void	print_export(t_env *env);
 void	export(t_mini *shell, t_cmds *cmd);
 int		lstsize(t_env *lst);
 t_env	*find_next(t_env *env);
