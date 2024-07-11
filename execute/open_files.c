@@ -6,18 +6,18 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:26:38 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:02:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	open_with_correct_flags(t_cmds *cmd, int index)
+void	open_with_correct_flags(t_cmds *cmd, int index)
 {
 	if (cmd->fd_outfile[index] == -3)
 		cmd->fd_outfile[index] = open(cmd->outfile_name[index],
 				O_WRONLY | O_CREAT | O_APPEND, 0666);
-	else
+	else if (cmd->fd_outfile[index] == -2)
 		cmd->fd_outfile[index] = open(cmd->outfile_name[index],
 				O_WRONLY | O_CREAT | O_TRUNC, 0666);
 }

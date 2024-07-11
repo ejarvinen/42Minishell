@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 08:14:55 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:23:56 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,7 @@ void	run_commands(t_mini *shell)
 		return ;
 	if (cmds->commands == 1)
 	{
-		if (((cmds->fd_infile == -1 || cmds->valid < 0)
-				&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
+		if (safe_to_run(cmds) < 1)
 		{
 			ft_freearray(env);
 			return ;
