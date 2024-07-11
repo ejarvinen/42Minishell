@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 08:13:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:32:00 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	write_exit(t_mini *shell, t_cmds *cmd)
 	int	num;
 
 	if (g_sig != 0)
-		num =  g_sig;
+		num = g_sig;
 	else if (shell->syntax > 0)
 		num = 258;
 	else

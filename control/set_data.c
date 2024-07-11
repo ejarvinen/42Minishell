@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:54:35 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/10 18:41:15 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:31:05 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	shell_lvl(t_mini *shell)
 {
 	int		i;
 	t_env	*temp;
-	
+
 	temp = shell->env;
 	while (temp != NULL)
 	{
@@ -46,4 +46,3 @@ void	set_data(t_mini *shell, char **envp)
 	shell->syntax = 0;
 	shell_lvl(shell);
 }
-
