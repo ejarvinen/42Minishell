@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:16:37 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:30:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 			int heredoc_flag);
 t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 			int append_flag);
+void	expand_exit_code(t_toks **tokens, t_mini *shell);
 
 /*				INPUT VALIDATION				*/
 

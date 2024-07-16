@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/11 13:56:26 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/16 10:31:14 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS = main.c \
 		parser/fill_redir_info.c \
 		parser/syntax_check.c \
 		parser/token_list_tools.c \
+		parser/expand_exit_code.c \
 		execute/open_files.c \
 		execute/close_files.c \
 		execute/read_heredoc.c \
