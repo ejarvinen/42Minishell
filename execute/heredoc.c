@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 13:10:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:22:17 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ static void	join_rl(char *rl, t_cmds *cmd, t_mini *shell)
 		free_and_exit(shell, "minishell: malloc fail");
 	temp = ft_strjoin(rl, "\n");
 	if (!temp)
-	{
 		free_and_exit(shell, "minishell: malloc fail");
-	}
 	hd = cmd->heredoc;
 	cmd->heredoc = ft_strjoin(cmd->heredoc, temp);
 	if (!cmd->heredoc)

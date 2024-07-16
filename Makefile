@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/16 10:31:14 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/16 10:52:40 by sataskin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,8 @@ SRCS = main.c \
 		execute/heredoc.c \
 		execute/setup_pipes.c \
 		execute/run_builtins.c \
-		execute/minishell.c
+		execute/minishell.c \
+		execute/hdc_to_file.c
 
 OBJECTS = $(SRCS:.c=.o)
 

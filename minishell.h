@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/16 10:30:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:59:39 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,5 +282,7 @@ void	update_exitcode(t_mini *shell, t_cmds *cmds);
 void	write_exit(t_mini *shell, t_cmds *cmd);
 void	free_and_exit(t_mini *shell, char *message);
 int		funtastic(t_mini *shell);
+void	heredoc_typer(t_env *env, char *str, int fd);
+t_env	*hdoc_key(char *str, int index, t_env *env);
 
 #endif

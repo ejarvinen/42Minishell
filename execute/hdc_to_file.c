@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   hdc_to_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 11:05:27 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/16 11:11:58 by sataskin         ###   ########.fr       */
+/*   Created: 2024/07/16 10:20:14 by sataskin          #+#    #+#             */
+/*   Updated: 2024/07/16 11:11:27 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,34 @@ static int	delimiter(char c)
 	return (0);
 }
 
-t_env	*hdoc_key(char *str, int index, t_env *env)
+static int	write_env(char *str, int i, t_env *env, int fd)
 {
 	t_env	*temp;
-	int		loop;
-	int		key;
+	int		index;
 
-	temp = env;
-	index++;
-	while (temp != NULL)
-	{
-		key = 0;
-		loop = index;
-		while (temp->key[key] == str[loop] && str[loop] != '\0')
-		{
-			loop++;
-			key++;
-		}
-		if (temp->key[key] == '\0' && delimiter(str[loop]) == 1)
-			return (temp);
-		temp = temp->next;
-	}
-	return (NULL);
-	
+	index = i;
+	while (delimiter(str[i]) == 0)
+		i++;
+	temp = hdoc_key(str, index, env);
+	if (!temp)
+		return (i);
+	ft_putstr_fd(temp->value, fd);
+	return (i);
 }
 
-t_env	*retrieve_key(t_env *env, char *str)
+void	heredoc_typer(t_env *env, char *str, int fd)
 {
-	t_env	*temp;
-
-	temp = env;
-	while (temp != NULL)
+	int	i;
+	
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (ft_strcmp(temp->key, str) == 0)
-			return (temp);
-		temp = temp->next;
+		if (str[i] == '$')
+			i = write_env(str, i, env, fd);
+		else
+		{
+			ft_putchar_fd(str[i], fd);
+			i++;
+		}
 	}
-	return (temp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:09:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:15:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:31:20 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	outfile_exists(t_cmds *cmd)
 	return (-1);
 }
 
-static int	write_hdoc_to_file(t_cmds *cmd, int outfile_index)
+static int	write_hdoc_to_file(t_env *env, t_cmds *cmd, int outfile_index)
 {
 	int		fd;
 
@@ -38,7 +38,7 @@ static int	write_hdoc_to_file(t_cmds *cmd, int outfile_index)
 			ft_putstr_fd("minishell: ", 2);
 			perror(cmd->outfile_name[outfile_index]);
 		}
-		ft_putstr_fd(cmd->heredoc, cmd->fd_outfile[outfile_index]);
+		heredoc_typer(env, cmd->heredoc, cmd->fd_outfile[outfile_index]);
 	}
 	else
 	{
@@ -48,18 +48,18 @@ static int	write_hdoc_to_file(t_cmds *cmd, int outfile_index)
 			ft_putstr_fd("minishell: heredoc fail", 2);
 			return (1);
 		}
-		ft_putstr_fd(cmd->heredoc, fd);
+		heredoc_typer(env, cmd->heredoc, fd);
 		close(fd);
 	}
 	return (0);
 }
 
-static int	heredoc_to_file(t_cmds *cmd, int outfile_index)
+static int	heredoc_to_file(t_mini *shell, t_cmds *cmd, int outfile_index)
 {
 	char	**freeable;
 	int		index;
 
-	if (write_hdoc_to_file(cmd, outfile_index) > 0)
+	if (write_hdoc_to_file(shell->env, cmd, outfile_index) > 0)
 		return (1);
 	if (outfile_index < 0)
 	{
@@ -99,7 +99,7 @@ void	read_heredoc(t_mini *shell)
 			outfile_index = outfile_exists(temp);
 			if (save_heredoc(temp, outfile_index) > 0)
 			{
-				if (heredoc_to_file(temp, outfile_index) > 0)
+				if (heredoc_to_file(shell, temp, outfile_index) > 0)
 					return (cleanup(shell));
 			}
 			else
