@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:25:39 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:32:11 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,20 @@
 static int	check_newline(char **str)
 {
 	int	i;
+	int ind;
 
 	i = 1;
-	while (ft_strcmp(str[i], "-n") == 0)
+	while (str[i] != NULL)
+	{
+		ind = 1;
+		if (str[i][0] != '-')
+			return (i);
+		while (str[i][ind] == 'n')
+			ind++;
+		if (str[i][ind] != '\0')
+			return (i);
 		i++;
+	}
 	return (i);
 }
 

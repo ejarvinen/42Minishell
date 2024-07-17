@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   panic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 10:20:43 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:01:48 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	free_data(t_mini *shell, char *message)
 		close_pipes(shell->pipefds);
 		free(shell->pipefds);
 	}
-	if (shell->cmds->commands > 1)
+	if (shell->cmds && shell->cmds->commands > 1)
 		ft_freearray(shell->env_p);
 	free_env(shell->env);
 	if (shell->oldpwd)
