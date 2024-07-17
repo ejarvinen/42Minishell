@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 09:19:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:20:43 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ void	ft_freearray(char **array)
 	int	i;
 
 	i = 0;
-	while (array[i] != NULL)
+	if (array)
 	{
-		free(array[i]);
-		i++;
+		while (array[i] != NULL)
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
+		array = NULL;
 	}
-	free(array);
 }
 
 void	panic(t_mini *shell, int error_code)
@@ -58,9 +62,9 @@ void	free_data(t_mini *shell, char *message)
 		close_pipes(shell->pipefds);
 		free(shell->pipefds);
 	}
-	free_env(shell->env);
-	if (shell->env_p)
+	if (shell->cmds->commands > 1)
 		ft_freearray(shell->env_p);
+	free_env(shell->env);
 	if (shell->oldpwd)
 		free(shell->oldpwd);
 	if (shell->pwd)

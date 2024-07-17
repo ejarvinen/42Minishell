@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 09:31:44 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:02:22 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	run_a_single_cmd(t_mini *shell, t_cmds *cmd)
 	{
 		shell->saved_stdin = dup(STDIN_FILENO);
 		shell->saved_stdout = dup(STDOUT_FILENO);
-		if (cmd->commands > 1)
+		if (cmd->commands == 1)
 			ft_freearray(shell->env_p);
 		if (duplicate_fds(cmd) > 0)
 			return ;
@@ -134,5 +134,5 @@ void	run_commands(t_mini *shell)
 		return ;
 	}
 	run_multiple(shell, cmds);
-	//ft_freearray(shell->env_p);
+	ft_freearray(shell->env_p);
 }
