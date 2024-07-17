@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:43:37 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:13:11 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void	run_commands(t_mini *shell)
 		if (safe_to_run(cmds) < 1)
 		{
 			ft_freearray(env);
+			if (cmds->heredoc != NULL)
+				unlink(".temp");
 			return ;
 		}
 		run_a_single_cmd(shell, env, cmds);
