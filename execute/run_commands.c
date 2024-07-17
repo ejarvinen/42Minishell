@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:54:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:31:44 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	duplicate_fds(t_cmds *cmd)
 /*
 runs a single command in a child process
 */
-static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
+static void	run_single(t_mini *shell, t_cmds *cmd)
 {
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
@@ -52,11 +52,11 @@ static void	run_single(t_mini *shell, t_cmds *cmd, char **env)
 	if (cmd->c_pid == 0)
 	{
 		if (duplicate_fds(cmd) > 0)
-			panic(shell, NULL, env, 9);
-		if (execve(cmd->path, cmd->command, env) == -1)
+			panic(shell, 9);
+		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
 		{
 			perror("minishell");
-			panic(shell, NULL, env, 126);
+			panic(shell, 126);
 		}
 	}
 }
@@ -77,7 +77,7 @@ void	restore_fds(t_mini *shell)
 	}
 }
 
-void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
+void	run_a_single_cmd(t_mini *shell, t_cmds *cmd)
 {
 	int		status;
 
@@ -85,7 +85,8 @@ void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
 	{
 		shell->saved_stdin = dup(STDIN_FILENO);
 		shell->saved_stdout = dup(STDOUT_FILENO);
-		ft_freearray(env);
+		if (cmd->commands > 1)
+			ft_freearray(shell->env_p);
 		if (duplicate_fds(cmd) > 0)
 			return ;
 		check_builtin(shell, cmd);
@@ -97,7 +98,7 @@ void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
 	}
 	else
 	{
-		run_single(shell, cmd, env);
+		run_single(shell, cmd);
 		waitpid(cmd->c_pid, &status, 0);
 		cmd->exit_status = status;
 		update_exitcode(shell, shell->cmds);
@@ -111,28 +112,27 @@ or a pipeline
 void	run_commands(t_mini *shell)
 {
 	t_cmds	*cmds;
-	char	**env;
 
 	cmds = shell->cmds;
-	env = ltoa(shell->env);
-	if (!env)
+	shell->env_p = ltoa(shell->env);
+	if (!shell->env_p)
 		return ;
 	if (cmds->commands == 1)
 	{
 		if (safe_to_run(cmds) < 1)
 		{
-			ft_freearray(env);
+			ft_freearray(shell->env_p);
 			if (cmds->heredoc != NULL)
 				unlink(".temp");
 			return ;
 		}
-		run_a_single_cmd(shell, env, cmds);
+		run_a_single_cmd(shell, cmds);
 		if (cmds->builtin != 1)
-			ft_freearray(env);
+			ft_freearray(shell->env_p);
 		if (cmds->heredoc != NULL)
 			unlink(".temp");
 		return ;
 	}
-	run_multiple(shell, env, cmds);
-	ft_freearray(env);
+	run_multiple(shell, cmds);
+	//ft_freearray(shell->env_p);
 }

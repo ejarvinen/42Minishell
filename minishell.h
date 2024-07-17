@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 08:34:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:28:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_mini
 {
 	t_env	*env;
 	t_cmds	*cmds;
+	char	**env_p;
 	int		shlvl;
 	int		saved_stdin;
 	int		saved_stdout;
@@ -190,7 +191,7 @@ t_env	*add_env(t_mini *shell, char **envp);
 void	free_env(t_env *env);
 void	ft_freearray(char **array);
 void	free_data(t_mini *shell, char *message);
-void	panic(t_mini *shell, int *pipefds, char **envs, int error_code);
+void	panic(t_mini *shell, int error_code);
 
 /*				FOR SIGNALs						*/
 
@@ -264,12 +265,12 @@ void	print_cmd_info(t_cmds **cmds);
 
 void	check_builtin(t_mini *shell, t_cmds *cmd);
 void	run_commands(t_mini *shell);
-void	run_multiple(t_mini *shell, char **env, t_cmds *cmds);
-void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds);
-void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
-void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env);
+void	run_multiple(t_mini *shell, t_cmds *cmds);
+void	execute(t_mini *shell, t_cmds *cmd);
+void	first_command(t_mini *shell, t_cmds *cmd);
+void	last_command(t_mini *shell, t_cmds *cmd);
 void	close_pipes(int *pipefds);
-void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd);
+void	run_a_single_cmd(t_mini *shell, t_cmds *cmd);
 void	minishell(t_mini *shell);
 int		*setup_pipes(t_cmds *cmds);
 int		safe_to_run(t_cmds *cmds);

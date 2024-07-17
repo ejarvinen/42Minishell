@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:54:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:29:51 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static int	execute_builtin(t_cmds *cmd)
 forks a child process, executes it and closes pipes if running the last command
 in the pipeline
 */
-static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
+static void	child_process(t_mini *shell, t_cmds *cmd)
 {
 	if (execute_builtin(cmd) > 0)
 	{
-		run_a_single_cmd(shell, env, cmd);
+		run_a_single_cmd(shell, cmd);
 		return ;
 	}
 	cmd->c_pid = fork();
@@ -42,11 +42,11 @@ static void	child_process(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
 	}
 	if (cmd->c_pid == 0)
 	{
-		execute(shell, cmd, env, pipefds);
+		execute(shell, cmd);
 	}
 	if (cmd->id == cmd->commands - 1)
 	{
-		close_pipes(pipefds);
+		close_pipes(shell->pipefds);
 	}
 }
 
@@ -94,7 +94,7 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 runs a pipeline by setting up pipes, forks child processes for the
 commands and then waits for the children to execute
 */
-void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
+void	run_multiple(t_mini *shell, t_cmds *cmds)
 {
 	t_cmds	*cmd;
 
@@ -105,7 +105,7 @@ void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 	while (cmd)
 	{
 		if (safe_to_run(cmd) > 0)
-			child_process(shell, cmd, env, shell->pipefds);
+			child_process(shell, cmd);
 		cmd = cmd->next;
 	}
 	wait_for_children(cmds, shell->pipefds);

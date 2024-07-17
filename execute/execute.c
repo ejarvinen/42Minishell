@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:03:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:27:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
 if the command to be executed is not the first or the last command
 in a pipeline, sets up pipes according to even and odd numbered ids
 */
-static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
+static void	set_pipes(t_mini *shell, t_cmds *cmd)
 {
 	if (cmd->id % 2 == 0)
 	{
-		if (even_id_cmds(cmd, pipefds) > 0)
-			panic(shell, pipefds, env, 9);
+		if (even_id_cmds(cmd, shell->pipefds) > 0)
+			panic(shell, 9);
 	}
 	else
 	{
-		if (odd_id_cmds(cmd, pipefds) > 0)
-			panic(shell, pipefds, env, 9);
+		if (odd_id_cmds(cmd, shell->pipefds) > 0)
+			panic(shell, 9);
 	}
 }
 
@@ -95,22 +95,22 @@ static void	set_pipes(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
 sets up pipes and redirections according to command type and runs
 a builtin or execve accordingly
 */
-void	execute(t_mini *shell, t_cmds *cmd, char **env, int *pipefds)
+void	execute(t_mini *shell, t_cmds *cmd)
 {
 	if (cmd->id == 0)
-		first_command(shell, cmd, pipefds, env);
+		first_command(shell, cmd);
 	else if (cmd->id == cmd->commands - 1)
-		last_command(shell, cmd, pipefds, env);
+		last_command(shell, cmd);
 	else
-		set_pipes(shell, cmd, pipefds, env);
+		set_pipes(shell, cmd);
 	if (cmd->builtin == 1)
 	{
-		ft_freearray(env);
+		ft_freearray(shell->env_p);
 		check_builtin(shell, cmd);
 	}
 	else
 	{
-		if (execve(cmd->path, cmd->command, env) == -1)
-			panic(shell, pipefds, env, 126);
+		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
+			panic(shell, 126);
 	}
 }

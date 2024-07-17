@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 15:54:56 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:29:24 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,32 @@ void	close_pipes(int *pipefds)
 /*
 sets up file descriptors and redirections for the first command in a pipeline
 */
-void	first_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
+void	first_command(t_mini *shell, t_cmds *cmd)
 {
-	close(pipefds[READ_END]);
+	close(shell->pipefds[READ_END]);
 	if (cmd->fd_infile != 0)
 	{
 		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 		{
 			perror("minishell");
-			panic(shell, pipefds, env, 9);
+			panic(shell, 9);
 		}
 		close(cmd->fd_infile);
 	}
 	if (cmd->fd_outfile[0] == 1)
-		cmd->fd_outfile[0] = pipefds[WRITE_END];
+		cmd->fd_outfile[0] = shell->pipefds[WRITE_END];
 	else
-		close(pipefds[WRITE_END]);
+		close(shell->pipefds[WRITE_END]);
 	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
 	{
 		perror("minishell");
-		panic(shell, pipefds, env, 9);
+		panic(shell, 9);
 	}
 	close(cmd->fd_outfile[0]);
 	if (cmd->commands > 2)
 	{
-		close(pipefds[READ_END + 2]);
-		close(pipefds[WRITE_END + 2]);
+		close(shell->pipefds[READ_END + 2]);
+		close(shell->pipefds[WRITE_END + 2]);
 	}
 }
 
@@ -124,16 +124,16 @@ static int	odd_commands(t_cmds *cmd, int *pipefds)
 /*
 sets up filedescritors and redirections for the last command in a pipeline
 */
-void	last_command(t_mini *shell, t_cmds *cmd, int *pipefds, char **env)
+void	last_command(t_mini *shell, t_cmds *cmd)
 {
 	if (cmd->commands % 2 == 0)
 	{
-		if (even_commands(cmd, pipefds) > 0)
-			panic(shell, pipefds, env, 9);
+		if (even_commands(cmd, shell->pipefds) > 0)
+			panic(shell, 9);
 	}
 	else
 	{
-		if (odd_commands(cmd, pipefds) > 0)
-			panic(shell, pipefds, env, 9);
+		if (odd_commands(cmd, shell->pipefds) > 0)
+			panic(shell, 9);
 	}
 }

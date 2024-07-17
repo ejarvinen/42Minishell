@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   panic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:37:01 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:19:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,8 @@ void	ft_freearray(char **array)
 	free(array);
 }
 
-void	panic(t_mini *shell, int *pipefds, char **envs, int error_code)
+void	panic(t_mini *shell, int error_code)
 {
-	if (pipefds)
-	{
-		close_pipes(pipefds);
-		free(pipefds);
-	}
-	if (envs)
-		ft_freearray(envs);
 	free_data(shell, NULL);
 	exit(error_code);
 }
@@ -60,7 +53,14 @@ void	panic(t_mini *shell, int *pipefds, char **envs, int error_code)
 void	free_data(t_mini *shell, char *message)
 {
 	restore_fds(shell);
+	if (shell->pipefds)
+	{
+		close_pipes(shell->pipefds);
+		free(shell->pipefds);
+	}
 	free_env(shell->env);
+	if (shell->env_p)
+		ft_freearray(shell->env_p);
 	if (shell->oldpwd)
 		free(shell->oldpwd);
 	if (shell->pwd)
