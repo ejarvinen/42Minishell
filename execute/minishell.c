@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 13:12:23 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 07:58:48 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:30:15 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	minishell(t_mini *shell)
 	{
 		if (cmd->command != NULL)
 		{
-			nonexistent_cmd(&shell->cmds);
-			dot_cmd(&shell->cmds);
+			nonexistent_cmd(shell);
+			dot_cmd(shell);
 		}
 		cmd = cmd->next;
 	}

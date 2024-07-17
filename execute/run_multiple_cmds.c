@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:18:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:54:40 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void	run_multiple(t_mini *shell, char **env, t_cmds *cmds)
 	wait_for_children(cmds, shell->pipefds);
 	free(shell->pipefds);
 	shell->pipefds = NULL;
+	update_exitcode(shell, shell->cmds);
 }

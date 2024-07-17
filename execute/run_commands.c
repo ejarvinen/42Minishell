@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:13:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:54:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	run_a_single_cmd(t_mini *shell, char **env, t_cmds *cmd)
 		run_single(shell, cmd, env);
 		waitpid(cmd->c_pid, &status, 0);
 		cmd->exit_status = status;
+		update_exitcode(shell, shell->cmds);
 	}
 }
 
@@ -134,5 +135,4 @@ void	run_commands(t_mini *shell)
 	}
 	run_multiple(shell, env, cmds);
 	ft_freearray(env);
-	update_exitcode(shell, shell->cmds);
 }
