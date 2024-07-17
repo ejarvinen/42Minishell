@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 11:20:35 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:01:33 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	write_exit(t_mini *shell, t_cmds *cmd)
 	int	num;
 
 	if (g_sig != 0)
-		num = g_sig;
+		num = 128 + g_sig;
 	else if (shell->syntax > 0)
 		num = 258;
 	else
@@ -52,7 +52,9 @@ void	update_exitcode(t_mini *shell, t_cmds *cmds)
 	while (command)
 	{
 		exitcode = 0;
-		if (WIFEXITED(command->exit_status)
+		if (WIFSIGNALED(command->exit_status) != 0)
+			exitcode = 128 + g_sig;
+		else if (WIFEXITED(command->exit_status)
 			&& WEXITSTATUS(command->exit_status) != 0)
 		{
 			exitcode = WEXITSTATUS(command->exit_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 08:01:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:13:01 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,6 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 	if (rl)
 		free(rl);
 	else
-	{
 		ft_putstr_fd("minishell: heredoc interrupted by CTRL+D\n", 2);
-		free(cmd->heredoc);
-	}
 	free(comp);
 }
