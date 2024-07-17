@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:11:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 07:59:13 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:07:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	add_heredoc_info(t_mini *shell, t_cmds *cmd, t_toks *token)
 		return (1);
 	}
 	heredoc(shell, cmd);
-	if (write_hdoc_to_file_mod(shell->env, cmd) > 0)
+	if (write_hdoc_to_file(shell->env, cmd) > 0)
 		return (1);
 	return (0);
 }
@@ -52,7 +52,7 @@ int	update_heredoc_info(t_mini *shell, t_cmds *cmd, t_toks *token)
 	if (cmd->fd_infile > 1)
 		close(cmd->fd_infile);
 	heredoc(shell, cmd);
-	if (write_hdoc_to_file_mod(shell->env, cmd) > 0)
+	if (write_hdoc_to_file(shell->env, cmd) > 0)
 		return (1);
 	return (0);
 }
