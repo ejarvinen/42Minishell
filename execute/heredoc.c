@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 14:13:01 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:52:18 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 	free(cmd->heredoc);
 	cmd->heredoc = NULL;
 	set_signal(2);
+	shell->saved_stdin = dup(STDIN_FILENO);
 	rl = get_heredoc(shell, cmd, comp);
+	dup2(shell->saved_stdin, STDIN_FILENO);
+	close(shell->saved_stdin);
 	set_signal(1);
 	if (rl && cmd->heredoc == NULL && ft_strcmp(rl, comp) == 0)
 	{
@@ -76,7 +79,7 @@ void	heredoc(t_mini *shell, t_cmds *cmd)
 	}
 	if (rl)
 		free(rl);
-	else
+	else if (g_sig == 0)
 		ft_putstr_fd("minishell: heredoc interrupted by CTRL+D\n", 2);
 	free(comp);
 }

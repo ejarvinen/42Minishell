@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_heredoc_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:11:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:07:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:19:30 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	write_hdoc_to_file(t_env *env, t_cmds *cmd)
 {
 	int		fd;
-
+	
 	fd = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd < 0)
 	{
@@ -36,6 +36,7 @@ int	add_heredoc_info(t_mini *shell, t_cmds *cmd, t_toks *token)
 		return (1);
 	}
 	heredoc(shell, cmd);
+	shell->saved_stdin = -1;
 	if (write_hdoc_to_file(shell->env, cmd) > 0)
 		return (1);
 	return (0);

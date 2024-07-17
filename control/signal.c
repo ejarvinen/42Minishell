@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:07:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 13:49:25 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:15:18 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static void	heredoc_c(int sig)
 	if (sig)
 	{
 		g_sig = sig;
-		printf("\33[2K\r>\n");
+		printf("\n");
+		close(STDIN_FILENO);
+		/*printf("\33[2K\r>\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_redisplay();*/
 	}
 }
 
