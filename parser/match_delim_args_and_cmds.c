@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/16 10:53:45 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:04:21 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ t_toks *token, t_toks *next)
 	{
 		token->command = 1;
 		next->command = 0;
+	}
+	else if (next && check_for_previous_cmds(tokens, next->id) == 0 && token->file == 1)
+	{
+		token->command = 0;
+		next->command = 1;
 	}
 	else
 		token->command = 0;

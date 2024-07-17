@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 09:27:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:32:57 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	safe_to_run(t_cmds *cmds)
 {
+	printf("fd_infile: %d | validity: %d | fd_outfile: %d\n", cmds->fd_infile, cmds->valid, cmds->fd_outfile[0]);
 	if (cmds->command == NULL
 		|| ((cmds->fd_infile == -1 || cmds->valid < 0)
 			&& cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
