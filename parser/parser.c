@@ -6,24 +6,34 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/16 10:30:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:11:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	fill_invalid_cmd_info(t_cmds *cmd)
+static void	fill_invalid_cmd_info(t_cmds *cmds)
 {
-	cmd->builtin = 0;
-	cmd->valid = -1;
+	t_cmds	*cmd;
+
+	cmd = cmds;
+	while (cmd)
+	{
+		if (cmd->command == NULL)
+		{
+			cmd->builtin = 0;
+			cmd->valid = -1;
+		}
+		cmd = cmd->next;
+	}
 }
 
 static int	add_remaining_info(t_mini *shell)
 {
-	if (shell->cmds->command == NULL)
-		fill_invalid_cmd_info(shell->cmds);
-	else
-		add_builtin_info(&shell->cmds);
+	//if (shell->cmds->command == NULL)
+	fill_invalid_cmd_info(shell->cmds);
+	//else
+	add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
 	if (shell->cmds->command == NULL)
 		return (0);

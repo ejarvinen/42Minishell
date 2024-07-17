@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 10:18:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:53:45 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_toks *token, t_toks *next)
 	if (token->pipe > 0 && ft_strlen(token->content) == 1)
 	{
 		token->command = 0;
-		if (next)
+		if (next && next->in_redir < 1 && next->append < 1 && next->out_redir < 1
+			&& next->heredoc_delimiter < 1)
 			next->command = 1;
 	}
 	else if (token->pipe > 0 && ft_strlen(token->content) > 1)

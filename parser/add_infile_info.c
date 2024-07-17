@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_infile_info.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:48 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 07:42:08 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,25 @@
 static int	first_infile(t_mini *shell, t_cmds *cmd, t_toks *token,
 int heredoc_flag)
 {
-	cmd->infile_name = ft_strdup(token->content);
-	if (!cmd->infile_name)
-	{
-		ft_lstclear_pars(&shell->cmds);
-		return (1);
-	}
 	if (heredoc_flag)
 	{
-		if (add_heredoc_info(&shell->cmds, cmd, token) > 0)
+		cmd->infile_name = ft_strdup(".temp");
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(&shell->cmds);
+			return (1);
+		}
+		if (add_heredoc_info(shell, cmd, token) > 0)
 			return (1);
 	}
 	else
 	{
+		cmd->infile_name = ft_strdup(token->content);
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(&shell->cmds);
+			return (1);
+		}
 		cmd->fd_infile = open(cmd->infile_name, O_RDONLY, 0666);
 		if (cmd->fd_infile < 0)
 		{
@@ -61,20 +67,29 @@ int heredoc_flag)
 	char	*freeable;
 
 	freeable = cmd->infile_name;
-	cmd->infile_name = ft_strdup(token->content);
-	if (!cmd->infile_name)
-	{
-		ft_lstclear_pars(&shell->cmds);
-		return (1);
-	}
-	free(freeable);
 	if (heredoc_flag)
 	{
-		if (update_heredoc_info(&shell->cmds, cmd, token) > 0)
+		cmd->infile_name = ft_strdup(".temp");
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(&shell->cmds);
+			return (1);
+		}
+		free(freeable);
+		if (update_heredoc_info(shell, cmd, token) > 0)
 			return (1);
 	}
 	else
+	{
+		cmd->infile_name = ft_strdup(token->content);
+		if (!cmd->infile_name)
+		{
+			ft_lstclear_pars(&shell->cmds);
+			return (1);
+		}
+		free(freeable);
 		update_fd(shell, cmd);
+	}
 	return (0);
 }
 

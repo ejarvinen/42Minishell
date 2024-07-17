@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:15:39 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 12:12:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:13:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ void	add_builtin_info(t_cmds **cmds)
 	cmd = *cmds;
 	while (cmd)
 	{
-		if (ft_strcmp(cmd->command[0], "echo") == 0)
+		if (cmd->command && ft_strcmp(cmd->command[0], "echo") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "cd") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "cd") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "pwd") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "pwd") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "export") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "export") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "unset") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "unset") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "env") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "env") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "exit") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "exit") == 0)
 			cmd->builtin = 1;
-		else if (ft_strcmp(cmd->command[0], "$?") == 0)
+		else if (cmd->command && ft_strcmp(cmd->command[0], "$?") == 0)
 			cmd->builtin = 1;
 		else
 			cmd->builtin = 0;

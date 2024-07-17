@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:59:06 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 07:50:26 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ void	open_files(t_mini *shell, t_cmds **cmds)
 	{
 		if (cmd->infile_name == NULL)
 			cmd->fd_infile = 0;
+		else if (ft_strcmp(cmd->infile_name, ".temp") == 0)
+		{
+			cmd->fd_infile = open(cmd->infile_name, O_RDONLY, 0666);
+			if (cmd->fd_infile < 0)
+				ft_putstr_fd("minishell: heredoc fail", 2);
+		}
 		if (open_outfile(shell, cmd) > 0)
 		{
 			ft_lstclear_pars(cmds);

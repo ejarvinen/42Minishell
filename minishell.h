@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/16 10:59:39 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:01:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ int		end_quote_index(t_toks **token, t_env **envs, int *index);
 int		get_index(char **array);
 int		copy_filenames(char **to, char **from, char *new_file, int index);
 void	parser_error(char *str);
-int		add_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
-int		update_heredoc_info(t_cmds **cmds, t_cmds *cmd, t_toks *token);
+int		add_heredoc_info(t_mini *shell, t_cmds *cmd, t_toks *token);
+int		update_heredoc_info(t_mini *shell, t_cmds *cmd, t_toks *token);
 t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 			int heredoc_flag);
 t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
@@ -175,8 +175,6 @@ void	print_dirmsg(char *command);
 void	dot_cmd(t_cmds **cmds);
 void	nonexistent_cmd(t_cmds **cmds);
 void	heredoc(t_mini *shell, t_cmds *cmd);
-void	read_heredoc(t_mini *shell);
-int		save_heredoc(t_cmds *temp, int outfile_index);
 void	open_with_correct_flags(t_cmds *cmd, int index);
 
 /*				FOR CREATING ENV				*/

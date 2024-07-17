@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+         #
+#    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/16 10:52:40 by sataskin         ###   ########.fr        #
+#    Updated: 2024/07/17 08:02:15 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,6 @@ SRCS = main.c \
 		parser/expand_exit_code.c \
 		execute/open_files.c \
 		execute/close_files.c \
-		execute/read_heredoc.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
 		execute/run_commands.c \

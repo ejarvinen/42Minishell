@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 13:12:23 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 13:24:57 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 07:58:48 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 void	minishell(t_mini *shell)
 {
-	read_heredoc(shell);
+	t_cmds	*cmd;
+	
 	open_files(shell, &shell->cmds);
 	if (!shell->cmds)
 		return ;
-	if (shell->cmds->command != NULL)
+	cmd = shell->cmds;
+	while (cmd)
 	{
-		nonexistent_cmd(&shell->cmds);
-		dot_cmd(&shell->cmds);
+		if (cmd->command != NULL)
+		{
+			nonexistent_cmd(&shell->cmds);
+			dot_cmd(&shell->cmds);
+		}
+		cmd = cmd->next;
 	}
 	run_commands(shell);
 }

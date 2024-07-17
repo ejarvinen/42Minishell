@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 11:59:55 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:08:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	count_cmds(t_toks **tokens)
 				cmds++;
 			token = token->next;
 		}
+		cmds++;
 	}
 	return (cmds);
 }
@@ -70,23 +71,15 @@ returns a list of commands and their redirection info in a linked list
 void	build_command_list(t_toks **tokens, t_mini *shell)
 {
 	int		commands;
-	int		missing_cmd;
 
 	commands = count_cmds(tokens);
-	missing_cmd = 0;
 	if (!commands)
-	{
 		commands = 1;
-		missing_cmd = 1;
-	}
 	shell->cmds = NULL;
 	create_list(&shell->cmds, commands);
 	if (!shell->cmds)
 		return ;
-	if (missing_cmd)
-		shell->cmds->command = NULL;
-	else
-		fill_cmd_info(&shell->cmds, tokens);
+	fill_cmd_info(&shell->cmds, tokens);
 	if (!shell->cmds)
 		return ;
 	fill_redir_info(shell, &shell->cmds, tokens);

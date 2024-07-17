@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/16 11:22:17 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:01:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	save_heredoc(t_cmds *temp, int outfile_index)
-{
-	if ((temp->heredoc && temp->fd_infile == 0) || (temp->command != NULL
-			|| (temp->command == NULL && outfile_index != -1)))
-		return (1);
-	return (0);
-}
 
 static void	join_rl(char *rl, t_cmds *cmd, t_mini *shell)
 {
