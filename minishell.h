@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 09:28:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:00:12 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,8 @@ void	open_files(t_mini *shell, t_cmds **cmds);
 void	close_files(t_cmds **cmds);
 int		is_dir(char *command);
 void	print_dirmsg(char *command, t_mini *shell);
-void	dot_cmd(t_mini *shell);
-void	nonexistent_cmd(t_mini *shell);
+void	dot_cmd(t_mini *shell, t_cmds *cmd);
+void	nonexistent_cmd(t_mini *shell, t_cmds *cmd);
 void	heredoc(t_mini *shell, t_cmds *cmd);
 void	open_with_correct_flags(t_cmds *cmd, int index);
 

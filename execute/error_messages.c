@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 07:49:29 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:46:26 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:19:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	print_invalid_msg(t_cmds *cmd, t_mini *shell)
 		else
 			print_error_msg(cmd->command[0], -1, shell);
 	}
-	else if (cmd->id > 0 && cmd->fd_infile < 0)
+	else if (cmd->id > 0)
 	{
 		if (is_dir(cmd->command[0]) > 0)
 			print_error_msg(cmd->command[0], -4, shell);
@@ -95,56 +95,42 @@ static void	print_invalid_msg(t_cmds *cmd, t_mini *shell)
 prints the appropriate error message for nonexistent/
 nonexecutable commands
 */
-void	nonexistent_cmd(t_mini *shell)
+void	nonexistent_cmd(t_mini *shell, t_cmds *cmd)
 {
-	t_cmds	*cmd;
-
-	cmd = shell->cmds;
-	while (cmd)
+	if (cmd->valid == -1)
 	{
-		if (cmd->valid == -1)
-		{
-			print_invalid_msg(cmd, shell);
-		}
-		else if (cmd->valid == -2 && ft_strncmp(cmd->command[0], ".", 1) != 0)
-		{
-			if (cmd->id == 0 && cmd->fd_infile != -1)
-				print_error_msg(cmd->command[0], -2, shell);
-			else if (cmd->id > 0 && cmd->fd_infile < 0)
-				print_error_msg(cmd->command[0], -2, shell);
-		}
-		else if (cmd->valid == -3)
-		{
-			if (cmd->id == 0 && cmd->fd_infile != -1)
-				print_error_msg(cmd->command[0], -3, shell);
-			else if (cmd->id > 0 && cmd->fd_infile < 0)
-				print_error_msg(cmd->command[0], -3, shell);
-		}
-		cmd = cmd->next;
+		print_invalid_msg(cmd, shell);
+	}
+	else if (cmd->valid == -2 && ft_strcmp(cmd->command[0], ".") != 0)
+	{
+		if (cmd->id == 0 && cmd->fd_infile != -1)
+			print_error_msg(cmd->command[0], -2, shell);
+		else if (cmd->id > 0)
+			print_error_msg(cmd->command[0], -2, shell);
+	}
+	else if (cmd->valid == -3)
+	{
+		if (cmd->id == 0 && cmd->fd_infile != -1)
+			print_error_msg(cmd->command[0], -3, shell);
+		else if (cmd->id > 0)
+			print_error_msg(cmd->command[0], -3, shell);
 	}
 }
 
 /*
 checks for incomplete . arguments
 */
-void	dot_cmd(t_mini *shell)
+void	dot_cmd(t_mini *shell, t_cmds *cmd)
 {
-	t_cmds	*cmd;
-
-	cmd = shell->cmds;
-	while (cmd)
+	if (cmd->command[0] != NULL && ft_strcmp(cmd->command[0], "\0") != 0)
 	{
-		if (cmd->command[0] != NULL && ft_strcmp(cmd->command[0], "\0") != 0)
+		if (cmd->id == 0 && cmd->fd_infile != -1)
 		{
-			if (cmd->id == 0 && cmd->fd_infile != -1)
-			{
-				print_usage_msg(cmd->command[0], shell);
-			}
-			else if (cmd->id > 0 && cmd->fd_infile < 0)
-			{
-				print_usage_msg(cmd->command[0], shell);
-			}
+			print_usage_msg(cmd->command[0], shell);
 		}
-		cmd = cmd->next;
+		else if (cmd->id > 0)
+		{
+			print_usage_msg(cmd->command[0], shell);
+		}
 	}
 }

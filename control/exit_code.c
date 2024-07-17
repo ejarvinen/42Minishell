@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:20:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,19 @@ void	update_exitcode(t_mini *shell, t_cmds *cmds)
 	t_cmds	*command;
 
 	command = cmds;
-	exitcode = 0;
 	while (command)
 	{
+		exitcode = 0;
 		if (WIFEXITED(command->exit_status)
 			&& WEXITSTATUS(command->exit_status) != 0)
 		{
 			exitcode = WEXITSTATUS(command->exit_status);
-			exit_code(shell, exitcode, 0);
 		}
+		else if (command->valid == -1)
+			exitcode = 127;
+		else if (command->valid == -3)
+			exitcode = 126;
+		exit_code(shell, exitcode, 0);
 		command = command->next;
 	}
 }

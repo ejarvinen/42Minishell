@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/16 11:11:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:39:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ static void	fill_invalid_cmd_info(t_cmds *cmds)
 
 static int	add_remaining_info(t_mini *shell)
 {
-	//if (shell->cmds->command == NULL)
 	fill_invalid_cmd_info(shell->cmds);
-	//else
 	add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
 	if (shell->cmds->command == NULL)
