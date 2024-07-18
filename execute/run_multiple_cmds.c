@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 09:29:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 08:44:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,27 @@ in the pipeline
 */
 static void	child_process(t_mini *shell, t_cmds *cmd)
 {
+	int	fds[2];
+	t_cmds	*next;
+	
 	if (execute_builtin(cmd) > 0)
 	{
 		run_a_single_cmd(shell, cmd);
 		return ;
 	}
+	if (cmd->id < cmd->commands - 1)
+	{
+		if (pipe(fds) < 0)
+		{
+			perror("minishell");
+			return ;
+		}
+	}
+	next = cmd->next;
+	if (cmd->id < cmd->commands - 1)
+		cmd->fd_outfile[0] = fds[WRITE_END];
+	if (next && next->fd_infile == 0)
+		next->fd_infile = fds[READ_END];
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
 	{
@@ -44,33 +60,13 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 	{
 		execute(shell, cmd);
 	}
-	if (cmd->id == cmd->commands - 1)
-	{
-		close_pipes(shell->pipefds);
-	}
-}
-
-static void	close_fds(t_cmds *cmd, int *pipefds)
-{
-	if (cmd->id == 0 && cmd->fd_infile > 0)
-	{
-		close(cmd->fd_infile);
-		cmd->fd_infile = -1;
-	}
-	if (cmd->id == cmd->commands - 1 && cmd->fd_outfile[0] > 1)
-	{
-		close(cmd->fd_outfile[0]);
-		cmd->fd_outfile[0] = -1;
-	}
-	if (cmd->id == cmd->commands - 1)
-		close_pipes(pipefds);
 }
 
 /*
 waits each command in a pipeline to finish execution, saves it's exit code
 and closes any open files and pipes if necessary
 */
-static void	wait_for_children(t_cmds *cmds, int *pipefds)
+static void	wait_for_children(t_cmds *cmds)
 {
 	t_cmds	*cmd;
 	int		status;
@@ -84,7 +80,10 @@ static void	wait_for_children(t_cmds *cmds, int *pipefds)
 			cmd->exit_status = status;
 			if (cmd->heredoc != NULL)
 				unlink(".temp");
-			close_fds(cmd, pipefds);
+			if (cmd->fd_infile != 0)
+				close(cmd->fd_infile);
+			if (cmd->fd_outfile[0] != 1)
+				close(cmd->fd_outfile[0]);
 		}
 		cmd = cmd->next;
 	}
@@ -98,9 +97,6 @@ void	run_multiple(t_mini *shell, t_cmds *cmds)
 {
 	t_cmds	*cmd;
 
-	shell->pipefds = setup_pipes(cmds);
-	if (!shell->pipefds)
-		return ;
 	cmd = cmds;
 	while (cmd)
 	{
@@ -108,8 +104,6 @@ void	run_multiple(t_mini *shell, t_cmds *cmds)
 			child_process(shell, cmd);
 		cmd = cmd->next;
 	}
-	wait_for_children(cmds, shell->pipefds);
-	free(shell->pipefds);
-	shell->pipefds = NULL;
+	wait_for_children(cmds);
 	update_exitcode(shell, shell->cmds);
 }

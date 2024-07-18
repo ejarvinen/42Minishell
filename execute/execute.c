@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 12:51:52 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 08:42:32 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,73 +22,44 @@ int	safe_to_run(t_cmds *cmds)
 }
 
 /*
-sets up pipes for command that's id is an even number
-*/
-static int	even_id_cmds(t_cmds *cmd, int *pipefds)
-{
-	close(pipefds[WRITE_END + 2]);
-	if (cmd->fd_infile == 0)
-		cmd->fd_infile = pipefds[READ_END + 2];
-	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
-	{
-		perror("minishell");
-		return (1);
-	}
-	close(cmd->fd_infile);
-	close(pipefds[READ_END]);
-	if (cmd->fd_outfile[0] == 1)
-		cmd->fd_outfile[0] = pipefds[WRITE_END];
-	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
-	{
-		perror("minishell");
-		return (1);
-	}
-	close(cmd->fd_outfile[0]);
-	return (0);
-}
-
-/*
-sets up pipes for command that's id is an odd number
-*/
-static int	odd_id_cmds(t_cmds *cmd, int *pipefds)
-{
-	close(pipefds[WRITE_END]);
-	if (cmd->fd_infile == 0)
-		cmd->fd_infile = pipefds[READ_END];
-	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
-	{
-		perror("minishell");
-		return (1);
-	}
-	close(cmd->fd_infile);
-	close(pipefds[READ_END + 2]);
-	if (cmd->fd_outfile[0] == 1)
-		cmd->fd_outfile[0] = pipefds[WRITE_END + 2];
-	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
-	{
-		perror("minishell");
-		return (1);
-	}
-	close(cmd->fd_outfile[0]);
-	return (0);
-}
-
-/*
 if the command to be executed is not the first or the last command
 in a pipeline, sets up pipes according to even and odd numbered ids
 */
 static void	set_pipes(t_mini *shell, t_cmds *cmd)
 {
-	if (cmd->id % 2 == 0)
+	t_cmds	*next;
+	t_cmds	*prev;
+
+	prev = shell->cmds;
+	while (prev->id != cmd->id)
 	{
-		if (even_id_cmds(cmd, shell->pipefds) > 0)
-			panic(shell, 9);
+		if (prev->fd_infile != 0)
+			close(prev->fd_infile);
+		if (prev->fd_outfile[0] != 1)
+			close(prev->fd_outfile[0]);
+		prev = prev->next;
 	}
-	else
+	next = cmd->next;
+	while (next)
 	{
-		if (odd_id_cmds(cmd, shell->pipefds) > 0)
-			panic(shell, 9);
+		if (next->fd_infile != 0)
+			close(next->fd_infile);
+		if (next->fd_outfile[0] != 1)
+			close(next->fd_outfile[0]);
+		next = next->next;
 	}
+	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
+	{
+		perror("minishell5");
+		panic(shell, 9);
+	}
+	close(cmd->fd_infile);
+	if (dup2(cmd->fd_outfile[0], STDOUT_FILENO) < 0)
+	{
+		perror("minishell6");
+		panic(shell, 9);
+	}
+	close(cmd->fd_outfile[0]);
 }
 
 /*

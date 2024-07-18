@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 11:00:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 08:44:05 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ typedef struct s_mini
 	int		syntax;
 	char	*pwd;
 	char	*oldpwd;
-	int		*pipefds;
 }	t_mini;
 
 /*				PARSING							*/

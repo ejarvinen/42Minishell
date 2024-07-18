@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 12:54:35 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 09:14:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 08:44:31 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	set_data(t_mini *shell, char **envp)
 	shell->exit_code = 0;
 	shell->saved_stdin = -1;
 	shell->saved_stdout = -1;
-	shell->pipefds = NULL;
 	shell->syntax = 0;
 	shell_lvl(shell);
 }
