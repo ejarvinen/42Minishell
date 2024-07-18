@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 11:40:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:04:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ static void	find_closing_quote(char *str, int *index, int quote_type)
 		(*index)++;
 		checker = closing_quote(str, index, quote_type);
 	}
-	if (checker > 0)
-		(*index)++;
+	(*index)++;
 }
 
 /*
