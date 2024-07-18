@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 10:42:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:46:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static char	*expand(char *token, t_env **envs, int start, int len)
 /*
 identifies key for dollar sign and expands it to it's value if value is given
 */
-void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
+void	expand_dollar(t_mini *shell, t_toks **token, int *index, int in_doubles)
 {
 	int		varlen;
 	char	*freeable;
@@ -129,6 +129,20 @@ void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
 		*index = *index + 2;
 		return ;
 	}
+	else if (ft_strncmp(item->content + *index, "$?", 2) == 0 && is_expandable(item->content[*index + 2]) > 0)
+	{
+		freeable = item->content;
+		item->content = expand_exitcode(shell, item->content, index);
+		if (!item->content)
+		{
+			*index = -1;
+			return ;
+		}
+		if (in_doubles == 1)
+			(*index)++;
+		free(freeable);
+		return ;
+	}
 	varlen = identify_expandable(item->content + *index + 1);
 	if (varlen == 0 && in_doubles == 1)
 	{
@@ -136,7 +150,7 @@ void	expand_dollar(t_toks **token, t_env **envs, int *index, int in_doubles)
 		return ;
 	}
 	freeable = item->content;
-	item->content = expand(item->content, envs, *index + 1, varlen);
+	item->content = expand(item->content, &shell->env, *index + 1, varlen);
 	if (!item->content)
 	{
 		*index = -1;

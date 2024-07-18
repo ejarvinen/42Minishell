@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 12:51:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 17:06:28 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:38:18 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static void	remove_singles(t_toks **token, int *index)
 /*
 removes double quotes in token
 */
-static void	remove_doubles(t_toks **token, t_env **envs, int *index)
+static void	remove_doubles(t_mini *shell, t_toks **token, int *index)
 {
 	t_toks	*item;
 	char	*freeable;
 	int		end_quote;
 
-	end_quote = end_quote_index(token, envs, index);
+	end_quote = end_quote_index(shell, token, index);
 	item = *token;
 	freeable = item->content;
 	item->content = (char *)malloc(sizeof(char) * (ft_strlen(freeable) - 1));
@@ -69,7 +69,7 @@ static void	remove_doubles(t_toks **token, t_env **envs, int *index)
 /*
 checks for a quote type and removes them accordingly
 */
-static int	remove_quotes(t_toks **token, t_env **envs,
+static int	remove_quotes(t_mini *shell, t_toks **token,
 int *index, int quote_type)
 {
 	if (quote_type == 39)
@@ -81,7 +81,7 @@ int *index, int quote_type)
 	}
 	else if (quote_type == 34)
 	{
-		remove_doubles(token, envs, index);
+		remove_doubles(shell, token, index);
 		if (*index < 0)
 			return (1);
 		return (0);
@@ -92,7 +92,7 @@ int *index, int quote_type)
 /*
 looks for quotes and dollar signs in token
 */
-static int	token_checker(t_toks **tokens, t_env **envs)
+static int	token_checker(t_mini *shell, t_toks **tokens)
 {
 	int		index;
 	t_toks	*token;
@@ -103,13 +103,13 @@ static int	token_checker(t_toks **tokens, t_env **envs)
 	{
 		if (token->content[index] == 36)
 		{
-			expand_dollar(&token, envs, &index, 0);
+			expand_dollar(shell, &token, &index, 0);
 			if (index < 0)
 				return (1);
 		}
 		else if (token->content[index] == 39 || token->content[index] == 34)
 		{
-			if (remove_quotes(&token, envs, &index, token->content[index]) > 1)
+			if (remove_quotes(shell, &token, &index, token->content[index]) > 1)
 				return (1);
 			index++;
 		}
@@ -122,14 +122,14 @@ static int	token_checker(t_toks **tokens, t_env **envs)
 /*
 gets rid of quotes and expands dollar signs where possible
 */
-void	token_cleanup(t_toks **tokens, t_env **envs)
+void	token_cleanup(t_mini *shell, t_toks **tokens)
 {
 	t_toks	*token;
 
 	token = *tokens;
 	while (token)
 	{
-		if (token_checker(&token, envs) > 0)
+		if (token_checker(shell, &token) > 0)
 		{
 			ft_lstclear_toks(tokens);
 			return ;
