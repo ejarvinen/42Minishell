@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 14:04:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:54:44 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ find_token helper function to find the matching quote in str by quote_type
 static void	find_closing_quote(char *str, int *index, int quote_type)
 {
 	int	checker;
-	
+
 	(*index)++;
 	checker = closing_quote(str, index, quote_type);
 	while (checker == 0)

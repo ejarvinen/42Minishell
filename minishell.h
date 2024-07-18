@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/18 13:36:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:41:48 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ typedef struct s_mini
 
 char	*ft_strtok(char *str);
 void	token_cleanup(t_mini *shell, t_toks **tokens);
-void	expand_dollar(t_mini *shell, t_toks **token, int *index, int in_doubles);
+void	expand_dollar(t_mini *shell, t_toks **token, int *index,
+			int in_doubles);
 t_toks	*checker(char *input, t_mini *shell);
 void	ft_lstadd_back_toks(t_toks **lst, t_toks *new);
 void	ft_lstclear_toks(t_toks **lst);
@@ -154,7 +155,7 @@ void	build_list_delimstr(t_toks **addition, char *content,
 void	build_list(t_toks **addition, char *content,
 			char **new_tokens, char delim);
 void	strcpy_without_quotes(char *to, char *from, int fstquote, int sqnquote);
-int	end_quote_index(t_mini *shell, t_toks **token, int *index);
+int		end_quote_index(t_mini *shell, t_toks **token, int *index);
 int		get_index(char **array);
 int		copy_filenames(char **to, char **from, char *new_file, int index);
 void	parser_error(char *str);
@@ -165,8 +166,8 @@ t_toks	*add_infile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 			int append_flag);
 void	expand_exit_code(t_toks **tokens, t_mini *shell);
-int	is_expandable(int c);
-char	*expand_exitcode(t_mini *shell, char *str, int *index);
+int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
+			int in_doubles);
 
 /*				INPUT VALIDATION				*/
 
@@ -270,12 +271,11 @@ void	run_multiple(t_mini *shell, t_cmds *cmds);
 void	execute(t_mini *shell, t_cmds *cmd);
 void	first_command(t_mini *shell, t_cmds *cmd);
 void	last_command(t_mini *shell, t_cmds *cmd);
-void	close_pipes(int *pipefds);
 void	run_a_single_cmd(t_mini *shell, t_cmds *cmd);
 void	minishell(t_mini *shell);
-int		*setup_pipes(t_cmds *cmds);
 int		safe_to_run(t_cmds *cmds);
 void	restore_fds(t_mini *shell);
+void	set_pipes(t_mini *shell, t_cmds *cmd);
 
 void	exit_code(t_mini *shell, int code, int sig);
 void	update_exitcode(t_mini *shell, t_cmds *cmds);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_heredoc_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:11:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:47 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:54:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	write_hdoc_to_file(t_env *env, t_cmds *cmd)
 {
 	int		fd;
-	
+
 	if (g_sig > 0)
 		return (1);
 	fd = open(".temp", O_WRONLY | O_CREAT | O_TRUNC, 0666);

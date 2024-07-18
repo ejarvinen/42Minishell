@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 10:10:54 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:31:49 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,17 @@ static int	execute_builtin(t_cmds *cmd)
 	return (0);
 }
 
-/*
-forks a child process, executes it and closes pipes if running the last command
-in the pipeline
-*/
-static void	child_process(t_mini *shell, t_cmds *cmd)
+static int	setup_pipes(t_cmds *cmd)
 {
-	int	fds[2];
+	int		fds[2];
 	t_cmds	*next;
-	
-	if (execute_builtin(cmd) > 0)
-	{
-		run_a_single_cmd(shell, cmd);
-		return ;
-	}
+
 	if (cmd->id < cmd->commands - 1)
 	{
 		if (pipe(fds) < 0)
 		{
 			perror("minishell");
-			return ;
+			return (1);
 		}
 	}
 	next = cmd->next;
@@ -54,6 +45,22 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 		next->fd_infile = fds[READ_END];
 	else if (next && next->fd_infile != 0)
 		close(fds[READ_END]);
+	return (0);
+}
+
+/*
+forks a child process, executes it and closes pipes if running the last command
+in the pipeline
+*/
+static void	child_process(t_mini *shell, t_cmds *cmd)
+{
+	if (execute_builtin(cmd) > 0)
+	{
+		run_a_single_cmd(shell, cmd);
+		return ;
+	}
+	if (setup_pipes(cmd) > 0)
+		return ;
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
 	{

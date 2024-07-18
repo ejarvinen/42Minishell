@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 12:04:21 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:23:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ static int	check_for_previous_cmds(t_toks **tokens, int index)
 	return (cmds);
 }
 
+static int	is_command(t_toks **tokens, t_toks *token, t_toks *next, int flag)
+{
+	if (flag == 1 && next && next->in_redir < 1 && next->append < 1
+		&& next->out_redir < 1 && next->heredoc_delimiter < 1)
+		return (1);
+	else if (flag == 2 && next && check_for_previous_cmds(tokens, next->id) == 0
+		&& token->append < 1 && token->in_redir < 1 && token->out_redir < 1
+		&& token->heredoc_delimiter < 1 && token->file < 1
+		&& token->heredoc < 1)
+		return (1);
+	else if (flag == 3 && next && check_for_previous_cmds(tokens, next->id) == 0
+		&& token->file == 1)
+		return (1);
+	return (0);
+}
+
 /*
 checks for command indicators and updates token info accordingly
 */
@@ -43,8 +59,7 @@ t_toks *token, t_toks *next)
 	if (token->pipe > 0 && ft_strlen(token->content) == 1)
 	{
 		token->command = 0;
-		if (next && next->in_redir < 1 && next->append < 1 && next->out_redir < 1
-			&& next->heredoc_delimiter < 1)
+		if (is_command(tokens, token, next, 1) > 0)
 			next->command = 1;
 	}
 	else if (token->pipe > 0 && ft_strlen(token->content) > 1)
@@ -53,15 +68,12 @@ t_toks *token, t_toks *next)
 		if (next)
 			next->command = 0;
 	}
-	else if (next && check_for_previous_cmds(tokens, next->id) == 0
-		&& token->append < 1 && token->in_redir < 1 && token->out_redir < 1
-		&& token->heredoc_delimiter < 1 && token->file < 1
-		&& token->heredoc < 1)
+	else if (is_command(tokens, token, next, 2) > 0)
 	{
 		token->command = 1;
 		next->command = 0;
 	}
-	else if (next && check_for_previous_cmds(tokens, next->id) == 0 && token->file == 1)
+	else if (is_command(tokens, token, next, 3) > 0)
 	{
 		token->command = 0;
 		next->command = 1;

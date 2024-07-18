@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hdc_to_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:20:14 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:20 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:25:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	write_env(char *str, int i, t_env *env, int fd)
 void	heredoc_typer(t_env *env, char *str, int fd)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!str)
 		return ;

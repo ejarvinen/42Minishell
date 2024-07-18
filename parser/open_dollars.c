@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 14:10:59 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:24:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,28 +123,12 @@ void	expand_dollar(t_mini *shell, t_toks **token, int *index, int in_doubles)
 	char	*freeable;
 	t_toks	*item;
 
+	if (identify_exitcode(shell, token, index, in_doubles) > 0)
+		return ;
 	item = *token;
-	if (ft_strcmp(item->content, "$?") == 0)
-	{
-		*index = *index + 2;
-		return ;
-	}
-	else if (ft_strncmp(item->content + *index, "$?", 2) == 0 && is_expandable(item->content[*index + 2]) > 0)
-	{
-		freeable = item->content;
-		item->content = expand_exitcode(shell, item->content, index);
-		if (!item->content)
-		{
-			*index = -1;
-			return ;
-		}
-		if (in_doubles == 1)
-			(*index)++;
-		free(freeable);
-		return ;
-	}
 	varlen = identify_expandable(item->content + *index + 1);
-	if ((varlen == 0 && in_doubles == 1) || (varlen == 0 && in_doubles == 0 && item->content[*index + 1] == 0))
+	if ((varlen == 0 && in_doubles == 1)
+		|| (varlen == 0 && in_doubles == 0 && item->content[*index + 1] == 0))
 	{
 		(*index)++;
 		return ;

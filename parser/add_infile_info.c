@@ -6,24 +6,46 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:48 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 07:42:08 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:16:06 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	init_heredoc_specs(t_mini *shell, t_cmds *cmd, t_toks *token,
+int first)
+{
+	char	*freeable;
+
+	freeable = NULL;
+	if (first > 0)
+		freeable = cmd->infile_name;
+	cmd->infile_name = ft_strdup(".temp");
+	if (!cmd->infile_name)
+	{
+		ft_lstclear_pars(&shell->cmds);
+		return (1);
+	}
+	if (first > 0)
+	{
+		free(freeable);
+		if (update_heredoc_info(shell, cmd, token) > 0)
+			return (1);
+	}
+	else
+	{
+		if (add_heredoc_info(shell, cmd, token) > 0)
+			return (1);
+	}
+	return (0);
+}
 
 static int	first_infile(t_mini *shell, t_cmds *cmd, t_toks *token,
 int heredoc_flag)
 {
 	if (heredoc_flag)
 	{
-		cmd->infile_name = ft_strdup(".temp");
-		if (!cmd->infile_name)
-		{
-			ft_lstclear_pars(&shell->cmds);
-			return (1);
-		}
-		if (add_heredoc_info(shell, cmd, token) > 0)
+		if (init_heredoc_specs(shell, cmd, token, 0) > 0)
 			return (1);
 	}
 	else
@@ -66,21 +88,14 @@ int heredoc_flag)
 {
 	char	*freeable;
 
-	freeable = cmd->infile_name;
 	if (heredoc_flag)
 	{
-		cmd->infile_name = ft_strdup(".temp");
-		if (!cmd->infile_name)
-		{
-			ft_lstclear_pars(&shell->cmds);
-			return (1);
-		}
-		free(freeable);
-		if (update_heredoc_info(shell, cmd, token) > 0)
+		if (init_heredoc_specs(shell, cmd, token, 1) > 0)
 			return (1);
 	}
 	else
 	{
+		freeable = cmd->infile_name;
 		cmd->infile_name = ft_strdup(token->content);
 		if (!cmd->infile_name)
 		{

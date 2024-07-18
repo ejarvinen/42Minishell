@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 12:53:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:54:58 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	trim_token(t_toks **token)
 {
 	t_toks	*temp;
 	char	*new;
-	
+
 	temp = *token;
 	while (temp != NULL)
 	{

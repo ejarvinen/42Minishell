@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:19:52 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 13:38:42 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:04:20 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ void	expand_exit_code(t_toks **tokens, t_mini *shell)
 	}
 }
 
-int	is_expandable(int c)
+static int	is_expandable(int c)
 {
 	if (c == 0 || c == 32 || c == 9 || c == 34 || c == 39)
 		return (1);
 	return (0);
 }
 
-static void	erase_question_mark(char *new_token, char *token, char *code, int start)
+static void	erase_question_mark(char *new_token, char *token, char *code,
+int start)
 {
 	int	index;
 	int	cindex;
@@ -71,10 +72,11 @@ static void	erase_question_mark(char *new_token, char *token, char *code, int st
 	new_token[index] = '\0';
 }
 
-char	*expand_exitcode(t_mini *shell, char *str, int *index)
+static char	*expand_exitcode(t_mini *shell, char *str, int *index)
 {
 	char	*e_code;
 	char	*new_token;
+	size_t	new_len;
 
 	e_code = ft_itoa(shell->exit_code);
 	if (!e_code)
@@ -82,7 +84,8 @@ char	*expand_exitcode(t_mini *shell, char *str, int *index)
 		*index = -1;
 		return (NULL);
 	}
-	new_token = (char *)malloc(sizeof(char) * (ft_strlen(str) - 1 + ft_strlen(e_code)));
+	new_len = ft_strlen(str) + ft_strlen(e_code);
+	new_token = (char *)malloc(sizeof(char) * (new_len - 1));
 	if (!new_token)
 	{
 		*index = -1;
@@ -90,4 +93,33 @@ char	*expand_exitcode(t_mini *shell, char *str, int *index)
 	}
 	erase_question_mark(new_token, str, e_code, *index);
 	return (new_token);
+}
+
+int	identify_exitcode(t_mini *shell, t_toks **token, int *index, int in_doubles)
+{
+	char	*freeable;
+	t_toks	*item;
+
+	item = *token;
+	if (ft_strcmp(item->content, "$?") == 0)
+	{
+		*index = *index + 2;
+		return (1);
+	}
+	else if (ft_strncmp(item->content + *index, "$?", 2) == 0
+		&& is_expandable(item->content[*index + 2]) > 0)
+	{
+		freeable = item->content;
+		item->content = expand_exitcode(shell, item->content, index);
+		if (!item->content)
+		{
+			*index = -1;
+			return (1);
+		}
+		if (in_doubles == 1)
+			(*index)++;
+		free(freeable);
+		return (1);
+	}
+	return (0);
 }
