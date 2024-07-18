@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:12:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 12:05:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:03:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ redirects are found
 */
 static int	check_for_redirs(t_toks **tokens, t_toks *token)
 {
-	if (token->in_redir == 1)
+	if (token->in_redir > 0)
 	{
 		if (split_by_delim(tokens, token, '<', NULL) > 0)
 			return (0);
 		return (1);
 	}
-	else if (token->out_redir == 1)
+	else if (token->out_redir > 0)
 	{
 		if (split_by_delim(tokens, token, '>', NULL) > 0)
 			return (0);
 		return (1);
 	}
-	else if (token->append == 1)
+	else if (token->append > 0)
 	{
 		if (split_by_delim(tokens, token, 0, ">>") > 0)
 			return (0);
@@ -44,7 +44,7 @@ splits token into separate tokens by delimiter type
 */
 static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 {
-	if (token->pipe == 1)
+	if (token->pipe > 0)
 	{
 		if (split_by_delim(tokens, token, '|', NULL) > 0)
 			return (0);
@@ -52,7 +52,7 @@ static int	check_for_multiple_flags(t_toks **tokens, t_toks *token)
 	}
 	else if (check_for_redirs(tokens, token) > 0)
 		return (1);
-	else if (token->heredoc_delimiter == 1)
+	else if (token->heredoc_delimiter > 0)
 	{
 		if (split_by_delim(tokens, token, 0, "<<") > 0)
 			return (0);

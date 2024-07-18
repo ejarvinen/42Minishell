@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 08:44:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:10:54 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 		}
 	}
 	next = cmd->next;
-	if (cmd->id < cmd->commands - 1)
+	if (cmd->id < cmd->commands - 1 && cmd->fd_outfile[0] == 1)
 		cmd->fd_outfile[0] = fds[WRITE_END];
+	else if (cmd->id < cmd->commands - 1 && cmd->fd_outfile[0] != 1)
+		close(fds[WRITE_END]);
 	if (next && next->fd_infile == 0)
 		next->fd_infile = fds[READ_END];
+	else if (next && next->fd_infile != 0)
+		close(fds[READ_END]);
 	cmd->c_pid = fork();
 	if (cmd->c_pid < 0)
 	{
