@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:00:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 15:52:18 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:11:10 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static char	*get_heredoc(t_mini *shell, t_cmds *cmd, char *comp)
 {
 	char	*rl;
 
+	g_sig = 0;
 	while (1)
 	{
 		rl = readline(PINK HDOC RESET);
