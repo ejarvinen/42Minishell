@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_token_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 10:36:55 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:41:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

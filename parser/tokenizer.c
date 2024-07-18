@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/08 11:49:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:40:51 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,16 @@ find_token helper function to find the matching quote in str by quote_type
 */
 static void	find_closing_quote(char *str, int *index, int quote_type)
 {
+	int	checker;
+	
 	(*index)++;
-	while (closing_quote(str, index, quote_type) == 0)
+	checker = closing_quote(str, index, quote_type);
+	while (checker == 0)
+	{
+		(*index)++;
+		checker = closing_quote(str, index, quote_type);
+	}
+	if (checker > 0)
 		(*index)++;
 }
 
@@ -54,7 +62,7 @@ static int	find_token(char *str)
 		find_closing_quote(str, &i, 34);
 	else
 	{
-		while (str[i + 1] != 32 && str[i + 1] != 9 && str[i + 1] != 0)
+		while (str[i] != 32 && str[i] != 9 && str[i] != 0)
 		{
 			if (str[i] == 39)
 			{
@@ -84,15 +92,15 @@ static char	*empty_leftovers(char **leftovers)
 
 	lunchbox = *leftovers;
 	index = find_token(lunchbox);
-	if (lunchbox[index + 1] == '\0')
+	if (lunchbox[index] == '\0')
 	{
 		new = *leftovers;
-		*leftovers = lunchbox + index + 1;
+		*leftovers = lunchbox + index;
 		return (new);
 	}
-	lunchbox[index + 1] = '\0';
+	lunchbox[index] = '\0';
 	new = lunchbox;
-	*leftovers = lunchbox + index + 2;
+	*leftovers = lunchbox + index + 1;
 	return (new);
 }
 
@@ -114,12 +122,12 @@ char	*ft_strtok(char *str)
 		return (empty_leftovers(&leftovers));
 	}
 	index = find_token(str);
-	if (str[index + 1] == '\0')
+	if (str[index] == '\0')
 	{
 		leftovers = NULL;
 		return (str);
 	}
-	leftovers = str + index + 2;
-	str[index + 1] = '\0';
+	leftovers = str + index + 1;
+	str[index] = '\0';
 	return (str);
 }
