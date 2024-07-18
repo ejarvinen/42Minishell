@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 10:27:10 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 13:46:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:10:59 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	expand_dollar(t_mini *shell, t_toks **token, int *index, int in_doubles)
 		return ;
 	}
 	varlen = identify_expandable(item->content + *index + 1);
-	if (varlen == 0 && in_doubles == 1)
+	if ((varlen == 0 && in_doubles == 1) || (varlen == 0 && in_doubles == 0 && item->content[*index + 1] == 0))
 	{
 		(*index)++;
 		return ;
