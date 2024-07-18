@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 10:08:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:54:49 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	real_exit(t_mini *shell, char *str, int i)
 		restore_fds(shell);
 		exit(1);
 	}
+	if (str[0] == '+')
+		str++;
 	if (ft_strcmp(check, str) != 0)
 	{
 		free(check);
@@ -55,7 +57,7 @@ void	print_letter(t_mini *shell, char *str)
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(": numeric argument required", 2);
-	real_exit(shell, str, 255);
+	real_exit(shell, str, 2);
 }
 
 int	check_num(char *str)
@@ -63,6 +65,8 @@ int	check_num(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
 	while (str[i] != '\0')
 	{
 		if (ft_isdigit(str[i]) == 1)
