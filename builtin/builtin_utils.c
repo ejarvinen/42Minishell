@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:05:27 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/16 11:11:58 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:46:16 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_env	*hdoc_key(char *str, int index, t_env *env)
 		temp = temp->next;
 	}
 	return (NULL);
-	
 }
 
 t_env	*retrieve_key(t_env *env, char *str)

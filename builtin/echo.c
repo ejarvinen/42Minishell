@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 13:32:11 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:46:46 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	check_newline(char **str)
 {
 	int	i;
-	int ind;
+	int	ind;
 
 	i = 1;
 	while (str[i] != NULL)
