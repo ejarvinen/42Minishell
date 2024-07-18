@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:56:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:09:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ static void	wait_for_children(t_cmds *cmds)
 			if (cmd->fd_outfile[0] != 1)
 				close(cmd->fd_outfile[0]);
 		}
+		else if (cmd->heredoc != NULL)
+			unlink(".temp");
 		cmd = cmd->next;
 	}
 }
