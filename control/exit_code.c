@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 06:51:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/17 14:01:33 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:17:49 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	update_exitcode(t_mini *shell, t_cmds *cmds)
 	while (command)
 	{
 		exitcode = 0;
-		if (WIFSIGNALED(command->exit_status) != 0)
+		if (WIFSIGNALED(command->exit_status) != 0 && g_sig != 0)
 			exitcode = 128 + g_sig;
 		else if (WIFEXITED(command->exit_status)
 			&& WEXITSTATUS(command->exit_status) != 0)
