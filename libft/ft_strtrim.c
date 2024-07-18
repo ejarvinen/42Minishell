@@ -6,12 +6,11 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:04:32 by sataskin          #+#    #+#             */
-/*   Updated: 2023/11/07 17:43:05 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/18 09:51:47 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	ft_isset(char c, char const *set)
 {

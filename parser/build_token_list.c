@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_token_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 07:26:07 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:40 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:36:55 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ t_toks	*checker(char *input, t_mini *shell)
 		token = ft_strtok(NULL);
 	}
 	free(rl);
-	add_indexes(&tokens);
 	return (tokens);
 }
