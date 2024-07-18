@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:31:49 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:56:51 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	wait_for_children(t_cmds *cmds)
 	cmd = cmds;
 	while (cmd)
 	{
-		if (execute_builtin(cmd) < 1)
+		if (safe_to_run(cmd) > 0 && execute_builtin(cmd) < 1)
 		{
 			waitpid(cmd->c_pid, &status, 0);
 			cmd->exit_status = status;
@@ -112,7 +112,9 @@ void	run_multiple(t_mini *shell, t_cmds *cmds)
 	while (cmd)
 	{
 		if (safe_to_run(cmd) > 0)
+		{
 			child_process(shell, cmd);
+		}
 		cmd = cmd->next;
 	}
 	wait_for_children(cmds);

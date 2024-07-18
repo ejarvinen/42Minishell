@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:19:52 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:04:20 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:04:14 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ void	expand_exit_code(t_toks **tokens, t_mini *shell)
 		}
 		token = token->next;
 	}
-}
-
-static int	is_expandable(int c)
-{
-	if (c == 0 || c == 32 || c == 9 || c == 34 || c == 39)
-		return (1);
-	return (0);
 }
 
 static void	erase_question_mark(char *new_token, char *token, char *code,
@@ -106,8 +99,7 @@ int	identify_exitcode(t_mini *shell, t_toks **token, int *index, int in_doubles)
 		*index = *index + 2;
 		return (1);
 	}
-	else if (ft_strncmp(item->content + *index, "$?", 2) == 0
-		&& is_expandable(item->content[*index + 2]) > 0)
+	else if (ft_strncmp(item->content + *index, "$?", 2) == 0)
 	{
 		freeable = item->content;
 		item->content = expand_exitcode(shell, item->content, index);
