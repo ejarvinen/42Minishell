@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:38:13 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 11:57:50 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:02:50 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,15 @@ static int	count_cmds(t_toks **tokens)
 	int		cmds;
 	t_toks	*token;
 
-	cmds = 0;
 	token = *tokens;
+	cmds = 0;
 	while (token)
 	{
-		if (token->command > 0)
+		if (token->pipe > 0)
 			cmds++;
 		token = token->next;
 	}
-	if (cmds == 0)
-	{
-		token = *tokens;
-		while (token)
-		{
-			if (token->pipe > 0)
-				cmds++;
-			token = token->next;
-		}
-		cmds++;
-	}
+	cmds++;
 	return (cmds);
 }
 
@@ -73,8 +63,6 @@ void	build_command_list(t_toks **tokens, t_mini *shell)
 	int		commands;
 
 	commands = count_cmds(tokens);
-	if (!commands)
-		commands = 1;
 	shell->cmds = NULL;
 	create_list(&shell->cmds, commands);
 	if (!shell->cmds)

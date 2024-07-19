@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/19 08:36:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:12:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	build_command_list(t_toks **tokens, t_mini *shell);
 void	add_builtin_info(t_cmds **cmds);
 void	add_cmds_info(t_cmds **cmds);
 char	**ft_splitstr(char const *s, char *c);
-int		validate_commands(t_cmds **cmds, t_env **envs);
+void	validate_commands(t_mini *shell, t_cmds *cmd);
 int		validate_command(char *command, char **paths);
 char	*full_path(char *path, char *command);
 void	fill_cmd_info(t_cmds **cmds, t_toks **tokens);
@@ -174,7 +174,7 @@ int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
 void	open_files(t_mini *shell, t_cmds **cmds);
 void	close_files(t_cmds **cmds);
 int		is_dir(char *command);
-void	print_dirmsg(char *command, t_mini *shell);
+void	print_dirmsg(t_cmds *cmd, t_mini *shell);
 void	dot_cmd(t_mini *shell, t_cmds *cmd);
 void	nonexistent_cmd(t_mini *shell, t_cmds *cmd);
 void	heredoc(t_mini *shell, t_cmds *cmd);
@@ -254,6 +254,7 @@ void	print_toomany(t_mini *shell);
 void	print_letter(t_mini *shell, char *str);
 int		check_num(char *str);
 void	now_exit(t_mini *shell, char **str);
+int		exit_strcmp(char *temp, char *str);
 
 /*				FOR ECHO						*/
 
@@ -276,7 +277,6 @@ void	minishell(t_mini *shell);
 int		safe_to_run(t_cmds *cmds);
 void	restore_fds(t_mini *shell);
 void	set_pipes(t_mini *shell, t_cmds *cmd);
-int		execute_builtin(t_cmds *cmd);
 void	run_builtin(t_mini *shell, t_cmds *cmd);
 int		duplicate_fds(t_cmds *cmd);
 

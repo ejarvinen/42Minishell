@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/18 12:54:49 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:11:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*	TOO MANY ARGUMENTS DOESN'T EXIT BUT LETTER'S DOES WITH exit_code 255	*/
 
 void	real_exit(t_mini *shell, char *str, int i)
 {
@@ -27,12 +25,10 @@ void	real_exit(t_mini *shell, char *str, int i)
 	check = ft_itoa(i);
 	if (check == NULL)
 	{
-		restore_fds(shell);
+		free_data(shell, NULL);
 		exit(1);
 	}
-	if (str[0] == '+')
-		str++;
-	if (ft_strcmp(check, str) != 0)
+	if (exit_strcmp(check, str) != 0)
 	{
 		free(check);
 		print_letter(shell, str);

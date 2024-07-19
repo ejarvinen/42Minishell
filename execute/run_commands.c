@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 08:36:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:31:51 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	restore_fds(t_mini *shell)
 
 void	run_a_single_cmd(t_mini *shell, t_cmds *cmd)
 {
-	int		status;
+	int	status;
 
-	if (execute_builtin(cmd) > 0)
+	if (cmd->builtin == 1)
 	{
 		run_builtin(shell, cmd);
 	}
@@ -116,7 +116,7 @@ void	run_commands(t_mini *shell)
 			return ;
 		}
 		run_a_single_cmd(shell, cmds);
-		if (execute_builtin(cmds) < 1)
+		if (cmds->builtin != 1)
 			ft_freearray(shell->env_p);
 		if (cmds->heredoc != NULL)
 			unlink(".temp");

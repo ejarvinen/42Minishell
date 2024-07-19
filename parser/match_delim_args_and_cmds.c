@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:23:34 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:32:31 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void	identify_commands(t_toks **tokens)
 	{
 		if (token->command < 1)
 			check_for_cmd_indicators(tokens, token, next);
+		if (token->pipe == 1 && next->next == NULL)
+			next->command = 1;
 		token = token->next;
 		next = next->next;
 	}

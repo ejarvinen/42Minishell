@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:09:40 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/06 16:39:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:45:31 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ char **new_tokens, char delim)
 		ft_lstadd_back_toks(addition, new_node);
 		item++;
 		if (new_tokens[item] != NULL
+			&& add_delim_node(addition, delim, NULL, 1) > 0)
+			return (clean_up_resources(addition));
+		else if (new_tokens[item] == NULL
+			&& content[ft_strlen(content) - 1] == delim
 			&& add_delim_node(addition, delim, NULL, 1) > 0)
 			return (clean_up_resources(addition));
 	}

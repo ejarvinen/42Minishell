@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 07:52:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/17 08:35:18 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:29:09 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ int	is_dir(char *command)
 /*
 prints a is directory error message
 */
-void	print_dirmsg(char *command, t_mini *shell)
+void	print_dirmsg(t_cmds *cmd, t_mini *shell)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
+	ft_putstr_fd(cmd->command[0], 2);
 	ft_putstr_fd(": Is a directory\n", 2);
 	exit_code(shell, 126, 0);
+	cmd->valid = -1;
 }

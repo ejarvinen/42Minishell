@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 12:01:12 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:36:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,49 +73,32 @@ static char	**path_finder(t_env **envs)
 }
 
 /*
-validate_commands helper function: frees paths and cmds list if given
-*/
-static int	free_resources(char **paths, t_cmds **cmds)
-{
-	if (paths)
-		ft_freearray(paths);
-	if (cmds)
-	{
-		ft_lstclear_pars(cmds);
-		return (1);
-	}
-	return (0);
-}
-
-/*
 checks and finds valid paths for non-builtin commands,
 marks builtins valid by default
 */
-int	validate_commands(t_cmds **cmds, t_env **envs)
+void	validate_commands(t_mini *shell, t_cmds *cmd)
 {
-	t_cmds	*cmd;
 	char	**paths;
 	int		path_index;
 
-	cmd = *cmds;
 	paths = NULL;
-	while (cmd)
+	if (cmd->builtin != 1)
 	{
-		if (cmd->builtin != 1)
+		paths = path_finder(&shell->env);
+		if (!paths)
 		{
-			if (paths == NULL)
-			{
-				paths = path_finder(envs);
-				if (!paths)
-					return (free_resources(NULL, cmds));
-			}
-			path_index = validate_command(cmd->command[0], paths);
-			if (path_index == -4 || add_path(cmd, paths, path_index) > 0)
-				return (free_resources(paths, cmds));
+			ft_lstclear_pars(&shell->cmds);
+			return ;
 		}
-		else
-			cmd->valid = 1;
-		cmd = cmd->next;
+		path_index = validate_command(cmd->command[0], paths);
+		if (path_index == -4 || add_path(cmd, paths, path_index) > 0)
+		{
+			ft_freearray(paths);
+			ft_lstclear_pars(&shell->cmds);
+			return ;
+		}
+		ft_freearray(paths);
 	}
-	return (free_resources(paths, NULL));
+	else
+		cmd->valid = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 14:54:58 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:46:30 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,23 @@ static void	fill_invalid_cmd_info(t_cmds *cmds)
 
 static int	add_remaining_info(t_mini *shell)
 {
+	t_cmds	*cmd;
+
 	fill_invalid_cmd_info(shell->cmds);
 	add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
-	if (shell->cmds->command == NULL)
-		return (0);
-	return (validate_commands(&shell->cmds, &shell->env));
+	cmd = shell->cmds;
+	while (cmd)
+	{
+		if (cmd->command != NULL)
+		{
+			validate_commands(shell, cmd);
+			if (!shell->cmds)
+				return (1);
+		}
+		cmd = cmd->next;
+	}
+	return (0);
 }
 
 int	parser(char *rl, t_mini *shell)
