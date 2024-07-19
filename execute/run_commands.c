@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:58:17 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:36:07 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 sets redirections for a single command
 */
-static int	duplicate_fds(t_cmds *cmd)
+int	duplicate_fds(t_cmds *cmd)
 {
 	if (cmd->fd_infile != 0)
 	{
@@ -81,20 +81,9 @@ void	run_a_single_cmd(t_mini *shell, t_cmds *cmd)
 {
 	int		status;
 
-	if (cmd->builtin == 1)
+	if (execute_builtin(cmd) > 0)
 	{
-		shell->saved_stdin = dup(STDIN_FILENO);
-		shell->saved_stdout = dup(STDOUT_FILENO);
-		if (cmd->commands == 1)
-			ft_freearray(shell->env_p);
-		if (duplicate_fds(cmd) > 0)
-			return ;
-		check_builtin(shell, cmd);
-		if (cmd->fd_infile != 0)
-			close(STDIN_FILENO);
-		if (cmd->fd_outfile[0] != 1)
-			close(STDOUT_FILENO);
-		restore_fds(shell);
+		run_builtin(shell, cmd);
 	}
 	else
 	{
@@ -127,7 +116,7 @@ void	run_commands(t_mini *shell)
 			return ;
 		}
 		run_a_single_cmd(shell, cmds);
-		if (cmds->builtin != 1)
+		if (execute_builtin(cmds) < 1)
 			ft_freearray(shell->env_p);
 		if (cmds->heredoc != NULL)
 			unlink(".temp");

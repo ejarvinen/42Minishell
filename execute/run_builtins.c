@@ -6,11 +6,30 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 08:14:32 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 08:14:49 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:34:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	run_builtin(t_mini *shell, t_cmds *cmd)
+{
+	shell->saved_stdin = dup(STDIN_FILENO);
+	shell->saved_stdout = dup(STDOUT_FILENO);
+	if (cmd->commands == 1)
+		ft_freearray(shell->env_p);
+	if (duplicate_fds(cmd) > 0)
+	{
+		restore_fds(shell);
+		return ;
+	}
+	check_builtin(shell, cmd);
+	if (cmd->fd_infile != 0)
+		close(STDIN_FILENO);
+	if (cmd->fd_outfile[0] != 1)
+		close(STDOUT_FILENO);
+	restore_fds(shell);
+}
 
 /*
 runs a builtin command

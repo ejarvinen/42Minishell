@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 15:37:22 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/19 08:30:59 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	execute(t_mini *shell, t_cmds *cmd)
 		set_pipes(shell, cmd);
 	if (cmd->builtin == 1)
 	{
-		ft_freearray(shell->env_p);
 		check_builtin(shell, cmd);
 	}
 	else
