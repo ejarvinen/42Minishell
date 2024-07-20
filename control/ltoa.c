@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/20 14:19:06 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:55:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ltoa_lstsize(t_env **lst)
 {
-	int	len;
+	int		len;
 	t_env	*temp;
 
 	len = 0;

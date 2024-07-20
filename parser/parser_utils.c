@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/20 15:23:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:58:19 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	identify_expandable(char *token)
 	while (token[index] != '\0' && token[index] != 34
 		&& token[index] != 39 && token[index] != 32
 		&& (ft_isalnum(token[index]) == 1 || token[index] == '_'))
-		{
-			if (ft_isdigit(token[index]) == 1 && ft_isdigit(token[index + 1]) == 1)
-				return (1);
-			index++;
-		}
+	{
+		if (ft_isdigit(token[index]) == 1 && ft_isdigit(token[index + 1]) == 1)
+			return (1);
+		index++;
+	}
 	return (index);
 }
 

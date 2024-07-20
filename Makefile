@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/20 13:01:36 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/20 15:56:18 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRCS = main.c \
 		parser/syntax_check.c \
 		parser/token_list_tools.c \
 		parser/expand_exit_code.c \
+		parser/trim_spaces.c \
 		execute/open_files.c \
 		execute/close_files.c \
 		execute/error_messages.c \

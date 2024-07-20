@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/20 12:44:11 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:57:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ t_toks	*add_outfile_info(t_mini *shell, t_cmds *cmd, t_toks *token,
 void	expand_exit_code(t_toks **tokens, t_mini *shell);
 int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
 			int in_doubles);
+void	trim_token(t_toks **token);
 
 /*				INPUT VALIDATION				*/
 
