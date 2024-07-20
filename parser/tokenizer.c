@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 07:36:05 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 14:54:44 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:51:28 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	closing_quote(char const *str, int *index, int quote)
 		(*index)++;
 	if (str[*index + 1] == '\0' && str[*index] != quote)
 		return (-1);
-	else if (str[*index] == quote && (str[*index + 1] == '\0'
-			|| str[*index + 1] == 32 || str[*index + 1] == 9))
+	else if (str[*index] == quote && str[*index + 1] != '\0')
 		return (1);
 	else
 		return (0);
@@ -57,24 +56,20 @@ static int	find_token(char *str)
 	i = 0;
 	if (str[i] == 39)
 		find_closing_quote(str, &i, 39);
-	else if (str[i] == 34)
+	if (str[i] == 34)
 		find_closing_quote(str, &i, 34);
-	else
+	while (str[i] != 32 && str[i] != 9 && str[i] != 0)
 	{
-		while (str[i] != 32 && str[i] != 9 && str[i] != 0)
+		if (str[i] == 39)
 		{
-			if (str[i] == 39)
-			{
-				find_closing_quote(str, &i, 39);
-				return (i);
-			}
-			else if (str[i] == 34)
-			{
-				find_closing_quote(str, &i, 34);
-				return (i);
-			}
-			i++;
+			find_closing_quote(str, &i, 39);
 		}
+		else if (str[i] == 34)
+		{
+			find_closing_quote(str, &i, 34);
+		}
+		else
+			i++;
 	}
 	return (i);
 }
