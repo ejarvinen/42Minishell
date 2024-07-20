@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 14:46:30 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:10:29 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,14 @@ static void	fill_invalid_cmd_info(t_cmds *cmds)
 	}
 }
 
-static int	add_remaining_info(t_mini *shell)
+static int	add_remaining_info(t_mini *shell, t_toks *tokens)
 {
 	t_cmds	*cmd;
 
+	build_command_list(&tokens, shell);
+	ft_lstclear_toks(&tokens);
+	if (!shell->cmds)
+		return (1);
 	fill_invalid_cmd_info(shell->cmds);
 	add_builtin_info(&shell->cmds);
 	add_cmds_info(&shell->cmds);
@@ -114,15 +118,16 @@ int	parser(char *rl, t_mini *shell)
 	token_cleanup(shell, &tokens);
 	if (!tokens)
 		return (1);
+	if (ft_lstsize_toks(tokens) == 1 && ft_strcmp(tokens->content, "\0") == 0)
+	{
+		ft_lstclear_toks(&tokens);
+		return (0);
+	}
 	no_blanks_cleanup(&tokens, shell);
 	if (!tokens)
 		return (1);
 	expand_exit_code(&tokens, shell);
 	if (!tokens)
 		return (1);
-	build_command_list(&tokens, shell);
-	ft_lstclear_toks(&tokens);
-	if (!shell->cmds)
-		return (1);
-	return (add_remaining_info(shell));
+	return (add_remaining_info(shell, tokens));
 }
