@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/20 13:01:58 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:19:06 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	ltoa_lstsize(t_env **lst)
 	int	len;
 	t_env	*temp;
 
-	temp = *lst;
 	len = 0;
 	if (!lst)
-		return (len);
-	while (temp)
+		return (0);
+	temp = *lst;
+	while (temp != NULL)
 	{
-		if (temp->value)
+		if (temp->value != NULL)
 			len++;
 		temp = temp->next;
 	}
@@ -53,23 +53,24 @@ static char	*get_string(char *key, char *value)
 	{
 		new[i] = value[j];
 		j++;
+		i++;
 	}
-	new[i + j] = '\0';
+	new[i] = '\0';
 	return (new);
 }
 
-static int	make_ret(char **ret, int i, t_env *temp)
+static char	*make_ret(char **ret, int i, t_env *temp)
 {
-	if (temp->key)
+	if (temp->key != NULL)
 	{
 		ret[i] = get_string(temp->key, temp->value);
 		if (!ret[i])
 		{
 			ft_freearray(ret);
-			return (1);
+			return (NULL);
 		}
 	}
-	return (0);
+	return ("yay");
 }
 
 char	**ltoa(t_env **env)
@@ -79,19 +80,19 @@ char	**ltoa(t_env **env)
 	int		i;
 	char	**ret;
 
-	temp = *env;
-	if (temp == NULL)
+	if (env == NULL)
 		return (NULL);
 	len = ltoa_lstsize(env);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
 		return (NULL);
+	temp = *env;
 	i = 0;
-	while (temp)
+	while (temp != NULL)
 	{
 		if (temp->value)
 		{
-			if (make_ret(ret, i, temp) > 0)
+			if (make_ret(ret, i, temp) == NULL)
 				return (NULL);
 			i++;
 		}
