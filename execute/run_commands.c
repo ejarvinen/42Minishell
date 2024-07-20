@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 11:31:51 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:44:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	run_commands(t_mini *shell)
 	t_cmds	*cmds;
 
 	cmds = shell->cmds;
-	shell->env_p = ltoa(shell->env);
+	shell->env_p = ltoa(&shell->env);
 	if (!shell->env_p)
 		return ;
 	if (cmds->commands == 1)

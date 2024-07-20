@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/19 14:12:07 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:44:11 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,8 @@ void	pwd(t_mini *shell, t_cmds *cmd);
 /*				FOR ENV							*/
 
 void	ft_env(t_mini *shell, t_cmds *cmd);
-char	**ltoa(t_env *env);
+//char	**ltoa(t_env *env);
+char	**ltoa(t_env **env);
 
 /*				FOR CD							*/
 

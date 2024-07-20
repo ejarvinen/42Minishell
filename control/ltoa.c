@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ltoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:22:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 11:06:55 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:01:58 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ltoa_lstsize(t_env *lst)
+static int	ltoa_lstsize(t_env **lst)
 {
 	int	len;
+	t_env	*temp;
 
+	temp = *lst;
 	len = 0;
 	if (!lst)
-		return (0);
-	while (lst != NULL)
+		return (len);
+	while (temp)
 	{
-		if (lst->value != NULL)
+		if (temp->value)
 			len++;
-		lst = lst->next;
+		temp = temp->next;
 	}
 	return (len);
 }
@@ -51,48 +53,50 @@ static char	*get_string(char *key, char *value)
 	{
 		new[i] = value[j];
 		j++;
-		i++;
 	}
-	new[i] = '\0';
+	new[i + j] = '\0';
 	return (new);
 }
 
-static char	*make_ret(char **ret, int i, t_env *temp)
+static int	make_ret(char **ret, int i, t_env *temp)
 {
-	if (temp->value != NULL)
+	if (temp->key)
 	{
 		ret[i] = get_string(temp->key, temp->value);
 		if (!ret[i])
 		{
 			ft_freearray(ret);
-			return (NULL);
-		}	
+			return (1);
+		}
 	}
-	return ("yay");
+	return (0);
 }
 
-char	**ltoa(t_env *env)
+char	**ltoa(t_env **env)
 {
 	t_env	*temp;
 	int		len;
 	int		i;
 	char	**ret;
 
-	if (env == NULL)
+	temp = *env;
+	if (temp == NULL)
 		return (NULL);
 	len = ltoa_lstsize(env);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
 		return (NULL);
-	temp = env;
 	i = 0;
-	while (temp != NULL)
+	while (temp)
 	{
-		if (make_ret(ret, i, temp) == NULL)
-			return (NULL);
-		i++;
+		if (temp->value)
+		{
+			if (make_ret(ret, i, temp) > 0)
+				return (NULL);
+			i++;
+		}
 		temp = temp->next;
 	}
-	ret[len] = NULL;
+	ret[i] = NULL;
 	return (ret);
 }

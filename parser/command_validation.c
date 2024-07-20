@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 06:59:51 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 13:36:27 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:45:03 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	**path_finder(t_env **envs)
 	char	**env;
 	char	**paths;
 
-	env = ltoa(*envs);
+	env = ltoa(envs);
 	if (!env)
 		return (NULL);
 	index = 0;

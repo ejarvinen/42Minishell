@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:20:15 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:59:25 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	find_key(t_mini *shell, t_env **env, char *str)
 		if (i == 0)
 			return ;
 		i = 0;
-		while (temp->key[i] == str[i] && temp->key[i] != '\0' && str[i] != '\0')
+		while (temp->key[i] != '\0' && str[i] != '\0' && temp->key[i] == str[i])
 			i++;
 		if (temp->key[i] == '\0' && str[i] == '=')
 		{
@@ -73,7 +73,7 @@ void	print_export(t_env *env)
 	size = lstsize(env);
 	i = 1;
 	temp = env;
-	while (size >= i)
+	while (temp != NULL && size >= i)
 	{
 		if (temp->index == i)
 		{
