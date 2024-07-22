@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 08:14:32 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 08:34:01 by emansoor         ###   ########.fr       */
+/*   Created: 2024/07/20 16:12:26 by emansoor          #+#    #+#             */
+/*   Updated: 2024/07/22 11:02:42 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	run_builtin(t_mini *shell, t_cmds *cmd)
 {
-	shell->saved_stdin = dup(STDIN_FILENO);
-	shell->saved_stdout = dup(STDOUT_FILENO);
-	if (cmd->commands == 1)
-		ft_freearray(shell->env_p);
+	if (cmd->fd_infile != 0)
+		shell->saved_stdin = dup(STDIN_FILENO);
+	if (cmd->fd_outfile[0] != 1)
+		shell->saved_stdout = dup(STDOUT_FILENO);
 	if (duplicate_fds(cmd) > 0)
 	{
 		restore_fds(shell);

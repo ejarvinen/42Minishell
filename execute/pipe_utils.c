@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 11:20:26 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 10:07:03 by emansoor         ###   ########.fr       */
+/*   Created: 2024/07/20 16:19:40 by emansoor          #+#    #+#             */
+/*   Updated: 2024/07/22 11:02:38 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	dup_fail(t_mini *shell)
 {
 	perror("minishell");
+	ft_freearray(shell->env_p);
 	panic(shell, 9);
 }
 

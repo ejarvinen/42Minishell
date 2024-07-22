@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 09:34:24 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/20 14:03:46 by emansoor         ###   ########.fr       */
+/*   Created: 2024/07/20 16:15:58 by emansoor          #+#    #+#             */
+/*   Updated: 2024/07/22 11:02:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,16 @@ void	execute(t_mini *shell, t_cmds *cmd)
 		set_pipes(shell, cmd);
 	if (cmd->builtin == 1)
 	{
+		ft_freearray(shell->env_p);
 		check_builtin(shell, cmd);
 	}
 	else
 	{
 		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
+		{
+			perror("minishell");
+			ft_freearray(shell->env_p);
 			panic(shell, 126);
+		}
 	}
 }

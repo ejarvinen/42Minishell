@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:00:06 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/18 08:44:17 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:24:45 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	panic(t_mini *shell, int error_code)
 void	free_data(t_mini *shell, char *message)
 {
 	restore_fds(shell);
-	if (shell->cmds && shell->cmds->commands > 1)
-		ft_freearray(shell->env_p);
 	free_env(shell->env);
 	if (shell->oldpwd)
 		free(shell->oldpwd);

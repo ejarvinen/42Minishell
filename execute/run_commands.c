@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 10:22:19 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/20 12:44:55 by emansoor         ###   ########.fr       */
+/*   Created: 2024/07/20 16:09:56 by emansoor          #+#    #+#             */
+/*   Updated: 2024/07/22 11:02:47 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,14 @@ static void	run_single(t_mini *shell, t_cmds *cmd)
 	if (cmd->c_pid == 0)
 	{
 		if (duplicate_fds(cmd) > 0)
+		{
+			ft_freearray(shell->env_p);
 			panic(shell, 9);
+		}
 		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
 		{
 			perror("minishell");
+			ft_freearray(shell->env_p);
 			panic(shell, 126);
 		}
 	}
@@ -87,10 +91,14 @@ void	run_a_single_cmd(t_mini *shell, t_cmds *cmd)
 	}
 	else
 	{
+		shell->env_p = ltoa(&shell->env);
+		if (!shell->env_p)
+			return ;
 		run_single(shell, cmd);
 		waitpid(cmd->c_pid, &status, 0);
 		cmd->exit_status = status;
 		update_exitcode(shell, shell->cmds);
+		ft_freearray(shell->env_p);
 	}
 }
 
@@ -103,25 +111,18 @@ void	run_commands(t_mini *shell)
 	t_cmds	*cmds;
 
 	cmds = shell->cmds;
-	shell->env_p = ltoa(&shell->env);
-	if (!shell->env_p)
-		return ;
 	if (cmds->commands == 1)
 	{
 		if (safe_to_run(cmds) < 1)
 		{
-			ft_freearray(shell->env_p);
 			if (cmds->heredoc != NULL)
 				unlink(".temp");
 			return ;
 		}
 		run_a_single_cmd(shell, cmds);
-		if (cmds->builtin != 1)
-			ft_freearray(shell->env_p);
 		if (cmds->heredoc != NULL)
 			unlink(".temp");
 		return ;
 	}
 	run_multiple(shell, cmds);
-	ft_freearray(shell->env_p);
 }

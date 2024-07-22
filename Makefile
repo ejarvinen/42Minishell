@@ -6,7 +6,7 @@
 #    By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 13:19:14 by sataskin          #+#    #+#              #
-#    Updated: 2024/07/20 15:56:18 by emansoor         ###   ########.fr        #
+#    Updated: 2024/07/22 10:31:12 by emansoor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,14 +70,14 @@ SRCS = main.c \
 		execute/close_files.c \
 		execute/error_messages.c \
 		execute/error_msg_utils.c \
-		execute/run_commands.c \
+		execute/run_commands_test.c \
 		execute/heredoc.c \
-		execute/run_builtins.c \
+		execute/run_builtins_test.c \
 		execute/minishell.c \
 		execute/hdc_to_file.c \
-		execute/run_multiple_cmds.c \
-		execute/execute.c \
-		execute/pipe_utils.c \
+		execute/run_multiple_cmds_test.c \
+		execute/execute_test.c \
+		execute/pipe_utils_test.c \
 
 OBJECTS = $(SRCS:.c=.o)
 

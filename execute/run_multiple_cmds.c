@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 09:24:20 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 10:47:10 by emansoor         ###   ########.fr       */
+/*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
+/*   Updated: 2024/07/22 11:02:52 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ commands and then waits for the children to execute
 void	run_multiple(t_mini *shell, t_cmds *cmds)
 {
 	t_cmds	*cmd;
-
+	
 	cmd = cmds;
+	shell->env_p = ltoa(&shell->env);
+	if (!shell->env_p)
+		return ;
 	while (cmd)
 	{
 		if (safe_to_run(cmd) > 0)
@@ -102,4 +105,5 @@ void	run_multiple(t_mini *shell, t_cmds *cmds)
 	}
 	wait_for_children(cmds);
 	update_exitcode(shell, shell->cmds);
+	ft_freearray(shell->env_p);
 }
