@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/22 12:13:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:30:35 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,23 @@
 void	real_exit(t_mini *shell, char *str, int i)
 {
 	int	ret;
+	int	l;
 
+	l = 1;
 	ret = ft_atoi(str);
 	if (i > 0)
 	{
 		free_data(shell, NULL);
 		exit (i);
 	}
-	if ((ret == 0 && str[0] == '-') || (ret == -1 && str[i] != '-'))
+	if (ret == 0 && str[0] == '-')
+	{
+		while (str[l] == '0')
+			l++;
+		if (str[l] != '\0')
+			print_letter(shell, str);
+	}
+	if (ret == -1 && str[i] != '-')
 		print_letter(shell, str);
 	free_data(shell, NULL);
 	ft_putstr_fd("exit\n", 1);
