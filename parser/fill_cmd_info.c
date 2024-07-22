@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 13:00:21 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/11 07:04:32 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:38:52 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,26 @@ void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 	t_cmds	*cmd;
 	int		array_len;
 
-	token = *tokens;
 	cmd = *cmds;
-	while (token)
+	token = *tokens;
+	while (token && cmd)
+	{
+		if (token->pipe == 1 && check_for_previous_cmds(tokens, token->id) == 0)
+			cmd = cmd->next;
+		else if (token->command == 1 && struct_sum(token) == 1)
+		{
+			array_len = args_count(tokens, token->id);
+			add_cmd_info(cmd, tokens, token, array_len);
+			if (cmd->command == NULL)
+			{
+				ft_lstclear_pars(cmds);
+				return ;
+			}
+			cmd = cmd->next;
+		}
+		token = token->next;
+	}
+	/* while (token)
 	{
 		if (token->command == 1 && struct_sum(token) == 1)
 		{
@@ -134,5 +151,5 @@ void	fill_cmd_info(t_cmds **cmds, t_toks **tokens)
 			cmd = cmd->next;
 		}
 		token = token->next;
-	}
+	} */
 }
