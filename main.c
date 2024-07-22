@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:04 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/18 12:49:12 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:41:58 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ static int	main_loop(t_mini *shell)
 		return (0);
 	set_signal(1);
 	ret = parser(rl, shell);
-	if (ret == 0)
+	if (ret == 0 && shell->cmds)
 		minishell(shell);
+	else if (ret == 0 && !shell->cmds)
+		exit_code(shell, 0, 0);
 	else if (shell->syntax == 0)
 		exit_code(shell, 1, 0);
 	close_files(&shell->cmds);
