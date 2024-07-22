@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:05:27 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/19 12:11:46 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:15:28 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	exit_strcmp(char *temp, char *str)
-{
-	int	i;
-	int	t;
-
-	i = 0;
-	t = 0;
-	if (!temp || !str)
-		return (1);
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i] == '0')
-		i++;
-	if (str[i] == '\0')
-		i--;
-	while (str[i] && temp[t])
-	{
-		if (str[i] != temp[t])
-			return (1);
-		i++;
-		t++;
-	}
-	if (str[i] == '\0' && temp[t] == '\0')
-		return (0);
-	return (1);
-}
 
 static int	delimiter(char c)
 {

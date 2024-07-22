@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/20 15:57:01 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:16:57 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,6 @@ void	print_toomany(t_mini *shell);
 void	print_letter(t_mini *shell, char *str);
 int		check_num(char *str);
 void	now_exit(t_mini *shell, char **str);
-int		exit_strcmp(char *temp, char *str);
 
 /*				FOR ECHO						*/
 

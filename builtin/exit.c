@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:53:29 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/19 12:11:09 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:13:41 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,19 @@
 
 void	real_exit(t_mini *shell, char *str, int i)
 {
-	char	*check;
+	int	ret;
 
+	ret = ft_atoi(str);
 	if (i > 0)
 	{
 		free_data(shell, NULL);
 		exit (i);
 	}
-	i = ft_atoi(str);
-	check = ft_itoa(i);
-	if (check == NULL)
-	{
-		free_data(shell, NULL);
-		exit(1);
-	}
-	if (exit_strcmp(check, str) != 0)
-	{
-		free(check);
+	if ((ret == 0 && str[0] == '-') || (ret == -1 && str[i] != '-'))
 		print_letter(shell, str);
-	}
-	free(check);
 	free_data(shell, NULL);
 	ft_putstr_fd("exit\n", 1);
-	exit (i);
+	exit (ret);
 }
 
 void	print_toomany(t_mini *shell)
