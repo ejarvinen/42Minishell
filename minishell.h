@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/22 12:16:57 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:18:13 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ void	expand_exit_code(t_toks **tokens, t_mini *shell);
 int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
 			int in_doubles);
 void	trim_token(t_toks **token);
+int		check_for_previous_cmds(t_toks **tokens, int index);
 
 /*				INPUT VALIDATION				*/
 
