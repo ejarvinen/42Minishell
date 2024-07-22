@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 13:32:31 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:33:36 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 checks if token list contains previous commands before given index in
 the same list
 */
-static int	check_for_previous_cmds(t_toks **tokens, int index)
+int	check_for_previous_cmds(t_toks **tokens, int index)
 {
 	int		cmds;
 	t_toks	*token;
