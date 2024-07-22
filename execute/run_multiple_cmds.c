@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 11:02:52 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:23:01 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ static int	setup_pipes(t_cmds *cmd)
 	int		fds[2];
 	t_cmds	*next;
 
+	next = cmd->next;
+	if (cmd->command == NULL && next->command == NULL)
+		return (1);
 	if (pipe(fds) < 0)
 	{
 		perror("minishell");
 		return (1);
 	}
-	next = cmd->next;
 	if (cmd->id < cmd->commands - 1 && cmd->fd_outfile[0] == 1)
 		cmd->fd_outfile[0] = fds[WRITE_END];
 	else if (cmd->id < cmd->commands - 1 && cmd->fd_outfile[0] != 1)
@@ -42,15 +44,18 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 {
 	if (cmd->id < cmd->commands - 1 && setup_pipes(cmd) > 0)
 		return ;
-	cmd->c_pid = fork();
-	if (cmd->c_pid < 0)
+	if (cmd->command != NULL)
 	{
-		perror("minishell");
-		return ;
-	}
-	if (cmd->c_pid == 0)
-	{
-		execute(shell, cmd);
+		cmd->c_pid = fork();
+		if (cmd->c_pid < 0)
+		{
+			perror("minishell");
+			return ;
+		}
+		if (cmd->c_pid == 0)
+		{
+			execute(shell, cmd);
+		}
 	}
 }
 
@@ -90,7 +95,7 @@ commands and then waits for the children to execute
 void	run_multiple(t_mini *shell, t_cmds *cmds)
 {
 	t_cmds	*cmd;
-	
+
 	cmd = cmds;
 	shell->env_p = ltoa(&shell->env);
 	if (!shell->env_p)

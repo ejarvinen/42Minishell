@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:09:56 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 13:46:58 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:17:42 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	run_commands(t_mini *shell)
 	cmds = shell->cmds;
 	if (cmds->commands == 1)
 	{
-		if (safe_to_run(cmds) < 1)
+		if (safe_to_run(cmds) < 1 || cmds->command == NULL)
 		{
 			if (cmds->heredoc != NULL)
 				unlink(".temp");
