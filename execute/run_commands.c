@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:09:56 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 11:02:47 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:46:58 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	run_single(t_mini *shell, t_cmds *cmd)
 		perror("minishell");
 		return ;
 	}
+	if (ft_strcmp(cmd->command[0], "./minishell") == 0)
+		set_signal(3);
 	if (cmd->c_pid == 0)
 	{
 		if (duplicate_fds(cmd) > 0)
