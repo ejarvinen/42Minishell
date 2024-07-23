@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 09:38:23 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:46:37 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ static void	update_ids(t_cmds *cmd)
 	t_cmds	*next;
 	int		new_id;
 
+	if (cmd->fd_infile != 0)
+		close(cmd->fd_infile);
+	if (cmd->fd_outfile[0] != 1)
+		close(cmd->fd_outfile[0]);
 	next = cmd->next;
 	new_id = 0;
 	while (next)
@@ -77,11 +81,8 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 			execute(shell, cmd);
 		}
 	}
-	if (cmd->fd_infile != 0)
-		close(cmd->fd_infile);
-	if (cmd->fd_outfile[0] != 1)
-		close(cmd->fd_outfile[0]);
-	update_ids(cmd);
+	if (cmd->command == NULL || cmd->fd_infile < 0)
+		update_ids(cmd);
 }
 
 /*
