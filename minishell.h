@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/23 09:27:52 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:38:35 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
 void	trim_token(t_toks **token);
 int		check_for_previous_cmds(t_toks **tokens, int index);
 int		syntax_scan(t_mini *shell, t_toks **tokens);
+int		is_delimiter(char *str);
 
 /*				INPUT VALIDATION				*/
 

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:41:15 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 11:33:36 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:40:39 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ t_toks *token, t_toks *next)
 	else if (is_command(tokens, token, next, 3) > 0)
 	{
 		token->command = 0;
-		next->command = 1;
+		if (is_delimiter(next->content) == 0)
+			next->command = 1;
 	}
 	else
 		token->command = 0;

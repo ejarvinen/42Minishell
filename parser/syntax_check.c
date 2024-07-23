@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 09:28:41 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:38:10 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell)
 	return (0);
 }
 
-static int	is_delimiter(char *str)
+int	is_delimiter(char *str)
 {
 	if (ft_strcmp(str, "|") == 0)
 		return (1);
