@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:09:56 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 15:22:48 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:37:34 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	run_single(t_mini *shell, t_cmds *cmd)
 		}
 		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
 		{
-			perror("minishell");
 			ft_freearray(shell->env_p);
 			panic(shell, 126);
 		}
@@ -115,7 +114,8 @@ void	run_commands(t_mini *shell)
 	cmds = shell->cmds;
 	if (cmds->commands == 1)
 	{
-		if (safe_to_run(cmds) < 1 || cmds->command == NULL)
+		if (safe_to_run(cmds) < 1 || cmds->command == NULL
+			|| cmds->fd_infile == -1)
 		{
 			if (cmds->heredoc != NULL)
 				unlink(".temp");

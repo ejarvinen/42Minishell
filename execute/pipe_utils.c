@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:19:40 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 09:10:05 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:34:28 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	first_command(t_mini *shell, t_cmds *cmd)
 			close(next->fd_outfile[0]);
 		next = next->next;
 	}
-	if (cmd->fd_infile != 0)
+	if (cmd->fd_infile > 0)
 	{
 		if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 			dup_fail(shell);

@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 10:38:10 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:00:45 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell)
 {
 	if (token == NULL)
 	{
-		parser_error("syntax error");
-		shell->syntax = 1;
-		clear_temp(cmds);
-		ft_lstclear_pars(cmds);
-		return (1);
+		return (syntax_check(token, cmds, shell));
 	}
 	else if (cmd == NULL && token != NULL)
 	{

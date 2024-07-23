@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:15:58 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 09:38:45 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:37:53 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	safe_to_run(t_cmds *cmds)
 {
-	if ((cmds->valid == -1 && cmds->heredoc == NULL) || cmds->fd_outfile[0] < 0)
+	if ((cmds->command == NULL && cmds->heredoc == NULL)
+		|| cmds->fd_outfile[0] < 0)
 		return (0);
 	return (1);
 }
@@ -40,7 +41,6 @@ void	execute(t_mini *shell, t_cmds *cmd)
 	{
 		if (execve(cmd->path, cmd->command, shell->env_p) == -1)
 		{
-			perror("minishell");
 			ft_freearray(shell->env_p);
 			panic(shell, 126);
 		}
