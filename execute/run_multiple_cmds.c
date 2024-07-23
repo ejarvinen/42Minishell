@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/23 08:43:02 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:38:23 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	update_ids(t_cmds *cmd)
 		next = next->next;
 	}
 }
-
 
 static int	setup_pipes(t_cmds *cmd)
 {

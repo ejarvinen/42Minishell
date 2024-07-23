@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/22 17:09:51 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:39:27 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 	{
 		test = getcwd(NULL, 0);
 		if (test != NULL || cmd->command[1][0] == '/'
-			|| ft_strcmp(cmd->command[1], ".")  != 0)
+			|| ft_strcmp(cmd->command[1], ".") != 0)
 		{
 			cd_path(cmd->command[1], shell);
 			free(test);
