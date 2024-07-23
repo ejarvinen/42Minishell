@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:45:58 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/22 15:06:26 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:05:35 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	echo_to_terminal(t_mini *shell, t_cmds *cmds)
 	{
 		if (nl == 1 && cmds->command[i + 1] == NULL)
 			printf("%s\n", cmds->command[i]);
+		else if (nl != 1 && cmds->command[i + 1] == NULL)
+			printf("%s", cmds->command[i]);
 		else if (cmds->command[i] != NULL && cmds->command[i][0] != '\0')
 			printf("%s ", cmds->command[i]);
 		else if (cmds->command[i][0] != '\0')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_exit_code.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:19:52 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/18 16:04:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:56:24 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	expand_exit_code(t_toks **tokens, t_mini *shell)
 		if (ft_strcmp(token->content, "$?") == 0 && token->command == 0)
 		{
 			freeable = token->content;
-			token->content = ft_itoa(shell->exit_code);
+			if (g_sig > 0)
+				token->content = ft_itoa(128 + g_sig);
+			else
+				token->content = ft_itoa(shell->exit_code);
 			if (!token->content)
 			{
 				ft_lstclear_toks(tokens);
