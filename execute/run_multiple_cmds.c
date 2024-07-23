@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   run_multiple_cmds.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 15:25:22 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/23 08:43:02 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	update_ids(t_cmds *cmd)
+{
+	t_cmds	*next;
+	int		new_id;
+
+	next = cmd->next;
+	new_id = 0;
+	while (next)
+	{
+		next->id = new_id;
+		new_id++;
+		next = next->next;
+	}
+}
+
 
 static int	setup_pipes(t_cmds *cmd)
 {
@@ -42,9 +58,14 @@ in the pipeline
 */
 static void	child_process(t_mini *shell, t_cmds *cmd)
 {
+	t_cmds	*next;
+
+	next = cmd->next;
+	if (next && next->valid == -1)
+		return ;
 	if (cmd->id < cmd->commands - 1 && setup_pipes(cmd) > 0)
 		return ;
-	if (cmd->command != NULL)
+	if (cmd->command != NULL && cmd->fd_infile != -1)
 	{
 		cmd->c_pid = fork();
 		if (cmd->c_pid < 0)
@@ -61,6 +82,7 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 		close(cmd->fd_infile);
 	if (cmd->fd_outfile[0] != 1)
 		close(cmd->fd_outfile[0]);
+	update_ids(cmd);
 }
 
 /*

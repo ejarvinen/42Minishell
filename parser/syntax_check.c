@@ -6,33 +6,14 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:56:37 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/19 15:01:39 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:28:41 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	clear_temp(t_cmds **cmds)
-{
-	t_cmds	*cmd;
-
-	cmd = *cmds;
-	while (cmd)
-	{
-		if (cmd->heredoc != NULL)
-		{
-			if (access(".temp", F_OK) == 0)
-			{
-				unlink(".temp");
-				break ;
-			}	
-		}
-		cmd = cmd->next;
-	}
-}
-
 /*
-returns syntax error message for delimeters missing file info / heredoc
+returns syntax error message
 */
 int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell)
 {
@@ -40,9 +21,11 @@ int	syntax_check(t_toks *token, t_cmds **cmds, t_mini *shell)
 	{
 		parser_error("syntax error near unexpected token");
 		shell->syntax = 1;
-		clear_temp(cmds);
 		if (cmds)
+		{
+			clear_temp(cmds);
 			ft_lstclear_pars(cmds);
+		}
 		return (1);
 	}
 	return (0);
@@ -70,5 +53,61 @@ int	syntax_checker(t_cmds **cmds, t_cmds *cmd, t_toks *token, t_mini *shell)
 	else if (cmd == NULL)
 		return (1);
 	cmd->append = 0;
+	return (0);
+}
+
+static int	is_delimiter(char *str)
+{
+	if (ft_strcmp(str, "|") == 0)
+		return (1);
+	else if (ft_strcmp(str, "<<") == 0)
+		return (1);
+	else if (ft_strcmp(str, ">>") == 0)
+		return (1);
+	else if (ft_strcmp(str, "<") == 0)
+		return (1);
+	else if (ft_strcmp(str, ">") == 0)
+		return (1);
+	return (0);
+}
+
+static int	check_for_repeat_delims(t_mini *shell, t_toks **tokens)
+{
+	t_toks	*token;
+	t_toks	*next;
+
+	token = *tokens;
+	next = token->next;
+	while (next)
+	{
+		if (ft_strcmp(token->content, next->content) == 0
+			&& is_delimiter(token->content) > 0)
+			return (syntax_check(NULL, NULL, shell));
+		token = token->next;
+		next = next->next;
+	}
+	return (0);
+}
+
+int	syntax_scan(t_mini *shell, t_toks **tokens)
+{
+	t_toks	*token;
+
+	token = *tokens;
+	if (ft_strcmp(token->content, "|") == 0)
+	{
+		ft_lstclear_toks(tokens);
+		return (syntax_check(NULL, NULL, shell));
+	}
+	else if (ft_lstsize_toks(token) == 1 && is_delimiter(token->content) > 0)
+	{
+		ft_lstclear_toks(tokens);
+		return (syntax_check(NULL, NULL, shell));
+	}
+	if (check_for_repeat_delims(shell, tokens) > 0)
+	{
+		ft_lstclear_toks(tokens);
+		return (1);
+	}
 	return (0);
 }

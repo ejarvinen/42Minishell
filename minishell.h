@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:21:33 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/22 12:18:13 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:27:52 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int		identify_exitcode(t_mini *shell, t_toks **token, int *index,
 			int in_doubles);
 void	trim_token(t_toks **token);
 int		check_for_previous_cmds(t_toks **tokens, int index);
+int		syntax_scan(t_mini *shell, t_toks **tokens);
 
 /*				INPUT VALIDATION				*/
 
@@ -181,6 +182,7 @@ void	dot_cmd(t_mini *shell, t_cmds *cmd);
 void	nonexistent_cmd(t_mini *shell, t_cmds *cmd);
 void	heredoc(t_mini *shell, t_cmds *cmd);
 void	open_with_correct_flags(t_cmds *cmd, int index);
+void	clear_temp(t_cmds **cmds);
 
 /*				FOR CREATING ENV				*/
 

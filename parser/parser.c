@@ -6,7 +6,7 @@
 /*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:18:27 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/20 15:57:14 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:10:55 by emansoor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	parser(char *rl, t_mini *shell)
 	trim_token(&tokens);
 	if (!tokens)
 		return (1);
+	if (syntax_scan(shell, &tokens) > 0)
+		return (1);
 	add_indexes(&tokens);
 	identifier(&tokens);
 	checkup = token_cleanup_check(shell, tokens);
@@ -89,6 +91,8 @@ int	parser(char *rl, t_mini *shell)
 		return (checkup);
 	no_blanks_cleanup(&tokens, shell);
 	if (!tokens)
+		return (1);
+	if (syntax_scan(shell, &tokens) > 0)
 		return (1);
 	expand_exit_code(&tokens, shell);
 	if (!tokens)
