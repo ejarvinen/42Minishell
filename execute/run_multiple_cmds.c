@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_multiple_cmds.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:53 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 14:23:01 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:25:22 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ static void	child_process(t_mini *shell, t_cmds *cmd)
 			execute(shell, cmd);
 		}
 	}
+	if (cmd->fd_infile != 0)
+		close(cmd->fd_infile);
+	if (cmd->fd_outfile[0] != 1)
+		close(cmd->fd_outfile[0]);
 }
 
 /*

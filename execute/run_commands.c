@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:09:56 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 14:17:42 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:22:48 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

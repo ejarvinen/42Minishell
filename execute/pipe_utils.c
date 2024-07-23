@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:19:40 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 12:04:00 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:16:51 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	last_command(t_mini *shell, t_cmds *cmd)
 			close(prev->fd_outfile[0]);
 		prev = prev->next;
 	}
-	printf("last command infile fd: %d\n", cmd->fd_infile);
-	printf("last command outfile fd: %d\n", cmd->fd_outfile[0]);
 	if (dup2(cmd->fd_infile, STDIN_FILENO) < 0)
 		dup_fail(shell);
 	close(cmd->fd_infile);

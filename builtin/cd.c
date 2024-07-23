@@ -6,7 +6,7 @@
 /*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:39:25 by sataskin          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:41 by sataskin         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:09:51 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	set_pwd(t_mini *shell, t_env *old, t_env *new)
 			free(new->value);
 		new->value = getcwd(NULL, 0);
 		if (!new->value)
+			new->value = ft_strjoin(old->value, "/..");
+		if (!new->value)
 			free_and_exit(shell, "minishell: malloc fail");
 		new->equal = 1;
 	}
@@ -43,6 +45,8 @@ static void	reset_data(t_mini *shell)
 		free_and_exit(shell, "minishell: malloc fail");
 	free(shell->pwd);
 	shell->pwd = getcwd(NULL, 0);
+	if (!shell->pwd)
+		shell->pwd = ft_strjoin(shell->oldpwd, "/..");
 	if (!shell->pwd)
 		free_and_exit(shell, "minishell: malloc fail");
 }
@@ -78,11 +82,17 @@ static void	cd_path(char *path, t_mini *shell)
 {
 	t_env	*new;
 	t_env	*old;
+	char	*test;
 
 	new = shell->env;
 	old = shell->env;
 	if (chdir(path) == 0)
 	{
+		test = getcwd(NULL, 0);
+		if (test == NULL)
+			cd_error(shell, test, path);
+		else
+			free(test);
 		while (new != NULL && ft_strcmp(new->key, "PWD") != 0)
 			new = new->next;
 		while (old != NULL && ft_strcmp(old->key, "OLDPWD") != 0)
@@ -110,7 +120,8 @@ void	ft_cd(t_mini *shell, t_cmds *cmd)
 	else
 	{
 		test = getcwd(NULL, 0);
-		if (test != NULL || cmd->command[1][0] == '/')
+		if (test != NULL || cmd->command[1][0] == '/'
+			|| ft_strcmp(cmd->command[1], ".")  != 0)
 		{
 			cd_path(cmd->command[1], shell);
 			free(test);

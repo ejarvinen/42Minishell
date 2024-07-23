@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emansoor <emansoor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sataskin <sataskin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:04:43 by emansoor          #+#    #+#             */
-/*   Updated: 2024/07/22 10:54:08 by emansoor         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:11:02 by sataskin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	identify_expandable(char *token)
 		&& token[index] != 39 && token[index] != 32
 		&& (ft_isalnum(token[index]) == 1 || token[index] == '_'))
 	{
-		if (ft_isdigit(token[index]) == 1)
+		if (ft_isdigit(token[index]) == 1 && index == 0)
 			return (1);
 		index++;
 	}
@@ -76,7 +76,7 @@ t_env	*key_finder(char *var, t_env **envs)
 		if (var_len == ft_strlen(env->key)
 			&& ft_strncmp(var, env->key, var_len) == 0)
 		{
-			if (!env->value[0] || !env->value)
+			if (!env->value || !env->value[0])
 				return (NULL);
 			return (env);
 		}
