@@ -25,7 +25,7 @@
 - **Quoting**:
   - Single quotes (`'`) prevent interpretation of special characters.
   - Double quotes (`"`) prevent interpretation except for `$` (variable expansion).
-- **Environment Variables**: Expands variables (e.g., $VAR) and special variable $? (last command's exit status).
+- **Environment Variables**: Expands variables (e.g., `$VAR`) and special variable `$?` (last command's exit status).
 - **Signal Handling**:
   - `Ctrl-C`: Displays a new prompt.
   - `Ctrl-D`: Exits the shell.
